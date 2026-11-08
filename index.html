@@ -25,10 +25,12 @@ textarea{min-height:80px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 button{font:inherit;border:0;border-radius:12px;padding:13px 16px;background:var(--ac);color:var(--on);font-weight:600;width:100%;cursor:pointer;margin-top:8px}
 button.g{background:transparent;color:var(--ac);border:2px solid var(--ac)}
+button:disabled{opacity:.6}
 .th{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .th img{width:64px;height:64px;object-fit:cover;border-radius:8px}
 iframe{width:100%;height:560px;border:1px solid var(--bd);border-radius:14px;background:#fff}
 .n{font-size:13px;color:var(--mut);margin-top:6px}
+.linkbox{background:var(--bg);border:1px dashed var(--ac);border-radius:10px;padding:10px;word-break:break-all;font-size:14px;margin-top:10px}
 </style>
 </head>
 <body>
@@ -66,9 +68,16 @@ iframe{width:100%;height:560px;border:1px solid var(--bd);border-radius:14px;bac
 <div class="c" id="pay" style="margin-top:12px"><b>💳 Төлем</b><p class="n" id="amt"></p><button id="cp">📋 Kaspi нөмірін көшіру</button><button class="g" id="paid">✅ Төледім, код сұрау</button></div>
 <div id="cd"><label class="f">Төлемнен кейін алған код</label><input type="text" id="code" placeholder="Кодты осында жазыңыз"><button id="ck">🔓 Кодты енгізу</button></div>
 <div id="dw" style="display:none">
-<button id="dl">⬇️ Шақыртуды жүктеп алу</button>
+<button id="dl">⬇️ Шақыртуды жүктеп алу (файл)</button>
+<button id="mkLink">🔗 Сілтеме алу (WhatsApp-қа жіберу үшін)</button>
+<div id="linkArea" style="display:none">
+<div class="linkbox" id="linkText"></div>
+<button class="g" id="copyLink">📋 Сілтемені көшіру</button>
+<button id="shareWa">💚 Сілтемені WhatsApp-қа жіберу</button>
+<p class="n">Осы сілтемені қонақтарға жіберіңіз. Файл жібермеңіз, файл WhatsApp-та ашылмайды.</p>
+</div>
 <button class="g" id="op">👁 Браузерде ашу</button>
-<p class="n">Жүктелген файл ашылмаса: Chrome → ⋮ → Жүктеулер ішінен басыңыз. Ол да ашылмаса, файлды сатушыға жіберіңіз, сілтеме жасап береді.</p>
+<p class="n">Файлмен емес, сілтемемен жіберіңіз. Сілтеме WhatsApp, Telegram, Instagram-да ашылады.</p>
 </div>
 <p class="n" id="note"></p></div>
 </div>
@@ -79,7 +88,7 @@ var SELLER="77082418836";
 var CODES=["001-GY5N","002-GCQV","003-KVFV","004-WTWG","005-47Y7","006-BVQD","007-7QNB","008-9TR9","009-4SLU","010-JJCU","011-GN58","012-6ZQU","013-GZE5","014-H3XA","015-2N53","016-V5GG","017-L78L","018-T482","019-7NBR","020-UVWE","021-89K9","022-RYD4","023-AVLX","024-SU8R","025-WPLX","026-2KZ7","027-SXZP","028-LME2","029-KAGL","030-J6QC","031-9ME9","032-Z5AJ","033-UT29","034-WPJU","035-5598","036-5ZQC","037-CYM7","038-UPGJ","039-BCR3","040-C4PM","041-VAF7","042-FMRD","043-S2L7","044-DYU8","045-ZKSQ","046-ZGLR","047-DXUZ","048-X6MU","049-8SYX","050-CRQD","051-QXSK","052-6ADK","053-7NJV","054-K26T","055-BQC2","056-WQZB","057-H38X","058-GUPU","059-UGLF","060-UPDH","061-MTVE","062-L7AC","063-MKZ5","064-BVC9","065-2TJ9","066-H3CR","067-JCFD","068-ZP7Z","069-TFCV","070-LWRG","071-6V4P","072-DA69","073-3WY9","074-B3BM","075-27W9","076-ZDZF","077-ZM58","078-VYU5","079-CY4T","080-N4Z7","081-F2JS","082-TW6A","083-6WBY","084-UGFW","085-36ZK","086-ER97","087-9X5R","088-YXUX","089-UNKR","090-DG8L","091-2PRX","092-D49H","093-AY5X","094-FHYD","095-UAJQ","096-SD9A","097-29Z5","098-W3XJ","099-S5MM","100-RACY"],unlocked=false;
 var PRICE={std:3000,prem:5000,vip:10000};
 var $=function(i){return document.getElementById(i)};
-var photos=[],lastHtml="";
+var photos=[],lastHtml="",lastLink="";
 function esc(s){return String(s||"").replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function pkg(){return document.querySelector('input[name=pk]:checked').value}
 
@@ -133,12 +142,12 @@ function build(d){
 function data(){return{pkg:pkg(),name:$("name").value.trim()||"Той иесі",kind:$("kind").value,date:$("date").value,time:$("time").value,place:$("place").value.trim()||"Мекенжай көрсетілмеген",wish:$("wish").value.trim(),video:$("video").value.trim(),wa:$("wa").value.trim(),photos:photos}}
 
 $("go").addEventListener("click",function(){
-  unlocked=false;$("dw").style.display="none";$("cd").style.display="block";$("pay").style.display="block";
+  unlocked=false;lastLink="";$("dw").style.display="none";$("linkArea").style.display="none";$("cd").style.display="block";$("pay").style.display="block";
   lastHtml=build(data());
   var f=$("pv");f.style.display="block";f.srcdoc=lastHtml;
   $("act").style.display="block";f.scrollIntoView({behavior:"smooth"});
   $("amt").textContent="Төлем сомасы: "+PRICE[pkg()]+" тг. Kaspi: +7 708 241 88 36";
-  $("note").textContent="Бұл үлгі. Ұнаса, төлем жасап, кодты сұраңыз, сосын кодты енгізіп жүктеп алыңыз.";
+  $("note").textContent="Бұл үлгі. Ұнаса, төлем жасап, кодты сұраңыз, сосын кодты енгізіп сілтеме алыңыз.";
 });
 
 $("cp").addEventListener("click",function(){
@@ -160,7 +169,7 @@ $("ck").addEventListener("click",function(){
   used.push(v);try{localStorage.setItem("usedCodes",JSON.stringify(used))}catch(e){}
   unlocked=true;lastHtml=build(data());$("pv").srcdoc=lastHtml;
   $("cd").style.display="none";$("pay").style.display="none";$("dw").style.display="block";
-  $("note").textContent="Код қабылданды ✅ Бірден жүктеп алыңыз.";
+  $("note").textContent="Код қабылданды ✅ Енді Сілтеме алу батырмасын басыңыз.";
 });
 
 function blobUrl(){return URL.createObjectURL(new Blob([lastHtml],{type:"text/html;charset=utf-8"}))}
@@ -182,6 +191,43 @@ $("ord").addEventListener("click",function(){
   var d=data(),n={std:"Стандарт 3000тг",prem:"Премиум 5000тг",vip:"VIP 10000тг"}[d.pkg];
   var t="Сәлеметсіз бе! Шақырту тапсырысы:\nПакет: "+n+"\nТой: "+d.kind+"\nАты: "+d.name+"\nКүні: "+d.date+" "+d.time+"\nЖері: "+d.place+"\nТілек: "+d.wish+"\n(Фотоларды жеке жіберемін)";
   window.open("https://wa.me/"+SELLER+"?text="+encodeURIComponent(t),"_blank");
+});
+
+// --- СІЛТЕМЕ ЖАСАУ ---
+$("mkLink").addEventListener("click",async function(){
+  if(!unlocked)return;
+  var btn=$("mkLink");btn.disabled=true;btn.textContent="⏳ Сілтеме жасалуда...";
+  $("note").textContent="Сілтеме жасалуда, 5-10 секунд күтіңіз...";
+  try{
+    var fd=new FormData();
+    fd.append("file", new Blob([lastHtml],{type:"text/html"}), "shakyrtu.html");
+    fd.append("expires","90");
+    var r=await fetch("https://0x0.st",{method:"POST",body:fd});
+    if(!r.ok) throw new Error("server");
+    var url=(await r.text()).trim();
+    if(!url.startsWith("http")) throw new Error("bad");
+    lastLink=url;
+    $("linkText").textContent=url;
+    $("linkArea").style.display="block";
+    $("note").textContent="Дайын ✅ Сілтемені көшіріп, қонақтарға жіберіңіз.";
+    $("linkArea").scrollIntoView({behavior:"smooth"});
+  }catch(e){
+    $("note").textContent="Автомат сілтеме жасалмады. Файлды жүктеп алып, netlify.com/drop сайтына салыңыз, сол жерден сілтеме шығады.";
+    $("dl").click();
+  }
+  btn.disabled=false;btn.textContent="🔗 Сілтеме алу (WhatsApp-қа жіберу үшін)";
+});
+
+$("copyLink").addEventListener("click",function(){
+  if(!lastLink)return;
+  navigator.clipboard.writeText(lastLink).then(function(){$("note").textContent="Сілтеме көшірілді ✅"}).catch(function(){$("note").textContent=lastLink});
+});
+
+$("shareWa").addEventListener("click",function(){
+  if(!lastLink)return;
+  var d=data();
+  var t="Сізді "+d.name+" - "+d.kind+" тойына шақырамыз! 💌\nШақырту: "+lastLink;
+  window.open("https://wa.me/?text="+encodeURIComponent(t),"_blank");
 });
 </script>
 </body>

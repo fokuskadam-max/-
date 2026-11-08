@@ -70,8 +70,8 @@ iframe{width:100%;height:560px;border:1px solid var(--bd);border-radius:14px;bac
 </div>
 
 <script>
-var SELLER="77056623133";
-var CODES=["K7M2-Q9XP","R4TD-8WLN","H3VB-6ZYC"],unlocked=false;
+var SELLER="77082418836";
+var CODES=["001-GY5N","002-GCQV","003-KVFV","004-WTWG","005-47Y7","006-BVQD","007-7QNB","008-9TR9","009-4SLU","010-JJCU","011-GN58","012-6ZQU","013-GZE5","014-H3XA","015-2N53","016-V5GG","017-L78L","018-T482","019-7NBR","020-UVWE","021-89K9","022-RYD4","023-AVLX","024-SU8R","025-WPLX","026-2KZ7","027-SXZP","028-LME2","029-KAGL","030-J6QC","031-9ME9","032-Z5AJ","033-UT29","034-WPJU","035-5598","036-5ZQC","037-CYM7","038-UPGJ","039-BCR3","040-C4PM","041-VAF7","042-FMRD","043-S2L7","044-DYU8","045-ZKSQ","046-ZGLR","047-DXUZ","048-X6MU","049-8SYX","050-CRQD","051-QXSK","052-6ADK","053-7NJV","054-K26T","055-BQC2","056-WQZB","057-H38X","058-GUPU","059-UGLF","060-UPDH","061-MTVE","062-L7AC","063-MKZ5","064-BVC9","065-2TJ9","066-H3CR","067-JCFD","068-ZP7Z","069-TFCV","070-LWRG","071-6V4P","072-DA69","073-3WY9","074-B3BM","075-27W9","076-ZDZF","077-ZM58","078-VYU5","079-CY4T","080-N4Z7","081-F2JS","082-TW6A","083-6WBY","084-UGFW","085-36ZK","086-ER97","087-9X5R","088-YXUX","089-UNKR","090-DG8L","091-2PRX","092-D49H","093-AY5X","094-FHYD","095-UAJQ","096-SD9A","097-29Z5","098-W3XJ","099-S5MM","100-RACY"],unlocked=false;
 var $=function(i){return document.getElementById(i)};
 var photos=[],lastHtml="";
 function esc(s){return String(s||"").replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
@@ -137,8 +137,11 @@ $("go").addEventListener("click",function(){
 $("ck").addEventListener("click",function(){
   var v=$("code").value.trim().toUpperCase();
   if(CODES.indexOf(v)<0){$("note").textContent="Код қате. Төлем жасап, кодты сатушыдан алыңыз.";return}
+  var used=[];try{used=JSON.parse(localStorage.getItem("usedCodes")||"[]")}catch(e){}
+  if(used.indexOf(v)>=0){$("note").textContent="Бұл код бұрын қолданылған. Жаңа шақыру үшін жаңа код керек.";return}
+  used.push(v);try{localStorage.setItem("usedCodes",JSON.stringify(used))}catch(e){}
   unlocked=true;lastHtml=build(data());$("pv").srcdoc=lastHtml;
-  $("cd").style.display="none";$("dl").style.display="block";$("note").textContent="Код қабылданды ✅";
+  $("cd").style.display="none";$("dl").style.display="block";$("note").textContent="Код қабылданды ✅ Бірден жүктеп алыңыз.";
 });
 
 $("dl").addEventListener("click",function(){

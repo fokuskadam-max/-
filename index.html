@@ -56,13 +56,15 @@ iframe{width:100%;height:560px;border:1px solid var(--bd);border-radius:14px;bac
 <div class="row"><div><label class="f">Күні</label><input type="date" id="date"></div><div><label class="f">Сағаты</label><input type="time" id="time" value="18:00"></div></div>
 <label class="f">Тойхана аты, мекенжайы</label><input type="text" id="place" placeholder="Астана, Думан тойханасы">
 <label class="f">Тілек / шақыру сөзі</label><textarea id="wish" placeholder="Құрметті қонақтар! Балаларымыздың тойына шақырамыз..."></textarea>
-<label class="f">Видео сілтемесі (Премиум, VIP)</label><input type="text" id="video" placeholder="https://youtube.com/...">
-<label class="f">Сіздің WhatsApp нөміріңіз (қонақтар жауап беру үшін)</label><input type="tel" id="wa" placeholder="77012345678">
+<label class="f">Видео сілтемесі (YouTube, TikTok - сілтеме күйінде сақталады, орын алмайды)</label><input type="text" id="video" placeholder="https://youtube.com/...">
+<label class="f">Сіздің WhatsApp нөміріңіз</label><input type="tel" id="wa" placeholder="77012345678">
 </div>
 
-<div class="c"><h2>3. Фото (сілтеме үшін 1 фото жақсы)</h2>
+<div class="c"><h2>3. Фото (4-ке дейін, әдемі шығуы үшін қосыңыз)</h2>
 <input type="file" id="ph" accept="image/*" multiple>
-<div class="th" id="th"></div></div>
+<div class="th" id="th"></div>
+<p class="n">Фото сілтемеге тығылмайды, бөлек жүктеледі. Сондықтан сілтеме қысқа болады.</p>
+</div>
 
 <div class="c"><h2>4. Дайын сілтеме</h2>
 <button id="go">Шақыртуды жасау</button>
@@ -131,7 +133,6 @@ function build(d){
   +'</body></html>';
 }
 
-// Егер қонақ сілтеме арқылы ашса, форманы толық жасыр, тек шақыртуды көрсет
 try{
   var pr=new URLSearchParams(location.search);
   var code=pr.get("i");
@@ -153,9 +154,9 @@ $("ph").addEventListener("change",function(e){
   Array.prototype.slice.call(e.target.files,0,4).forEach(function(f){
     var r=new FileReader();
     r.onload=function(){var im=new Image();im.onload=function(){
-      var m=600,k=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement("canvas");
+      var m=700,k=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement("canvas");
       c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);
-      var u=c.toDataURL("image/jpeg",0.65);photos.push(u);
+      var u=c.toDataURL("image/jpeg",0.72);photos.push(u);
       var t=new Image();t.src=u;$("th").appendChild(t);
     };im.src=r.result};r.readAsDataURL(f);
   });
@@ -200,22 +201,65 @@ $("ord").addEventListener("click",function(){
   window.open("https://wa.me/"+SELLER+"?text="+encodeURIComponent(t),"_blank");
 });
 
-// ТЕК СІЛТЕМЕ АЛУ БАТЫРМАСЫ
-$("mkLink").addEventListener("click",function(){
+// --- ФОТОНЫ БӨЛЕК ЖҮКТЕУ, СІЛТЕМЕ ҚЫСҚА БОЛУ ҮШІН ---
+async function uploadPhoto(dataUrl){
+  var res=await fetch(dataUrl);
+  var blob=await res.blob();
+  var fd=new FormData();
+  fd.append("reqtype","fileupload");
+  fd.append("fileToUpload", blob, "photo.jpg");
+  var r=await fetch("https://catbox.moe/user/api.php",{method:"POST",body:fd});
+  if(!r.ok) throw new Error("upload");
+  var url=(await r.text()).trim();
+  if(!url.startsWith("https://files.catbox.moe/")) throw new Error("bad url");
+  return url;
+}
+
+$("mkLink").addEventListener("click",async function(){
   if(!unlocked)return;
+  var btn=$("mkLink");btn.disabled=true;btn.textContent="⏳ Фото жүктелуде...";
+  $("note").textContent="Фото жүктелуде, 10-20 секунд күтіңіз, бетті жаппаңыз...";
   var d=data();
-  if(d.photos.length>1){d.photos=d.photos.slice(0,1);}
   try{
+    // 1. Фото болса, оны бөлек жүктеп, қысқа сілтемеге айналдырамыз
+    if(d.photos && d.photos.length){
+      var newPhotos=[];
+      for(var i=0;i<d.photos.length;i++){
+        try{
+          $("note").textContent="Фото жүктелуде... "+(i+1)+"/"+d.photos.length;
+          var u=await uploadPhoto(d.photos[i]);
+          newPhotos.push(u);
+        }catch(e){
+          // Catbox істемесе, фотоны өте кіші қылып сілтемеге саламыз
+          newPhotos.push(d.photos[i]);
+        }
+      }
+      d.photos=newPhotos;
+    }
+    // 2. Енді сілтеме жасаймыз, фото енді қысқа сілтеме ғана
+    btn.textContent="🔗 Сілтеме жасалуда...";
     var json=JSON.stringify(d);
     var encoded=btoa(unescape(encodeURIComponent(json)));
     var base=location.origin+location.pathname;
     lastLink=base+"?i="+encoded;
-    if(lastLink.length>7000){$("note").textContent="Сілтеме тым ұзын болды. Фотоны алып тастап, қайта көріңіз.";return;}
+    if(lastLink.length>8000){
+      // Әлі ұзын болса, фотоны 1-ге түсіреміз
+      d.photos=d.photos.slice(0,1);
+      encoded=btoa(unescape(encodeURIComponent(JSON.stringify(d))));
+      lastLink=base+"?i="+encoded;
+    }
+    if(lastLink.length>8000){
+      $("note").textContent="Фото тым үлкен. Басқа кіші фото таңдап көріңіз.";
+      btn.disabled=false;btn.textContent="🔗 Сілтеме алу";return;
+    }
     $("linkText").textContent=lastLink;
     $("linkArea").style.display="block";
-    $("note").textContent="Дайын ✅ Сілтемені көшіріп, қонақтарға жіберіңіз.";
+    $("note").textContent="Дайын ✅ Фотосымен, видеосымен сілтеме жасалды. Көшіріп жіберіңіз.";
     $("linkArea").scrollIntoView({behavior:"smooth"});
-  }catch(e){$("note").textContent="Сілтеме жасалмады. Фотоны алып тастап көріңіз.";}
+  }catch(e){
+    $("note").textContent="Қате шықты. Қайта басып көріңіз.";
+  }
+  btn.disabled=false;btn.textContent="🔗 Сілтеме алу";
 });
 
 $("copyLink").addEventListener("click",function(){

@@ -34,6 +34,7 @@ iframe{width:100%;height:560px;border:1px solid var(--bd);border-radius:14px;bac
 .ok{background:#e7f8ec;border:1px solid #a7e8b8;border-radius:12px;padding:12px;margin-top:10px}
 #viewer{position:fixed;inset:0;z-index:999;background:#fff;display:none}
 #viewer iframe{width:100%;height:100%;border:0;display:block}
+.ver{font-size:11px;color:#999;text-align:center;margin-top:4px}
 </style>
 </head>
 <body>
@@ -41,6 +42,7 @@ iframe{width:100%;height:560px;border:1px solid var(--bd);border-radius:14px;bac
 <div class="w" id="mainForm">
 <h1>🎉 Той шақыртуын өзіңіз жасаңыз</h1>
 <p class="s">Форманы толтырыңыз, дайын сілтемені алыңыз, қонақтарға жіберіңіз.</p>
+<div class="ver">v5 — фото бөлек жүктеледі</div>
 
 <div class="c"><h2>1. Пакетті таңдаңыз</h2>
 <div class="pk">
@@ -56,11 +58,11 @@ iframe{width:100%;height:560px;border:1px solid var(--bd);border-radius:14px;bac
 <div class="row"><div><label class="f">Күні</label><input type="date" id="date"></div><div><label class="f">Сағаты</label><input type="time" id="time" value="18:00"></div></div>
 <label class="f">Тойхана аты, мекенжайы</label><input type="text" id="place" placeholder="Астана, Думан тойханасы">
 <label class="f">Тілек / шақыру сөзі</label><textarea id="wish" placeholder="Құрметті қонақтар! Балаларымыздың тойына шақырамыз..."></textarea>
-<label class="f">Видео сілтемесі (YouTube, TikTok - сілтеме күйінде сақталады, орын алмайды)</label><input type="text" id="video" placeholder="https://youtube.com/...">
+<label class="f">Видео сілтемесі (YouTube / TikTok — сілтеме күйінде, орын алмайды)</label><input type="text" id="video" placeholder="https://youtube.com/...">
 <label class="f">Сіздің WhatsApp нөміріңіз</label><input type="tel" id="wa" placeholder="77012345678">
 </div>
 
-<div class="c"><h2>3. Фото (4-ке дейін, әдемі шығуы үшін қосыңыз)</h2>
+<div class="c"><h2>3. Фото (4-ке дейін қосуға болады)</h2>
 <input type="file" id="ph" accept="image/*" multiple>
 <div class="th" id="th"></div>
 <p class="n">Фото сілтемеге тығылмайды, бөлек жүктеледі. Сондықтан сілтеме қысқа болады.</p>
@@ -201,63 +203,84 @@ $("ord").addEventListener("click",function(){
   window.open("https://wa.me/"+SELLER+"?text="+encodeURIComponent(t),"_blank");
 });
 
-// --- ФОТОНЫ БӨЛЕК ЖҮКТЕУ, СІЛТЕМЕ ҚЫСҚА БОЛУ ҮШІН ---
-async function uploadPhoto(dataUrl){
-  var res=await fetch(dataUrl);
-  var blob=await res.blob();
-  var fd=new FormData();
-  fd.append("reqtype","fileupload");
-  fd.append("fileToUpload", blob, "photo.jpg");
+// --- v5: ФОТОНЫ 3 СЕРВИСКЕ КЕЗЕКПЕН ЖҮКТЕУ ---
+async function blobFromDataUrl(u){var r=await fetch(u);return await r.blob();}
+async function tryCatbox(blob){
+  var fd=new FormData();fd.append("reqtype","fileupload");fd.append("fileToUpload",blob,"photo.jpg");
   var r=await fetch("https://catbox.moe/user/api.php",{method:"POST",body:fd});
-  if(!r.ok) throw new Error("upload");
-  var url=(await r.text()).trim();
-  if(!url.startsWith("https://files.catbox.moe/")) throw new Error("bad url");
-  return url;
+  var t=(await r.text()).trim();
+  if(t.indexOf("https://files.catbox.moe/")===0) return t;
+  throw new Error("catbox");
+}
+async function tryZero(blob){
+  var fd=new FormData();fd.append("file",blob,"photo.jpg");
+  var r=await fetch("https://0x0.st",{method:"POST",body:fd});
+  var t=(await r.text()).trim();
+  if(t.indexOf("https://0x0.st/")===0) return t;
+  throw new Error("0x0");
+}
+async function tryTmpfiles(blob){
+  var fd=new FormData();fd.append("file",blob,"photo.jpg");
+  var r=await fetch("https://tmpfiles.org/api/v1/upload",{method:"POST",body:fd});
+  var j=await r.json();
+  if(j && j.data && j.data.url) return j.data.url;
+  throw new Error("tmp");
+}
+async function uploadPhotoSmart(dataUrl){
+  var blob=await blobFromDataUrl(dataUrl);
+  var errs=[];
+  var fns=[tryCatbox,tryZero,tryTmpfiles];
+  for(var i=0;i<fns.length;i++){
+    try{return await fns[i](blob);}catch(e){errs.push(e);}
+  }
+  throw new Error("all failed");
 }
 
 $("mkLink").addEventListener("click",async function(){
   if(!unlocked)return;
   var btn=$("mkLink");btn.disabled=true;btn.textContent="⏳ Фото жүктелуде...";
-  $("note").textContent="Фото жүктелуде, 10-20 секунд күтіңіз, бетті жаппаңыз...";
   var d=data();
+  var photoFailed=false;
   try{
-    // 1. Фото болса, оны бөлек жүктеп, қысқа сілтемеге айналдырамыз
     if(d.photos && d.photos.length){
       var newPhotos=[];
       for(var i=0;i<d.photos.length;i++){
+        $("note").textContent="v5: Фото жүктелуде... "+(i+1)+"/"+d.photos.length+" — бетті жаппаңыз";
         try{
-          $("note").textContent="Фото жүктелуде... "+(i+1)+"/"+d.photos.length;
-          var u=await uploadPhoto(d.photos[i]);
+          var u=await uploadPhotoSmart(d.photos[i]);
           newPhotos.push(u);
         }catch(e){
-          // Catbox істемесе, фотоны өте кіші қылып сілтемеге саламыз
-          newPhotos.push(d.photos[i]);
+          photoFailed=true;
+          // Ең соңғы амал: фотоны өте кіші қылып сілтемеге салуға тырысамыз, болмаса тастаймыз
+          newPhotos.push("");
         }
       }
-      d.photos=newPhotos;
+      d.photos=newPhotos.filter(function(x){return x;});
     }
-    // 2. Енді сілтеме жасаймыз, фото енді қысқа сілтеме ғана
-    btn.textContent="🔗 Сілтеме жасалуда...";
     var json=JSON.stringify(d);
     var encoded=btoa(unescape(encodeURIComponent(json)));
     var base=location.origin+location.pathname;
     lastLink=base+"?i="+encoded;
-    if(lastLink.length>8000){
-      // Әлі ұзын болса, фотоны 1-ге түсіреміз
+    // Егер әлі ұзын болса, фотоны 1-ге түсіреміз, ешқашан қате көрсетпейміз
+    if(lastLink.length>8000 && d.photos.length>1){
       d.photos=d.photos.slice(0,1);
-      encoded=btoa(unescape(encodeURIComponent(JSON.stringify(d))));
-      lastLink=base+"?i="+encoded;
+      lastLink=base+"?i="+btoa(unescape(encodeURIComponent(JSON.stringify(d))));
     }
     if(lastLink.length>8000){
-      $("note").textContent="Фото тым үлкен. Басқа кіші фото таңдап көріңіз.";
-      btn.disabled=false;btn.textContent="🔗 Сілтеме алу";return;
+      d.photos=[];
+      lastLink=base+"?i="+btoa(unescape(encodeURIComponent(JSON.stringify(d))));
+      photoFailed=true;
     }
     $("linkText").textContent=lastLink;
     $("linkArea").style.display="block";
-    $("note").textContent="Дайын ✅ Фотосымен, видеосымен сілтеме жасалды. Көшіріп жіберіңіз.";
+    if(photoFailed){
+      $("note").textContent="v5: Сілтеме жасалды ✅ Бірақ фото серверге жүктелмеді. Фотоны WhatsApp-пен жеке жіберіңіз, шақыртудың өзі ашылады.";
+    }else{
+      $("note").textContent="v5: Дайын ✅ Фотосымен, видеосымен сілтеме жасалды.";
+    }
     $("linkArea").scrollIntoView({behavior:"smooth"});
   }catch(e){
-    $("note").textContent="Қате шықты. Қайта басып көріңіз.";
+    $("note").textContent="v5: Қате шықты, қайта басып көріңіз.";
   }
   btn.disabled=false;btn.textContent="🔗 Сілтеме алу";
 });

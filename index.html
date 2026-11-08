@@ -42,7 +42,7 @@ iframe{width:100%;height:560px;border:1px solid var(--bd);border-radius:14px;bac
 <div class="w" id="mainForm">
 <h1>🎉 Той шақыртуын өзіңіз жасаңыз</h1>
 <p class="s">Форманы толтырыңыз, дайын сілтемені алыңыз, қонақтарға жіберіңіз.</p>
-<div class="ver">v5 — фото бөлек жүктеледі</div>
+<div class="ver">v6 — фото мәңгі сақталады, tmpfiles алынды</div>
 
 <div class="c"><h2>1. Пакетті таңдаңыз</h2>
 <div class="pk">
@@ -58,14 +58,14 @@ iframe{width:100%;height:560px;border:1px solid var(--bd);border-radius:14px;bac
 <div class="row"><div><label class="f">Күні</label><input type="date" id="date"></div><div><label class="f">Сағаты</label><input type="time" id="time" value="18:00"></div></div>
 <label class="f">Тойхана аты, мекенжайы</label><input type="text" id="place" placeholder="Астана, Думан тойханасы">
 <label class="f">Тілек / шақыру сөзі</label><textarea id="wish" placeholder="Құрметті қонақтар! Балаларымыздың тойына шақырамыз..."></textarea>
-<label class="f">Видео сілтемесі (YouTube / TikTok — сілтеме күйінде, орын алмайды)</label><input type="text" id="video" placeholder="https://youtube.com/...">
+<label class="f">Видео сілтемесі — МІНДЕТТІ ТҮРДЕ ТОЛТЫРЫҢЫЗ, бос болса видео шықпайды</label><input type="text" id="video" placeholder="https://youtube.com/watch?v=... немесе TikTok сілтемесі">
 <label class="f">Сіздің WhatsApp нөміріңіз</label><input type="tel" id="wa" placeholder="77012345678">
 </div>
 
-<div class="c"><h2>3. Фото (4-ке дейін қосуға болады)</h2>
+<div class="c"><h2>3. Фото (4-ке дейін)</h2>
 <input type="file" id="ph" accept="image/*" multiple>
 <div class="th" id="th"></div>
-<p class="n">Фото сілтемеге тығылмайды, бөлек жүктеледі. Сондықтан сілтеме қысқа болады.</p>
+<p class="n">Фото Catbox / 0x0.st — мәңгі сақталатын жерге жүктеледі. 60 минуттан соң өшпейді.</p>
 </div>
 
 <div class="c"><h2>4. Дайын сілтеме</h2>
@@ -203,7 +203,7 @@ $("ord").addEventListener("click",function(){
   window.open("https://wa.me/"+SELLER+"?text="+encodeURIComponent(t),"_blank");
 });
 
-// --- v5: ФОТОНЫ 3 СЕРВИСКЕ КЕЗЕКПЕН ЖҮКТЕУ ---
+// --- v6: ТЕК МӘҢГІ САҚТАЛАТЫН СЕРВИСТЕР ---
 async function blobFromDataUrl(u){var r=await fetch(u);return await r.blob();}
 async function tryCatbox(blob){
   var fd=new FormData();fd.append("reqtype","fileupload");fd.append("fileToUpload",blob,"photo.jpg");
@@ -219,21 +219,11 @@ async function tryZero(blob){
   if(t.indexOf("https://0x0.st/")===0) return t;
   throw new Error("0x0");
 }
-async function tryTmpfiles(blob){
-  var fd=new FormData();fd.append("file",blob,"photo.jpg");
-  var r=await fetch("https://tmpfiles.org/api/v1/upload",{method:"POST",body:fd});
-  var j=await r.json();
-  if(j && j.data && j.data.url) return j.data.url;
-  throw new Error("tmp");
-}
 async function uploadPhotoSmart(dataUrl){
   var blob=await blobFromDataUrl(dataUrl);
-  var errs=[];
-  var fns=[tryCatbox,tryZero,tryTmpfiles];
-  for(var i=0;i<fns.length;i++){
-    try{return await fns[i](blob);}catch(e){errs.push(e);}
-  }
-  throw new Error("all failed");
+  try{return await tryCatbox(blob);}catch(e){}
+  try{return await tryZero(blob);}catch(e){}
+  throw new Error("upload failed");
 }
 
 $("mkLink").addEventListener("click",async function(){
@@ -242,45 +232,38 @@ $("mkLink").addEventListener("click",async function(){
   var d=data();
   var photoFailed=false;
   try{
+    if(!d.video && d.pkg!=="std"){
+      $("note").textContent="⚠️ Видео бос тұр. Видео қосқыңыз келсе, видео өрісін толтырып, қайта басыңыз. Видео жоқ болса да сілтеме жасалады.";
+    }
     if(d.photos && d.photos.length){
       var newPhotos=[];
       for(var i=0;i<d.photos.length;i++){
-        $("note").textContent="v5: Фото жүктелуде... "+(i+1)+"/"+d.photos.length+" — бетті жаппаңыз";
+        $("note").textContent="v6: Фото жүктелуде... "+(i+1)+"/"+d.photos.length+" — бетті жаппаңыз";
         try{
           var u=await uploadPhotoSmart(d.photos[i]);
           newPhotos.push(u);
-        }catch(e){
-          photoFailed=true;
-          // Ең соңғы амал: фотоны өте кіші қылып сілтемеге салуға тырысамыз, болмаса тастаймыз
-          newPhotos.push("");
-        }
+        }catch(e){photoFailed=true;}
       }
-      d.photos=newPhotos.filter(function(x){return x;});
+      d.photos=newPhotos;
     }
     var json=JSON.stringify(d);
     var encoded=btoa(unescape(encodeURIComponent(json)));
     var base=location.origin+location.pathname;
     lastLink=base+"?i="+encoded;
-    // Егер әлі ұзын болса, фотоны 1-ге түсіреміз, ешқашан қате көрсетпейміз
     if(lastLink.length>8000 && d.photos.length>1){
       d.photos=d.photos.slice(0,1);
       lastLink=base+"?i="+btoa(unescape(encodeURIComponent(JSON.stringify(d))));
     }
-    if(lastLink.length>8000){
-      d.photos=[];
-      lastLink=base+"?i="+btoa(unescape(encodeURIComponent(JSON.stringify(d))));
-      photoFailed=true;
-    }
     $("linkText").textContent=lastLink;
     $("linkArea").style.display="block";
     if(photoFailed){
-      $("note").textContent="v5: Сілтеме жасалды ✅ Бірақ фото серверге жүктелмеді. Фотоны WhatsApp-пен жеке жіберіңіз, шақыртудың өзі ашылады.";
+      $("note").textContent="v6: Сілтеме жасалды, бірақ фото серверге жүктелмеді. Интернетті тексеріп, фотоны қайта таңдап көріңіз.";
     }else{
-      $("note").textContent="v5: Дайын ✅ Фотосымен, видеосымен сілтеме жасалды.";
+      $("note").textContent="v6: Дайын ✅ Фотосымен, видеосымен сілтеме жасалды. Енді фото өшпейді.";
     }
     $("linkArea").scrollIntoView({behavior:"smooth"});
   }catch(e){
-    $("note").textContent="v5: Қате шықты, қайта басып көріңіз.";
+    $("note").textContent="v6: Қате шықты, қайта басып көріңіз.";
   }
   btn.disabled=false;btn.textContent="🔗 Сілтеме алу";
 });

@@ -193,19 +193,19 @@ $("ord").addEventListener("click",function(){
   window.open("https://wa.me/"+SELLER+"?text="+encodeURIComponent(t),"_blank");
 });
 
-// --- СІЛТЕМЕ ЖАСАУ ---
+// --- СІЛТЕМЕ ЖАСАУ - CATBOX ---
 $("mkLink").addEventListener("click",async function(){
   if(!unlocked)return;
   var btn=$("mkLink");btn.disabled=true;btn.textContent="⏳ Сілтеме жасалуда...";
-  $("note").textContent="Сілтеме жасалуда, 5-10 секунд күтіңіз...";
+  $("note").textContent="Сілтеме жасалуда, 5-15 секунд күтіңіз...";
   try{
     var fd=new FormData();
-    fd.append("file", new Blob([lastHtml],{type:"text/html"}), "shakyrtu.html");
-    fd.append("expires","90");
-    var r=await fetch("https://0x0.st",{method:"POST",body:fd});
+    fd.append("reqtype","fileupload");
+    fd.append("fileToUpload", new Blob([lastHtml],{type:"text/html"}), "shakyrtu.html");
+    var r=await fetch("https://catbox.moe/user/api.php",{method:"POST",body:fd});
     if(!r.ok) throw new Error("server");
     var url=(await r.text()).trim();
-    if(!url.startsWith("http")) throw new Error("bad");
+    if(!url.startsWith("https://files.catbox.moe/")) throw new Error("bad "+url);
     lastLink=url;
     $("linkText").textContent=url;
     $("linkArea").style.display="block";

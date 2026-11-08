@@ -111,10 +111,13 @@ function build(d){
   var tx=vip?"#f5e6b3":"#2a2118";
   var ac=vip?"#d4af37":p==="prem"?"#6d28d9":"#c2410c";
   var ds=d.date?new Date(d.date+"T00:00:00").toLocaleDateString("kk-KZ",{day:"numeric",month:"long",year:"numeric"}):"";
-  var maps="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(d.place);
-  var wa="https://wa.me/"+d.wa.replace(/\D/g,"")+"?text="+encodeURIComponent("Сәлеметсіз бе! Тойға келемін ✅");
+  // ТҮЗЕТУ: Карта - қысқа Google сілтеме, Келемін - api.whatsapp.com, бәрі target=_blank
+  var maps="https://maps.google.com/?q="+encodeURIComponent(d.place);
+  var cleanWa=d.wa.replace(/\D/g,"");
+  if(cleanWa.indexOf("7")==0 && cleanWa.length==11){} else if(cleanWa.indexOf("8")==0 && cleanWa.length==11){cleanWa="7"+cleanWa.slice(1)}
+  var wa="https://api.whatsapp.com/send?phone="+cleanWa+"&text="+encodeURIComponent("Сәлеметсіз бе! Тойға келемін ✅ Аты: ");
   var gal=d.photos.length;
-  var vid=(env&&d.video)?'<a class="b o" href="'+esc(d.video)+'">▶️ Видеоны көру</a>':"";
+  var vid=(env&&d.video)?'<a class="b o" target="_blank" rel="noopener" href="'+esc(d.video)+'">▶️ Видеоны көру</a>':"";
   var target=d.date?d.date+"T"+(d.time||"00:00")+":00":"";
   return '<!DOCTYPE html><html lang="kk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(d.name)+' – '+esc(d.kind)+'</title><style>'
   +'*{box-sizing:border-box}body{margin:0;background:'+bg+';color:'+tx+';font:17px/1.55 Georgia,serif;text-align:center}'
@@ -124,17 +127,20 @@ function build(d){
   +'.t{display:flex;gap:8px;justify-content:center;margin:12px 0}.t div{min-width:64px;padding:8px;border-radius:12px;background:'+ac+';color:'+(vip?'#14110a':'#fff')+'}.t b{display:block;font-size:24px}.t span{font-size:11px}'
   +'.b{display:block;padding:14px;border-radius:12px;background:'+ac+';color:'+(vip?'#14110a':'#fff')+';text-decoration:none;margin:10px 0;font-family:system-ui,sans-serif;font-weight:600}.b.o{background:transparent;border:2px solid '+ac+';color:'+ac+'}'
   +'#e{position:fixed;inset:0;background:'+bg+';z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .9s,opacity .9s}#e.x{transform:translateY(-100%);opacity:0;pointer-events:none;visibility:hidden}#e .m{font-size:80px}#e button{margin-top:16px;border:0;padding:14px 28px;border-radius:30px;background:'+ac+';color:'+(vip?'#14110a':'#fff')+';font:600 17px system-ui}'
-  +'.wm{position:fixed;inset:0;z-index:99;pointer-events:none;display:flex;align-items:center;justify-content:center;font:700 34px system-ui;color:rgba(128,128,128,.35);transform:rotate(-25deg);text-align:center}</style></head><body>'
+  +'.wm{position:fixed;inset:0;z-index:99;pointer-events:none;display:flex;align-items:center;justify-content:center;font:700 34px system-ui;color:rgba(128,128,128,.35);transform:rotate(-25deg);text-align:center}'
+  +'.warn{display:none;background:#fff3cd;color:#664d03;border:1px solid #ffecb5;border-radius:12px;padding:10px;font:600 13px system-ui,sans-serif;margin:10px 0}'
+  +'</style></head><body>'
   +(unlocked?'':'<div class="wm">ҮЛГІ<br>төленбеген</div>')
   +(env?'<div id="e"><div class="m">💌</div><p>Сізге шақырту келді</p><button onclick="document.getElementById(\'e\').className=\'x\'">Ашу</button></div>':'')
-  +'<div class="w"><div class="k">'+esc(d.kind)+'</div><h1>'+esc(d.name)+'</h1>'+(gal?'<img src="'+d.photos[0]+'" alt="">':"")
+  +'<div class="w"><div id="warn" class="warn">⚠️ Батырмалар істемесе: жоғарыдағы ⋮ → «Браузерде ашу» / «Open in Chrome» басыңыз</div><div class="k">'+esc(d.kind)+'</div><h1>'+esc(d.name)+'</h1>'+(gal?'<img src="'+d.photos[0]+'" alt="">':"")
   +(d.wish?'<div class="q">'+esc(d.wish)+'</div>':'')
   +(target?'<div class="t" id="t"></div>':'')
   +'<div class="i"><div>📅 '+esc(ds)+(d.time?', '+esc(d.time):'')+'</div><div>📍 '+esc(d.place)+'</div></div>'
-  +'<a class="b" href="'+maps+'">🗺 Картадан көру</a>'+vid
-  +(d.wa?'<a class="b o" href="'+wa+'">✅ Келемін деп жауап беру</a>':'')
+  +'<a class="b" target="_blank" rel="noopener" href="'+maps+'">🗺 Картадан көру</a>'+vid
+  +(d.wa?'<a class="b o" target="_blank" rel="noopener" href="'+wa+'">✅ Келемін деп жауап беру</a>':'')
   +d.photos.slice(1).map(function(u){return '<img src="'+u+'" alt="">'}).join("")
   +'</div>'
+  +'<script>try{if(/WhatsApp|Instagram|FBAN|FBAV/i.test(navigator.userAgent)){document.getElementById("warn").style.display="block"}}catch(e){}<\/script>'
   +(target?'<script>var T=new Date("'+target+'").getTime();function u(){var s=Math.max(0,Math.floor((T-Date.now())/1000)),a=[["күн",86400],["сағат",3600],["мин",60],["сек",1]],h="";a.forEach(function(x){var v=Math.floor(s/x[1]);s-=v*x[1];h+="<div><b>"+v+"</b><span>"+x[0]+"</span></div>"});document.getElementById("t").innerHTML=h}u();setInterval(u,1000);<\/script>':'')
   +'</body></html>';
 }

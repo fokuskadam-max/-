@@ -101,7 +101,7 @@ function build(d){
   var maps="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(d.place);
   var wa="https://wa.me/"+d.wa.replace(/\D/g,"")+"?text="+encodeURIComponent("Сәлеметсіз бе! Тойға келемін ✅");
   var gal=d.photos.length;
-  var vid=(env&&d.video)?'<a class="b o" href="'+esc(d.video)+'" target="_blank" rel="noopener">▶️ Видеоны көру</a>':"";
+  var vid=(env&&d.video)?'<a class="b o" href="'+esc(d.video)+'">▶️ Видеоны көру</a>':"";
   var target=d.date?d.date+"T"+(d.time||"00:00")+":00":"";
   return '<!DOCTYPE html><html lang="kk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(d.name)+' – '+esc(d.kind)+'</title><style>'
   +'*{box-sizing:border-box}body{margin:0;background:'+bg+';color:'+tx+';font:17px/1.55 Georgia,serif;text-align:center}'
@@ -110,7 +110,7 @@ function build(d){
   +'.q{margin:18px 0;font-style:italic;white-space:pre-line}.i{border:1px solid '+ac+';border-radius:14px;padding:14px;margin:16px 0}'
   +'.t{display:flex;gap:8px;justify-content:center;margin:12px 0}.t div{min-width:64px;padding:8px;border-radius:12px;background:'+ac+';color:'+(vip?'#14110a':'#fff')+'}.t b{display:block;font-size:24px}.t span{font-size:11px}'
   +'.b{display:block;padding:14px;border-radius:12px;background:'+ac+';color:'+(vip?'#14110a':'#fff')+';text-decoration:none;margin:10px 0;font-family:system-ui,sans-serif;font-weight:600}.b.o{background:transparent;border:2px solid '+ac+';color:'+ac+'}'
-  +'#e{position:fixed;inset:0;background:'+bg+';z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .9s,opacity .9s}#e.x{transform:translateY(-100%);opacity:0}#e .m{font-size:80px}#e button{margin-top:16px;border:0;padding:14px 28px;border-radius:30px;background:'+ac+';color:'+(vip?'#14110a':'#fff')+';font:600 17px system-ui}'
+  +'#e{position:fixed;inset:0;background:'+bg+';z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .9s,opacity .9s}#e.x{transform:translateY(-100%);opacity:0;pointer-events:none;visibility:hidden}#e .m{font-size:80px}#e button{margin-top:16px;border:0;padding:14px 28px;border-radius:30px;background:'+ac+';color:'+(vip?'#14110a':'#fff')+';font:600 17px system-ui}'
   +'.wm{position:fixed;inset:0;z-index:99;pointer-events:none;display:flex;align-items:center;justify-content:center;font:700 34px system-ui;color:rgba(128,128,128,.35);transform:rotate(-25deg);text-align:center}</style></head><body>'
   +(unlocked?'':'<div class="wm">ҮЛГІ<br>төленбеген</div>')
   +(env?'<div id="e"><div class="m">💌</div><p>Сізге шақырту келді</p><button onclick="document.getElementById(\'e\').className=\'x\'">Ашу</button></div>':'')
@@ -118,8 +118,8 @@ function build(d){
   +(d.wish?'<div class="q">'+esc(d.wish)+'</div>':'')
   +(target?'<div class="t" id="t"></div>':'')
   +'<div class="i"><div>📅 '+esc(ds)+(d.time?', '+esc(d.time):'')+'</div><div>📍 '+esc(d.place)+'</div></div>'
-  +'<a class="b" href="'+maps+'" target="_blank" rel="noopener">🗺 Картадан көру</a>'+vid
-  +(d.wa?'<a class="b o" href="'+wa+'" target="_blank" rel="noopener">✅ Келемін деп жауап беру</a>':'')
+  +'<a class="b" href="'+maps+'">🗺 Картадан көру</a>'+vid
+  +(d.wa?'<a class="b o" href="'+wa+'">✅ Келемін деп жауап беру</a>':'')
   +d.photos.slice(1).map(function(u){return '<img src="'+u+'" alt="">'}).join("")
   +'</div>'
   +(target?'<script>var T=new Date("'+target+'").getTime();function u(){var s=Math.max(0,Math.floor((T-Date.now())/1000)),a=[["күн",86400],["сағат",3600],["мин",60],["сек",1]],h="";a.forEach(function(x){var v=Math.floor(s/x[1]);s-=v*x[1];h+="<div><b>"+v+"</b><span>"+x[0]+"</span></div>"});document.getElementById("t").innerHTML=h}u();setInterval(u,1000);<\/script>':'')
@@ -173,4 +173,4 @@ $("ord").addEventListener("click",function(){
 });
 </script>
 </body>
-</html>
+  </html>

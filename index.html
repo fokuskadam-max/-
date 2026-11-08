@@ -31,12 +31,13 @@ button:disabled{opacity:.6}
 iframe{width:100%;height:560px;border:1px solid var(--bd);border-radius:14px;background:#fff}
 .n{font-size:13px;color:var(--mut);margin-top:6px}
 .linkbox{background:var(--bg);border:1px dashed var(--ac);border-radius:10px;padding:10px;word-break:break-all;font-size:14px;margin-top:10px}
+.ok{background:#e7f8ec;border:1px solid #a7e8b8;border-radius:12px;padding:12px;margin-top:10px}
 </style>
 </head>
 <body>
 <div class="w">
 <h1>🎉 Той шақыртуын өзіңіз жасаңыз</h1>
-<p class="s">Форманы толтырыңыз, шақырту бірден дайын болады.</p>
+<p class="s">Форманы толтырыңыз, дайын сілтемені алыңыз, қонақтарға жіберіңіз.</p>
 
 <div class="c"><h2>1. Пакетті таңдаңыз</h2>
 <div class="pk">
@@ -60,7 +61,7 @@ iframe{width:100%;height:560px;border:1px solid var(--bd);border-radius:14px;bac
 <input type="file" id="ph" accept="image/*" multiple>
 <div class="th" id="th"></div></div>
 
-<div class="c"><h2>4. Шақырту</h2>
+<div class="c"><h2>4. Дайын сілтеме</h2>
 <button id="go">Шақыртуды жасау</button>
 <iframe id="pv" title="Шақырту" style="display:none;margin-top:12px"></iframe>
 <div id="act" style="display:none">
@@ -68,16 +69,17 @@ iframe{width:100%;height:560px;border:1px solid var(--bd);border-radius:14px;bac
 <div class="c" id="pay" style="margin-top:12px"><b>💳 Төлем</b><p class="n" id="amt"></p><button id="cp">📋 Kaspi нөмірін көшіру</button><button class="g" id="paid">✅ Төледім, код сұрау</button></div>
 <div id="cd"><label class="f">Төлемнен кейін алған код</label><input type="text" id="code" placeholder="Кодты осында жазыңыз"><button id="ck">🔓 Кодты енгізу</button></div>
 <div id="dw" style="display:none">
-<button id="dl">⬇️ Шақыртуды жүктеп алу (файл)</button>
-<button id="mkLink">🔗 Сілтеме алу (WhatsApp-қа жіберу үшін)</button>
+<div class="ok"><b>✅ Шақырту дайын!</b><p class="n" style="margin:4px 0 0">Енді төмендегі батырманы басып дайын сілтемені алыңыз.</p></div>
+<button id="mkLink">🔗 Дайын сілтеме алу</button>
 <div id="linkArea" style="display:none">
 <div class="linkbox" id="linkText"></div>
 <button class="g" id="copyLink">📋 Сілтемені көшіру</button>
 <button id="shareWa">💚 Сілтемені WhatsApp-қа жіберу</button>
-<p class="n">Осы сілтемені қонақтарға жіберіңіз. Файл жібермеңіз, файл WhatsApp-та ашылмайды.</p>
+<button class="g" id="openLink">👁 Сілтемені өзің тексеру</button>
+<p class="n">Осы сілтемені қонақтарға жіберіңіз. Файл жібермеңіз.</p>
 </div>
+<button class="g" id="dl">⬇️ Файл қылып жүктеп алу (қосымша)</button>
 <button class="g" id="op">👁 Браузерде ашу</button>
-<p class="n">Файлмен емес, сілтемемен жіберіңіз. Сілтеме WhatsApp, Telegram, Instagram-да ашылады.</p>
 </div>
 <p class="n" id="note"></p></div>
 </div>
@@ -111,10 +113,9 @@ function build(d){
   var tx=vip?"#f5e6b3":"#2a2118";
   var ac=vip?"#d4af37":p==="prem"?"#6d28d9":"#c2410c";
   var ds=d.date?new Date(d.date+"T00:00:00").toLocaleDateString("kk-KZ",{day:"numeric",month:"long",year:"numeric"}):"";
-  // ТҮЗЕТУ: Карта - қысқа Google сілтеме, Келемін - api.whatsapp.com, бәрі target=_blank
   var maps="https://maps.google.com/?q="+encodeURIComponent(d.place);
   var cleanWa=d.wa.replace(/\D/g,"");
-  if(cleanWa.indexOf("7")==0 && cleanWa.length==11){} else if(cleanWa.indexOf("8")==0 && cleanWa.length==11){cleanWa="7"+cleanWa.slice(1)}
+  if(cleanWa.indexOf("8")==0 && cleanWa.length==11){cleanWa="7"+cleanWa.slice(1)}
   var wa="https://api.whatsapp.com/send?phone="+cleanWa+"&text="+encodeURIComponent("Сәлеметсіз бе! Тойға келемін ✅ Аты: ");
   var gal=d.photos.length;
   var vid=(env&&d.video)?'<a class="b o" target="_blank" rel="noopener" href="'+esc(d.video)+'">▶️ Видеоны көру</a>':"";
@@ -153,7 +154,7 @@ $("go").addEventListener("click",function(){
   var f=$("pv");f.style.display="block";f.srcdoc=lastHtml;
   $("act").style.display="block";f.scrollIntoView({behavior:"smooth"});
   $("amt").textContent="Төлем сомасы: "+PRICE[pkg()]+" тг. Kaspi: +7 708 241 88 36";
-  $("note").textContent="Бұл үлгі. Ұнаса, төлем жасап, кодты сұраңыз, сосын кодты енгізіп сілтеме алыңыз.";
+  $("note").textContent="Бұл үлгі. Ұнаса, төлем жасап, кодты сұраңыз, сосын дайын сілтеме алыңыз.";
 });
 
 $("cp").addEventListener("click",function(){
@@ -175,7 +176,7 @@ $("ck").addEventListener("click",function(){
   used.push(v);try{localStorage.setItem("usedCodes",JSON.stringify(used))}catch(e){}
   unlocked=true;lastHtml=build(data());$("pv").srcdoc=lastHtml;
   $("cd").style.display="none";$("pay").style.display="none";$("dw").style.display="block";
-  $("note").textContent="Код қабылданды ✅ Енді Сілтеме алу батырмасын басыңыз.";
+  $("note").textContent="Код қабылданды ✅ Енді Дайын сілтеме алу батырмасын басыңыз.";
 });
 
 function blobUrl(){return URL.createObjectURL(new Blob([lastHtml],{type:"text/html;charset=utf-8"}))}
@@ -199,29 +200,57 @@ $("ord").addEventListener("click",function(){
   window.open("https://wa.me/"+SELLER+"?text="+encodeURIComponent(t),"_blank");
 });
 
-// --- СІЛТЕМЕ ЖАСАУ - CATBOX ---
+// --- КЛИЕНТКЕ ДАЙЫН СІЛТЕМЕ БЕРУ ---
+async function tryCatbox(){
+  var fd=new FormData();
+  fd.append("reqtype","fileupload");
+  fd.append("fileToUpload", new Blob([lastHtml],{type:"text/html"}), "shakyrtu.html");
+  var r=await fetch("https://catbox.moe/user/api.php",{method:"POST",body:fd});
+  if(!r.ok) throw new Error("catbox");
+  var url=(await r.text()).trim();
+  if(!url.startsWith("https://files.catbox.moe/")) throw new Error("catbox bad");
+  return url;
+}
+async function tryTmpfiles(){
+  var fd=new FormData();
+  fd.append("file", new Blob([lastHtml],{type:"text/html"}), "shakyrtu.html");
+  var r=await fetch("https://tmpfiles.org/api/v1/upload",{method:"POST",body:fd});
+  var j=await r.json();
+  if(!j || !j.url) throw new Error("tmpfiles");
+  return j.url.replace("https://tmpfiles.org/","https://tmpfiles.org/dl/");
+}
+async function tryZero(){
+  var fd=new FormData();
+  fd.append("file", new Blob([lastHtml],{type:"text/html"}), "shakyrtu.html");
+  var r=await fetch("https://0x0.st",{method:"POST",body:fd});
+  var url=(await r.text()).trim();
+  if(!url.startsWith("http")) throw new Error("0x0");
+  return url;
+}
+
 $("mkLink").addEventListener("click",async function(){
   if(!unlocked)return;
-  var btn=$("mkLink");btn.disabled=true;btn.textContent="⏳ Сілтеме жасалуда...";
-  $("note").textContent="Сілтеме жасалуда, 5-15 секунд күтіңіз...";
-  try{
-    var fd=new FormData();
-    fd.append("reqtype","fileupload");
-    fd.append("fileToUpload", new Blob([lastHtml],{type:"text/html"}), "shakyrtu.html");
-    var r=await fetch("https://catbox.moe/user/api.php",{method:"POST",body:fd});
-    if(!r.ok) throw new Error("server");
-    var url=(await r.text()).trim();
-    if(!url.startsWith("https://files.catbox.moe/")) throw new Error("bad "+url);
+  var btn=$("mkLink");btn.disabled=true;btn.textContent="⏳ Дайын сілтеме жасалуда...";
+  $("note").textContent="Сілтеме жасалуда, 10-20 секунд күтіңіз, бетті жаппаңыз...";
+  var url="";
+  var tries=[["Catbox",tryCatbox],["Tmpfiles",tryTmpfiles],["0x0",tryZero]];
+  for(var i=0;i<tries.length;i++){
+    try{
+      $("note").textContent="Сілтеме жасалуда... ("+tries[i][0]+" тексерілуде)";
+      url=await tries[i][1]();
+      if(url) break;
+    }catch(e){}
+  }
+  if(url){
     lastLink=url;
     $("linkText").textContent=url;
     $("linkArea").style.display="block";
-    $("note").textContent="Дайын ✅ Сілтемені көшіріп, қонақтарға жіберіңіз.";
+    $("note").textContent="Дайын ✅ Сілтемені көшіріп немесе WhatsApp-қа жіберіп алыңыз.";
     $("linkArea").scrollIntoView({behavior:"smooth"});
-  }catch(e){
-    $("note").textContent="Автомат сілтеме жасалмады. Файлды жүктеп алып, netlify.com/drop сайтына салыңыз, сол жерден сілтеме шығады.";
-    $("dl").click();
+  }else{
+    $("note").textContent="Интернет баяу, автомат сілтеме жасалмады. Файлды жүктеп алып, netlify.com/drop сайтына салыңыз.";
   }
-  btn.disabled=false;btn.textContent="🔗 Сілтеме алу (WhatsApp-қа жіберу үшін)";
+  btn.disabled=false;btn.textContent="🔗 Дайын сілтеме алу";
 });
 
 $("copyLink").addEventListener("click",function(){
@@ -232,8 +261,13 @@ $("copyLink").addEventListener("click",function(){
 $("shareWa").addEventListener("click",function(){
   if(!lastLink)return;
   var d=data();
-  var t="Сізді "+d.name+" - "+d.kind+" тойына шақырамыз! 💌\nШақырту: "+lastLink;
+  var t="Сізді "+d.name+" - "+d.kind+" тойына шақырамыз! 💌\nШақырту: "+lastLink+"\n\nБатырмалар істемесе, сілтемені Chrome браузерде ашыңыз.";
   window.open("https://wa.me/?text="+encodeURIComponent(t),"_blank");
+});
+
+$("openLink").addEventListener("click",function(){
+  if(!lastLink)return;
+  window.open(lastLink,"_blank");
 });
 </script>
 </body>

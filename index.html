@@ -16,6 +16,7 @@ button{font:inherit;border:0;border-radius:12px;padding:14px;background:#b4530f;
 button.g{background:#fff;color:#b4530f;border:2px solid #b4530f}
 button.wa{background:#25D366;color:#fff}
 .n{font-size:13px;color:#7a6a58;margin-top:6px}
+.warn{background:#fff3cd;border:2px solid #ffaa00;border-radius:10px;padding:10px;font-size:13px;margin-top:8px;display:none}
 .linkbox{background:#fff;border:2px dashed #1a7a3a;border-radius:10px;padding:12px;word-break:break-all;font-size:13px;margin-top:10px;user-select:all}
 .ok{background:#e7f8ec;border:1px solid #a7e8b8;border-radius:12px;padding:12px;margin-top:10px}
 .th img{width:70px;height:70px;object-fit:cover;border-radius:8px;border:2px solid #4ade80;margin:2px}
@@ -65,7 +66,6 @@ button.wa{background:#25D366;color:#fff}
 .codeBox{display:none;background:#e7f8ec;border:2px solid #25D366;border-radius:12px;padding:12px;margin-top:10px}
 .adminBox{display:none;background:#111;color:#ffd700;border:2px solid #ffd700;border-radius:12px;padding:12px;margin-top:10px;font-size:13px}
 .linkCard{display:none;background:#e7f8ec;border:3px solid #1a7a3a;border-radius:14px;padding:14px;margin-top:12px}
-.linkCard b{font-size:16px}
 </style>
 </head>
 <body>
@@ -79,13 +79,7 @@ button.wa{background:#25D366;color:#fff}
 </div>
 <div style="height:14px"></div>
 <div class="offer">✅ Алдымен шақыртуыңды көріп ал, ұнаса ғана төлейсің!<small>Тәуекел жоқ. Ұнамаса - төлемейсің 💍</small></div>
-
-<div id="adminPanel" class="adminBox">
-<b>🔐 АДМИН - Тек саған көрінеді</b><br>
-<span id="codeLeft"></span><br>
-<span id="usedList" style="word-break:break-all"></span><br>
-<button onclick="copyUsed()" style="background:#ffd700;color:#000;margin-top:8px">📋 Қолданылған кодтарды көшіру</button>
-</div>
+<div id="adminPanel" class="adminBox"><b>🔐 АДМИН - Тек саған көрінеді</b><br><span id="codeLeft"></span><br><span id="usedList" style="word-break:break-all"></span><br><button onclick="copyUsed()" style="background:#ffd700;color:#000;margin-top:8px">📋 Қолданылған кодтарды көшіру</button></div>
 
 <div class="c"><h2>1. Пакет</h2>
 <div class="pk">
@@ -121,15 +115,19 @@ button.wa{background:#25D366;color:#fff}
 <label><input type="radio" name="music" value="kyzuzatu"> 💖 Қыз ұзату</label>
 <label><input type="radio" name="music" value="atameken"> 🇰🇿 Атамекен</label>
 </div>
-<label class="f">📁 Өз әніңді жүктеу (≤3 МБ)</label><input type="file" id="musicFile" accept="audio/*" onchange="onMusic(this)">
+<p class="n" style="color:#b4530f">⚠️ Өз әнің қонаққа баруы үшін оны <b>files.catbox.moe</b>-ге жүктеп, сілтемесін төменге қой. Телефоннан тікелей жүктелген ән сілтемеге сыймайды!</p>
+<label class="f">📁 Өз әніңді жүктеу (тек алдын ала тыңдау үшін)</label><input type="file" id="musicFile" accept="audio/*" onchange="onMusic(this)">
 <p class="n" id="musicStatus">Ән таңдалмаған.</p><audio id="musicPrev" controls style="width:100%;display:none"></audio>
-<label class="f">Немесе mp3 сілтемесі</label><input type="text" id="musicUrl" placeholder="https://files.catbox.moe/....mp3">
+<label class="f">✅ Қонаққа баратын ән - mp3 сілтемесі (catbox)</label><input type="text" id="musicUrl" placeholder="https://files.catbox.moe/....mp3">
+<div id="musicWarn" class="warn">⚠️ Өз әнің телефоннан жүктелді - ол қонаққа бармайды! Әнді files.catbox.moe-ге жүктеп, сілтемесін жоғарыға қой.</div>
 </div>
 
 <div class="c"><h2>📷 4. Фото <span id="photoLimit"></span></h2>
+<p class="n" style="color:#b4530f">⚠️ Фото қонаққа баруы үшін <b>files.catbox.moe</b> сілтемесін қолдан. Телефоннан жүктелген фото тек сенде ғана көрінеді, сілтемеге бармайды!</p>
 <input type="file" id="ph" accept="image/*" multiple onchange="onPhoto(this)">
 <div class="th" id="th"></div><p class="n" id="photoStatus">Фото таңдалмаған.</p>
-<label class="f">Немесе фото сілтемесі</label><input type="text" id="photoUrl" placeholder="https://files.catbox.moe/....jpg">
+<label class="f">✅ Қонаққа баратын фото - сілтемесі (catbox)</label><input type="text" id="photoUrl" placeholder="https://files.catbox.moe/....jpg">
+<div id="photoWarn" class="warn">⚠️ Фото телефоннан жүктелді - ол қонаққа бармайды! Фотоны files.catbox.moe-ге жүктеп, сілтемесін жоғарыға қой.</div>
 </div>
 
 <div class="c"><h2>5. Дайын</h2>
@@ -151,18 +149,15 @@ button.wa{background:#25D366;color:#fff}
 <div id="dw" style="display:none"><div class="ok">✅ Код қабылданды! «ҮЛГІ» алынды.</div>
 <button onclick="makeLink()" style="background:#1a7a3a">🔗 ҚЫСҚА сілтеме алу</button>
 <button class="g" onclick="downloadInvite()">⬇️ Шақыртуды жүктеп алу (HTML)</button>
-
-<!-- ТҮЗЕТІЛДІ: Сілтеме осы жерде бірден көрінеді -->
 <div id="linkArea" class="linkCard">
 <b>🎉 Сілтемең дайын!</b><br>
-<span style="font-size:13px">Осы сілтемені басқан қонаққа шақырту бірден ашылады. Сілтемені басып тұрып көшіріп ал немесе төмендегі батырмаларды бас:</span>
-<div class="linkbox" id="linkText" onclick="this.select()">Сілтеме осында шығады...</div>
-<button onclick="copyLink()" style="background:#1a7a3a">📋 Сілтемені көшіру - өзің көшіріп ал</button>
+<span style="font-size:13px">Осы сілтемені басқан қонаққа шақырту бірден ашылады.</span>
+<div class="linkbox" id="linkText">Сілтеме осында шығады...</div>
+<button onclick="copyLink()" style="background:#1a7a3a">📋 Сілтемені көшіру</button>
 <button class="wa" onclick="shareLinkWA()">📲 WhatsApp-пен бөлісу</button>
 <button class="g" onclick="previewInvite()">👀 Шақыртуды алдын ала қарау</button>
 <p class="n" id="linkNote" style="text-align:center"></p>
 </div>
-
 </div>
 </div>
 </div>
@@ -177,16 +172,7 @@ var CODES=["001-GY5N","002-GCQV","003-KVFV","004-WTWG","005-47Y7","006-BVQD","00
 var IS_ADMIN = (location.search.indexOf("admin=1")>-1) || (location.hash.indexOf("admin")>-1);
 function getUsed(){try{return JSON.parse(localStorage.getItem("usedCodes")||"[]")}catch(e){return[]}}
 function markUsed(c){var u=getUsed();if(u.indexOf(c)==-1){u.push(c);localStorage.setItem("usedCodes",JSON.stringify(u))}updateCodeLeft()}
-function updateCodeLeft(){
-  if(!IS_ADMIN) return;
-  var u=getUsed();
-  var el=document.getElementById("codeLeft");
-  if(el) el.textContent="Қалған код: "+(100-u.length)+" / 100 • Қолданылған: "+u.length;
-  var ul=document.getElementById("usedList");
-  if(ul) ul.textContent=u.length ? "Қолданылған кодтар: "+u.join(", ") : "Әлі қолданылған код жоқ";
-  var p=document.getElementById("adminPanel");
-  if(p) p.style.display="block";
-}
+function updateCodeLeft(){if(!IS_ADMIN) return;var u=getUsed();var el=document.getElementById("codeLeft");if(el) el.textContent="Қалған код: "+(100-u.length)+" / 100 • Қолданылған: "+u.length;var ul=document.getElementById("usedList");if(ul) ul.textContent=u.length ? "Қолданылған кодтар: "+u.join(", ") : "Әлі қолданылған код жоқ";var p=document.getElementById("adminPanel");if(p) p.style.display="block";}
 function copyUsed(){var u=getUsed();navigator.clipboard.writeText(u.join("\n")||"Қолданылған код жоқ");alert("Қолданылған кодтар көшірілді!")}
 var photos=[],uploadedMusic="",uploadedMusicName="",unlocked=false,lastLink="",lastData=null;
 function $(i){return document.getElementById(i)}
@@ -201,10 +187,10 @@ function pkgFeatures(p){
   return {envelope:true,music:true,video:true,dress:true,calendar:false,rsvp:false,maxPhoto:3,gallery:true,tag:"🥈 КҮМІС"};
 }
 function onPkg(){var p=getPkg(),f=pkgFeatures(p);$("musicBlock").style.display=f.music?"block":"none";$("dressBlock").style.display=f.dress?"block":"none";$("videoBlock").style.display=f.video?"block":"none";$("photoLimit").textContent="(максимум "+f.maxPhoto+")";$("pkgInfo").innerHTML="Қазір: <b>"+f.tag+"</b>";$("designNote").textContent=p==="std"?"Стандартта тек Алтын дизайны.":"Премиум / VIP — 3 дизайнның бәрі.";if(photos.length>f.maxPhoto){photos=photos.slice(0,f.maxPhoto);renderThumbs()}}
-function renderThumbs(){$("th").innerHTML=photos.map(function(u){return '<img src="'+u+'">'}).join("");$("photoStatus").textContent=photos.length?("✅ Таңдалды: "+photos.length+" фото"):"Фото таңдалмаған."}
+function renderThumbs(){$("th").innerHTML=photos.map(function(u){return '<img src="'+u+'">'}).join("");$("photoStatus").textContent=photos.length?("✅ Таңдалды: "+photos.length+" фото - АЛДЫН АЛА ҚАРАУ ҮШІН ҒАНА, сілтемеге бармайды!"):"Фото таңдалмаған.";var w=$("photoWarn");if(w) w.style.display=photos.length?"block":"none"}
 function resizeImg(file,cb){var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var m=900,k=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);cb(c.toDataURL("image/jpeg",0.75))};im.onerror=function(){cb("")};im.src=r.result};r.onerror=function(){cb("")};r.readAsDataURL(file)}
 function onPhoto(inp){var max=pkgFeatures(getPkg()).maxPhoto,files=Array.prototype.slice.call(inp.files).slice(0,max);photos=[];var left=files.length;if(!left){renderThumbs();return}files.forEach(function(f){resizeImg(f,function(u){if(u)photos.push(u);if(--left===0)renderThumbs()})})}
-function onMusic(inp){var f=inp.files[0];if(!f)return;if(f.size>3*1024*1024){$("musicStatus").textContent="⚠️ Файл 3 МБ-тан үлкен.";inp.value="";return}var r=new FileReader();r.onload=function(){uploadedMusic=r.result;uploadedMusicName=f.name;$("musicStatus").textContent="✅ "+f.name;var a=$("musicPrev");a.src=r.result;a.style.display="block"};r.readAsDataURL(f)}
+function onMusic(inp){var f=inp.files[0];if(!f)return;if(f.size>3*1024*1024){$("musicStatus").textContent="⚠️ Файл 3 МБ-тан үлкен.";inp.value="";return}var r=new FileReader();r.onload=function(){uploadedMusic=r.result;uploadedMusicName=f.name;$("musicStatus").textContent="✅ "+f.name+" - тек алдын ала тыңдау үшін!";var a=$("musicPrev");a.src=r.result;a.style.display="block";var w=$("musicWarn");if(w) w.style.display="block"};r.readAsDataURL(f)}
 function collect(){var urls=($("photoUrl").value||"").split(/[\s,]+/).filter(function(u){return /^https?:\/\//i.test(u)});return {pkg:getPkg(),design:getDesign(),name:$("name").value.trim(),kind:$("kind").value,date:$("date").value,time:$("time").value,place:$("place").value.trim(),wish:$("wish").value.trim(),wa:cleanOwnerWa($("wa").value),dress:$("dress").value.trim(),video:$("video").value.trim(),music:getMusic(),musicUrl:$("musicUrl").value.trim(),musicFile:"",musicFileName:uploadedMusicName,photos:urls.concat(photos)}}
 function build(d,showWatermark){
   var f=pkgFeatures(d.pkg||"prem");var designUse=d.pkg==="std"?"gold":(d.design||"gold");var musicUrl=f.music?(d.musicUrl||MUSICS[d.music]||""):"";var hasMusic=f.music&&!!musicUrl;var musicLabel=d.musicFileName||MUSIC_NAMES[d.music]||"Қазақша әуен";var hasVideo=f.video&&!!d.video,hasDress=f.dress&&!!d.dress,hasCal=f.calendar&&!!d.date,hasRsvp=f.rsvp;var allPhotos=(d.photos||[]).slice(0,f.maxPhoto);var ds=d.date?new Date(d.date+"T00:00:00").toLocaleDateString("kk-KZ",{day:"numeric",month:"long",year:"numeric"}):"";var maps="https://maps.google.com/?q="+encodeURIComponent(d.place||"");
@@ -213,12 +199,11 @@ function build(d,showWatermark){
   var waNo="https://wa.me/"+ownerWa+"?text="+encodeURIComponent("Сәлеметсіз бе! "+(d.name||"Той")+" тойына келе алмаймын 😔\nАты-жөнім: ");
   var wa2="https://wa.me/"+ownerWa+"?text="+encodeURIComponent("Сәлеметсіз бе! "+(d.name||"Той")+" тойына 2 адаммен келемін ✅\nАты-жөнім: ");
   var calUrl="";if(hasCal){var s=(d.date||"").replace(/-/g,"")+"T"+(d.time||"18:00").replace(":","")+"00";var e=(d.date||"").replace(/-/g,"")+"T220000";calUrl="https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(d.name+" - "+d.kind)+"&dates="+s+"/"+e+"&location="+encodeURIComponent(d.place||"")}
-  var th={gold:{bg:"#171106",card:"#fffdf7",ac:"#c9a227",ac2:"#f5d76e",btnTx:"#1a1405",grad:"linear-gradient(135deg,#f5d76e,#c9a227,#a67c00)",envBg:"radial-gradient(circle at 50% 30%, #3d2c05, #171106 70%)"},rose:{bg:"#fff5f7",card:"#ffffff",ac:"#d6336c",ac2:"#ff8fab",btnTx:"#ffffff",grad:"linear-gradient(135deg,#ff8fab,#d6336c,#a61e4d)",envBg:"linear-gradient(180deg,#fff0f3,#ffd6e0)"},emerald:{bg:"#0f2e22",card:"#fffdf7",ac:"#1a7a4d",ac2:"#d4af37",btnTx:"#ffffff",grad:"linear-gradient(135deg,#2ea36b,#0f5a35)",envBg:"radial-gradient(circle at 50% 30%, #1a5a3d, #0f2e22 70%)"}}[designUse];
-  var envTx=designUse==="rose"?"#4a2330":"#fff";
-  var photoHtml=allPhotos.length?'<div style="padding:7px;background:'+th.grad+';border-radius:20px;margin:12px 0"><img src="'+esc(allPhotos[0])+'" style="width:100%;display:block;border-radius:14px;aspect-ratio:4/3;object-fit:cover"></div>':'';
-  var other=f.gallery?allPhotos.slice(1).map(function(u){return '<img src="'+esc(u)+'" style="width:100%;border-radius:14px;margin:6px 0">'}).join(""):"";
+  var th={gold:{bg:"linear-gradient(180deg,#2b1d05,#171106)",card:"#fffdf7",ac:"#c9a227",ac2:"#f5d76e",btnTx:"#1a1405",grad:"linear-gradient(135deg,#f5d76e,#c9a227,#a67c00)",envBg:"linear-gradient(180deg,#ffd6e0,#fff0f3)",envTx:"#5a2330"},rose:{bg:"linear-gradient(180deg,#ffd6e0,#fff0f3)",card:"#ffffff",ac:"#d6336c",ac2:"#ff8fab",btnTx:"#ffffff",grad:"linear-gradient(135deg,#ff8fab,#d6336c,#a61e4d)",envBg:"linear-gradient(180deg,#ffd6e0,#fff0f3)",envTx:"#5a2330"},emerald:{bg:"linear-gradient(180deg,#0f2e22,#0a1f17)",card:"#fffdf7",ac:"#1a7a4d",ac2:"#d4af37",btnTx:"#ffffff",grad:"linear-gradient(135deg,#2ea36b,#0f5a35)",envBg:"linear-gradient(180deg,#d4f5e0,#fff0f3)",envTx:"#123324"}}[designUse];
+  var photoHtml=allPhotos.length?'<div style="padding:7px;background:'+th.grad+';border-radius:20px;margin:12px 0;box-shadow:0 8px 20px rgba(0,0,0,.2)"><img src="'+esc(allPhotos[0])+'" style="width:100%;display:block;border-radius:14px;aspect-ratio:4/3;object-fit:cover"></div>':'<div style="background:#fff0f3;border:2px dashed #ff8fab;border-radius:16px;padding:18px;margin:12px 0;font-size:14px;color:#888">🖼️ Фото осында болады<br><span style="font-size:12px">Фотоны catbox сілтемесімен қойсаң - қонаққа көрінеді</span></div>';
+  var other=f.gallery?allPhotos.slice(1).map(function(u){return '<img src="'+esc(u)+'" style="width:100%;border-radius:14px;margin:6px 0;box-shadow:0 4px 12px rgba(0,0,0,.15)">'}).join(""):"";
   var btn='display:block;padding:14px;border-radius:14px;background:#fff;border:2px solid #b4530f;color:#b4530f;text-decoration:none;margin:10px 0;font-family:system-ui,sans-serif;font-weight:700';
-  var musicHtml=hasMusic?'<audio id="mus" loop><source src="'+esc(musicUrl)+'"></audio><button style="width:100%;padding:12px;border:1px solid #b4530f;background:#fff;color:#b4530f;border-radius:12px;font-weight:700;cursor:pointer;margin:8px 0" onclick="var a=document.getElementById(\'mus\');if(a.paused){a.play();this.textContent=\'🔊 Ойнап тұр — өшіру\'}else{a.pause();this.textContent=\'🎵 Қосу\'}">🎵 '+esc(musicLabel)+' — Қосу</button>':"";
+  var musicHtml=hasMusic?'<audio id="mus" loop><source src="'+esc(musicUrl)+'"></audio><button style="width:100%;padding:13px;border:2px solid #d6336c;background:linear-gradient(135deg,#fff0f3,#ffd6e0);color:#a61e4d;border-radius:14px;font-weight:800;cursor:pointer;margin:8px 0;font-size:15px" onclick="var a=document.getElementById(\'mus\');if(a.paused){a.play();this.textContent=\'🔊 🎵 Ойнап тұр — өшіру\'}else{a.pause();this.textContent=\'🎵 '+esc(musicLabel)+' — Қосу\'}">🎵 '+esc(musicLabel)+' — Қосу 🎵</button>':'';
   var videoHtml=hasVideo?'<a style="'+btn+'" target="_blank" href="'+esc(d.video)+'">▶️ Видеоны көру</a>':"";
   var dressHtml=hasDress?'<div style="background:#fff0f3;border:1px solid #e6c84a;border-radius:12px;padding:10px;margin:12px 0;font-family:system-ui,sans-serif;font-size:14px">👔 <b>Дресс-код:</b> '+esc(d.dress)+'</div>':"";
   var calHtml=hasCal?'<a style="'+btn+'" target="_blank" href="'+esc(calUrl)+'">📅 Календарға қосу</a>':"";
@@ -226,10 +211,11 @@ function build(d,showWatermark){
   var rsvpHtml=hasRsvp?'<div style="background:#f0f7ff;border:1px solid #bcd3ff;border-radius:14px;padding:12px;margin:12px 0;font-family:system-ui,sans-serif"><b>👥 Сіз неше адаммен келесіз?</b><div style="display:flex;gap:6px;margin-top:8px"><a style="'+rb+'" target="_blank" href="'+esc(wa2)+'">2 адам</a><a style="'+rb+'" target="_blank" href="'+esc(waYes)+'">1 адам</a><a style="'+rb+'" target="_blank" href="'+esc(waNo)+'">Келе алмаймын</a></div></div>':"";
   var target=d.date?d.date+"T"+(d.time||"00:00")+":00":"";
   var watermark=showWatermark?'<div style="position:fixed;top:10px;right:10px;z-index:99;background:#ff0000;color:#fff;font:800 13px system-ui,sans-serif;padding:6px 12px;border-radius:20px;transform:rotate(5deg)">ҮЛГІ</div>':'';
-  var css='body{margin:0;background:'+th.bg+';font:17px/1.6 Georgia,serif;text-align:center}.w{max-width:480px;margin:0 auto;padding:20px 14px}.card{background:'+th.card+';border-radius:26px;padding:26px 18px;border:2px solid '+th.ac2+';color:#2b1d05}.t{display:flex;gap:8px;justify-content:center;margin:14px 0}.t div{flex:1;padding:10px 4px;border-radius:14px;background:#fff;border:1px solid '+th.ac2+'}.t b{display:block;font-size:24px;color:'+th.ac+'}.t span{font-size:11px;color:#888}.b{display:block;padding:14px;border-radius:14px;background:'+th.grad+';color:'+th.btnTx+';text-decoration:none;margin:10px 0;font-family:system-ui,sans-serif;font-weight:700}.b.o{background:#fff;border:2px solid '+th.ac+';color:'+th.ac+'}#e{position:fixed;inset:0;background:'+th.envBg+';z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;color:'+envTx+'}#e.x{display:none}#e button{border:0;padding:16px 40px;border-radius:100px;background:'+th.grad+';color:'+th.btnTx+';font-weight:700;font-size:18px;cursor:pointer}';
-  var env=f.envelope?'<div id="e"><div style="font-size:100px">💌</div><h2>Сізге шақырту келді</h2><div style="color:'+th.ac2+';font-size:20px;font-weight:700;margin:8px 0 18px">'+esc(d.name)+' • '+esc(d.kind)+'</div><button onclick="document.getElementById(\'e\').className=\'x\'">✉️ Ашу</button></div>':'';
+  var css='body{margin:0;background:'+th.bg+';font:17px/1.6 Georgia,serif;text-align:center}.w{max-width:480px;margin:0 auto;padding:20px 14px}.card{background:'+th.card+';border-radius:26px;padding:26px 18px;border:2px solid '+th.ac2+';color:#2b1d05;box-shadow:0 10px 30px rgba(0,0,0,.25)}.t{display:flex;gap:8px;justify-content:center;margin:14px 0}.t div{flex:1;padding:10px 4px;border-radius:14px;background:#fff;border:1px solid '+th.ac2+'}.t b{display:block;font-size:24px;color:'+th.ac+'}.t span{font-size:11px;color:#888}.b{display:block;padding:14px;border-radius:14px;background:'+th.grad+';color:'+th.btnTx+';text-decoration:none;margin:10px 0;font-family:system-ui,sans-serif;font-weight:700}.b.o{background:#fff;border:2px solid '+th.ac+';color:'+th.ac+'}.dove{font-size:70px;display:block;animation:doveFly 3s ease-in-out infinite}@keyframes doveFly{0%{transform:translate(-20px,-10px) rotate(-5deg)}50%{transform:translate(20px,5px) rotate(5deg)}100%{transform:translate(-20px,-10px) rotate(-5deg)}}.hearts{font-size:20px;animation:heartFall 2s ease-in-out infinite}@keyframes heartFall{0%,100%{opacity:.5;transform:translateY(0)}50%{opacity:1;transform:translateY(5px)}}#e{position:fixed;inset:0;background:'+th.envBg+';z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;color:'+th.envTx+';padding:20px}#e.x{display:none}#e button{border:0;padding:16px 40px;border-radius:100px;background:'+th.grad+';color:'+th.btnTx+';font-weight:700;font-size:18px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.25)}';
+  // ӘДЕМІ КОНВЕРТ - КӨГЕРШІН АЛЫП КЕЛЕДІ
+  var env=f.envelope?'<div id="e"><span class="dove">🕊️</span><div style="font-size:14px;letter-spacing:2px">АҚ КӨГЕРШІН СІЗГЕ ХАТ ӘКЕЛДІ</div><div style="font-size:90px;margin:6px 0">💌</div><div class="hearts">💖 💗 💓 💖 💗</div><h2 style="margin:8px 0;font-size:26px">Сізге шақырту келді</h2><div style="color:'+th.ac+';font-size:21px;font-weight:700;margin:4px 0 6px">'+esc(d.name)+' • '+esc(d.kind)+'</div><p style="font-size:13px;opacity:.8;margin:0 0 16px">Көгершін алып келген қуанышты хабар 💌</p><button onclick="document.getElementById(\'e\').className=\'x\'">✉️ Ашу — Конвертті ашу</button><p style="font-size:12px;margin-top:14px;opacity:.7">🕊️ Махаббат пен амандық тілейміз</p></div>':'';
   var timer=target?'<div class="t"><div><b id="dd">--</b><span>күн</span></div><div><b id="hh">--</b><span>сағат</span></div><div><b id="mm">--</b><span>мин</span></div><div><b id="ss">--</b><span>сек</span></div></div><script>var T=new Date("'+target+'").getTime();setInterval(function(){var s=Math.max(0,Math.floor((T-Date.now())/1000));document.getElementById("dd").textContent=Math.floor(s/86400);document.getElementById("hh").textContent=Math.floor(s%86400/3600);document.getElementById("mm").textContent=Math.floor(s%3600/60);document.getElementById("ss").textContent=s%60},1000);<\/script>':"";
-  var html='<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(d.name)+' - '+esc(d.kind)+'</title><style>'+css+'</style></head><body>'+watermark+env+'<div class="w"><div class="card"><p style="color:#888;margin:0">'+esc(d.kind)+'</p><h1 style="font-size:32px;margin:10px 0">'+esc(d.name)+'</h1>'+photoHtml+other+'<p style="font-size:20px;font-weight:700;color:'+th.ac+'">'+esc(ds)+' • '+(d.time||"")+'</p><p>'+esc(d.place)+'</p><p style="margin:14px 0">'+esc(d.wish)+'</p>'+timer+musicHtml+videoHtml+dressHtml+calHtml+rsvpHtml+'<a class="b" target="_blank" href="'+esc(maps)+'">📍 Картадан қарау</a><a class="b o" target="_blank" href="'+esc(waYes)+'">✅ Келемін - Той иесіне жазу</a></div></div></body></html>';
+  var html='<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(d.name)+' - '+esc(d.kind)+'</title><style>'+css+'</style></head><body>'+watermark+env+'<div class="w"><div class="card"><div style="font-size:28px">🕊️ 💖</div><p style="color:#888;margin:4px 0">'+esc(d.kind)+'</p><h1 style="font-size:32px;margin:10px 0">'+esc(d.name)+'</h1>'+photoHtml+other+'<p style="font-size:20px;font-weight:700;color:'+th.ac+'">'+esc(ds)+' • '+(d.time||"")+'</p><p>'+esc(d.place)+'</p><p style="margin:14px 0">'+esc(d.wish)+'</p>'+timer+musicHtml+videoHtml+dressHtml+calHtml+rsvpHtml+'<a class="b" target="_blank" href="'+esc(maps)+'">📍 Картадан қарау</a><a class="b o" target="_blank" href="'+esc(waYes)+'">✅ Келемін - Той иесіне жазу</a><p style="font-size:12px;color:#aaa;margin-top:12px">🕊️ Қуанышымызды бөліскеніңізге рахмет!</p></div></div></body></html>';
   return html;
 }
 function openViewer(html,guest){var v=$("viewer");v.classList.toggle("guest",!!guest);v.classList.add("show");var f=$("viewerFrame");f.srcdoc=html;if(guest){$("viewerTop").style.display="none"}else{$("viewerTop").style.display="flex"}}
@@ -242,34 +228,21 @@ function askCode(){$("codeMsg").style.display="block";var d=lastData||collect();
 function sendCodeRequest(){var d=lastData||collect();var txt="Сәлеметсіз бе! Тойға Ерекше Шақырту үшін төледім ✅\nАты: "+(d.name||"")+"\nТой: "+(d.kind||"")+" "+(d.date||"")+"\nПакет: "+(d.pkg||"")+" - "+PRICE[d.pkg]+" тг\nЧекті жібердім, маған КОД жіберші 🙏";window.open("https://wa.me/"+SELLER+"?text="+encodeURIComponent(txt),"_blank")}
 function checkCode(){var v=($("code").value||"").trim().toUpperCase();if(CODES.indexOf(v)==-1){alert("❌ Код қате. WhatsApp-тан алған кодты дәл көшіріп жаз.");return}if(getUsed().indexOf(v)>-1){alert("❌ Бұл код бұрын қолданылған!\nБұл кодпен бір рет қана шақырту жасалады. Жаңа код сұраңыз.");return}markUsed(v);unlocked=true;$("dw").style.display="block";$("cd").style.display="none";alert("✅ Код қабылданды!\nБұл код енді жарамсыз - бір рет қолданылды.\nЕнді сілтеме ала аласың.")}
 function previewInvite(){var d=lastData||collect();var html=build(d,false);openViewer(html,true)}
-// ТҮЗЕТІЛДІ: Сілтеме бірден көрінеді, шақырту жауып тастамайды
 function makeLink(){
   var d=lastData||collect();
+  var urlPhotos=d.photos.filter(function(u){return u.indexOf("http")==0});
+  if(d.photos.length>urlPhotos.length){ alert("⚠️ Назар аудар!\nФото телефоннан жүктелген - ол сілтемеге БАРМАЙДЫ!\nФотоны files.catbox.moe-ге жүктеп, сілтемесін «Фото сілтемесі» деген жерге қой, сосын қайта «Сілтеме алу» бас."); }
+  if(uploadedMusic && !d.musicUrl){ alert("⚠️ Назар аудар!\nӘн телефоннан жүктелген - ол сілтемеге БАРМАЙДЫ!\nӘнді files.catbox.moe-ге жүктеп, сілтемесін «mp3 сілтемесі» деген жерге қой."); }
   try{
-    var clean={pkg:d.pkg,design:d.design,name:d.name,kind:d.kind,date:d.date,time:d.time,place:d.place,wish:d.wish,wa:d.wa,dress:d.dress,video:d.video,music:d.music,musicUrl:d.musicUrl,photos:d.photos.filter(function(u){return u.indexOf("http")==0})};
+    var clean={pkg:d.pkg,design:d.design,name:d.name,kind:d.kind,date:d.date,time:d.time,place:d.place,wish:d.wish,wa:d.wa,dress:d.dress,video:d.video,music:d.music,musicUrl:d.musicUrl,photos:urlPhotos};
     var code=btoa(unescape(encodeURIComponent(JSON.stringify(clean))));
     var base=location.href.split("#")[0].split("?")[0];
     lastLink=base+"#i="+code;
   }catch(e){ lastLink=location.href; }
-  var area=$("linkArea");
-  area.style.display="block";
-  $("linkText").textContent=lastLink;
-  $("linkNote").textContent="✅ Сілтеме дайын! Жоғарыдағы сілтемені басып тұрып көшіріп ал немесе төмендегі батырманы бас.";
-  area.scrollIntoView({behavior:"smooth",block:"center"});
-  alert("✅ Сілтеме дайын! Төменде жасыл қорапта тұр - көшіріп ал!");
+  var area=$("linkArea");area.style.display="block";$("linkText").textContent=lastLink;$("linkNote").textContent="✅ Сілтеме дайын! Жоғарыдағы сілтемені басып тұрып көшіріп ал немесе төмендегі батырманы бас.";area.scrollIntoView({behavior:"smooth",block:"center"});alert("✅ Сілтеме дайын! Төменде жасыл қорапта тұр - көшіріп ал!");
 }
-function copyLink(){
-  if(!lastLink){alert("Алдымен «ҚЫСҚА сілтеме алу» батырмасын бас");return}
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(lastLink).then(function(){alert("✅ Сілтеме көшірілді! Енді қонақтарға жібер.");}).catch(function(){prompt("Сілтемені көшіріп ал (ұстап тұрып көшір):",lastLink)});
-  } else { prompt("Сілтемені көшіріп ал:",lastLink); }
-}
-function shareLinkWA(){
-  if(!lastLink){alert("Алдымен «ҚЫСҚА сілтеме алу» батырмасын бас");return}
-  var d=lastData||collect();
-  var txt="💌 Сізге шақырту келді!\n"+(d.name||"")+" • "+(d.kind||"")+"\n📅 "+(d.date||"")+" "+(d.time||"")+"\n📍 "+(d.place||"")+"\n👇 Шақыртуды ашу үшін басыңыз:\n"+lastLink;
-  window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank");
-}
+function copyLink(){if(!lastLink){alert("Алдымен «ҚЫСҚА сілтеме алу» батырмасын бас");return}if(navigator.clipboard && navigator.clipboard.writeText){navigator.clipboard.writeText(lastLink).then(function(){alert("✅ Сілтеме көшірілді! Енді қонақтарға жібер.")}).catch(function(){prompt("Сілтемені көшіріп ал:",lastLink)})}else{prompt("Сілтемені көшіріп ал:",lastLink)}}
+function shareLinkWA(){if(!lastLink){alert("Алдымен «ҚЫСҚА сілтеме алу» батырмасын бас");return}var d=lastData||collect();var txt="💌 Сізге шақырту келді!\n"+(d.name||"")+" • "+(d.kind||"")+"\n📅 "+(d.date||"")+" "+(d.time||"")+"\n📍 "+(d.place||"")+"\n👇 Шақыртуды ашу үшін басыңыз:\n"+lastLink;window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank")}
 function downloadInvite(){var d=lastData||collect();var html=build(d,false);var blob=new Blob([html],{type:"text/html"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="shaqyrtu.html";a.click()}
 function checkGuestLink(){var h=location.hash||"";if(h.indexOf("#i=")==0){try{var data=JSON.parse(decodeURIComponent(escape(atob(h.substring(3)))));var html=build(data,false);openViewer(html,true);$("mainForm").style.display="none"}catch(e){}}}
 onPkg();updateCodeLeft();checkGuestLink();

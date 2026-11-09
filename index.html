@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Той шақыртуы – v14 батырма жөнделді</title>
+<title>Той шақыртуы – v15 пакеттер ажыратылды</title>
 <style>
 *{box-sizing:border-box} body{margin:0;background:#faf6ef;color:#2a2118;font:16px/1.5 system-ui,sans-serif}
 .w{max-width:560px;margin:0 auto;padding:16px}
@@ -21,24 +21,28 @@ iframe{width:100%;height:620px;border:1px solid #e6dccb;border-radius:14px;backg
 .th img{width:70px;height:70px;object-fit:cover;border-radius:8px;border:2px solid #4ade80;margin:2px}
 .pk label{display:block;border:2px solid #e6dccb;border-radius:12px;padding:10px;cursor:pointer;margin-bottom:8px}
 .pk input{display:none} .pk label:has(input:checked){border-color:#b4530f;background:#fff7ed}
+.pk ul{margin:6px 0 0;padding-left:16px;color:#7a6a58;font-size:13px} .pk li.no{opacity:.45;text-decoration:line-through}
 .musics label{display:flex;gap:8px;align-items:center;border:1px solid #e6dccb;border-radius:10px;padding:9px;cursor:pointer;margin-bottom:6px}
 .musics label:has(input:checked){border-color:#b4530f;background:#fff7ed}
 #viewer{position:fixed;inset:0;z-index:999;background:#fff;display:none}
 #viewer iframe{width:100%;height:100%;border:0}
+.locked{opacity:.4;pointer-events:none;filter:grayscale(1)} .lockNote{font-size:12px;color:#b4530f;font-weight:700;margin-top:6px}
 </style>
 </head>
 <body>
 <div id="viewer"></div>
 <div class="w" id="mainForm">
-<h1>👑 Той шақыртуы — v14</h1>
-<p class="n">Батырма енді тікелей істейді.</p>
+<h1>👑 Той шақыртуы — v15</h1>
+<p class="n">Пакетті ауыстырсаңыз — қызметтер де ауысады.</p>
 
-<div class="c"><h2>1. Пакет</h2>
+<div class="c"><h2>1. Пакет — таңдаңыз</h2>
 <div class="pk">
-<label><input type="radio" name="pk" value="std"> Стандарт — 3000 тг</label>
-<label><input type="radio" name="pk" value="prem" checked> Премиум — 5000 тг ✅</label>
-<label><input type="radio" name="pk" value="vip"> VIP — 10000 тг 👑</label>
-</div></div>
+<label><input type="radio" name="pk" value="std" onchange="onPkg()"> <b>Стандарт — 3000 тг</b><ul><li>✅ Фото 1</li><li>✅ Мәлімет, карта, таймер</li><li class="no">❌ Конверт, Музыка, Видео</li><li class="no">❌ Дресс-код, Галерея, Календар</li></ul></label>
+<label><input type="radio" name="pk" value="prem" checked onchange="onPkg()"> <b>Премиум — 5000 тг ✅ ТАҢДАУЛЫ</b><ul><li>✅ Фото 3 + Галерея</li><li>✅ 💌 Конверт + 🎵 Музыка + 🎥 Видео</li><li>✅ 👔 Дресс-код</li><li class="no">❌ Календар, Қонақ саны (тек VIP)</li></ul></label>
+<label><input type="radio" name="pk" value="vip" onchange="onPkg()"> <b>VIP Luxury — 10000 тг 👑</b><ul><li>✅ Фото 4 + Галерея + GOLD</li><li>✅ Барлығы (Конверт, Музыка, Видео, Дресс-код)</li><li>✅ 📅 Календар + 👥 Қонақ саны</li></ul></label>
+</div>
+<p class="n" id="pkgInfo">Қазір: <b>Премиум</b> — Конверт + Музыка + Видео бар.</p>
+</div>
 
 <div class="c"><h2>2. Той мәліметі</h2>
 <label class="f">Аты</label><input type="text" id="name" value="Алихан, 3 жас">
@@ -47,9 +51,11 @@ iframe{width:100%;height:620px;border:1px solid #e6dccb;border-radius:14px;backg
 <label class="f">Тойхана</label><input type="text" id="place" value="Көкшетау, Думан тойханасы">
 <label class="f">Тілек</label><textarea id="wish">Құрметті қонақтар! Қуанышымызды бөлісіп, тойымыздың қадірлі қонағы болыңыздар!</textarea>
 <label class="f">WhatsApp</label><input type="tel" id="wa" placeholder="77012345678">
+<div id="dressBlock"><label class="f">👔 Дресс-код (Премиум / VIP)</label><input type="text" id="dress" placeholder="Мысалы: Қара + алтын"></div>
+<div id="videoBlock"><label class="f">🎥 Видео сілтемесі (Премиум / VIP)</label><input type="text" id="video" placeholder="https://youtube.com/watch?v=..."></div>
 </div>
 
-<div class="c"><h2>🎵 3. Қазақша әуен</h2>
+<div class="c" id="musicBlock"><h2>🎵 3. Қазақша әуен (Премиум / VIP)</h2>
 <div class="musics">
 <label><input type="radio" name="music" value="toy" checked> 🎉 Той жыры</label>
 <label><input type="radio" name="music" value="dombra"> 🪕 Домбыра күйі</label>
@@ -65,7 +71,7 @@ iframe{width:100%;height:620px;border:1px solid #e6dccb;border-radius:14px;backg
 <input type="text" id="musicUrl" placeholder="https://files.catbox.moe/....mp3">
 </div>
 
-<div class="c"><h2>📷 4. Фото</h2>
+<div class="c"><h2>📷 4. Фото <span id="photoLimit" style="font-size:12px;color:#b4530f">(максимум 3)</span></h2>
 <input type="file" id="ph" accept="image/*" multiple onchange="onPhoto(this)">
 <div class="th" id="th"></div>
 <p class="n" id="photoStatus">Фото таңдалмаған.</p>
@@ -74,8 +80,7 @@ iframe{width:100%;height:620px;border:1px solid #e6dccb;border-radius:14px;backg
 </div>
 
 <div class="c"><h2>5. Дайын</h2>
-<!-- МІНЕ ОСЫ ЖЕР ТҮЗЕТІЛДІ: onclick тікелей -->
-<button onclick="makeInvite()">👑 Шақыртуды жасау — БАСЫҢЫЗ</button>
+<button onclick="makeInvite()">👑 Шақыртуды жасау</button>
 <p class="n" id="debug" style="color:red"></p>
 <iframe id="pv" style="display:none;margin-top:12px"></iframe>
 <div id="act" style="display:none">
@@ -90,7 +95,6 @@ iframe{width:100%;height:620px;border:1px solid #e6dccb;border-radius:14px;backg
 </div>
 
 <script>
-// Барлық функциялар window-да, сондықтан батырма әрқашан істейді
 var SELLER="77082418836";
 var CODES=["001-GY5N","002-GCQV","003-KVFV","004-WTWG","005-47Y7"];
 var PRICE={std:3000,prem:5000,vip:10000};
@@ -101,22 +105,57 @@ function $(i){return document.getElementById(i)}
 function esc(s){return String(s||"").replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function getPkg(){var e=document.querySelector('input[name=pk]:checked');return e?e.value:"prem"}
 function getMusic(){var e=document.querySelector('input[name=music]:checked');return e?e.value:"toy"}
+// ПАКЕТ БОЙЫНША ҚЫЗМЕТТЕР — ОСЫ ЖЕРДЕ АЖЫРАТЫЛАДЫ
+function pkgFeatures(p){
+  if(p==="std") return {envelope:false, music:false, video:false, dress:false, calendar:false, rsvp:false, maxPhoto:1, gallery:false, tag:"СТАНДАРТ", gold:false};
+  if(p==="vip") return {envelope:true, music:true, video:true, dress:true, calendar:true, rsvp:true, maxPhoto:4, gallery:true, tag:"👑 VIP LUXURY", gold:true};
+  return {envelope:true, music:true, video:true, dress:true, calendar:false, rsvp:false, maxPhoto:3, gallery:true, tag:"✨ ПРЕМИУМ", gold:false};
+}
+function onPkg(){
+  var p=getPkg(), f=pkgFeatures(p);
+  // Формада да жасыру — Стандарт болса музыка/видео/дресс-код жабылады
+  $("musicBlock").style.display = f.music ? "block" : "none";
+  $("dressBlock").style.display = f.dress ? "block" : "none";
+  $("videoBlock").style.display = f.video ? "block" : "none";
+  $("photoLimit").textContent = "(максимум "+f.maxPhoto+")";
+  $("pkgInfo").innerHTML = "Қазір: <b>"+f.tag+"</b> — " + (p==="std" ? "Конверт, Музыка, Видео ЖОҚ. Тек фото 1 + мәлімет." : p==="prem" ? "Конверт + Музыка + Видео + Фото 3 + Дресс-код бар." : "Барлығы + Календар + Қонақ саны + Фото 4 бар.");
+  // Егер стандартқа ауысса — артық фотоларды кесу
+  if(photos.length>f.maxPhoto){ photos=photos.slice(0,f.maxPhoto); $("th").innerHTML=""; photos.forEach(function(u){var t=new Image();t.src=u;$("th").appendChild(t)}); $("photoStatus").textContent="✅ Фото: "+photos.length+" дана (пакетке сай)"; }
+}
 
 function build(d){
-  var isStd=d.pkg==="std", isVip=d.pkg==="vip", env=!isStd;
-  var musicUrl=d.musicFile||d.musicUrl||MUSICS[d.music]||"";
-  var hasMusic=!isStd&&!!musicUrl;
+  var f=pkgFeatures(d.pkg);
+  var isStd=d.pkg==="std";
+  // Музыка тек Премиум/VIP-те
+  var musicUrl = f.music ? (d.musicFile||d.musicUrl||MUSICS[d.music]||"") : "";
+  var hasMusic = f.music && !!musicUrl;
   var musicLabel=d.musicFileName||MUSIC_NAMES[d.music]||"Қазақша әуен";
+  // Видео тек Премиум/VIP-те
+  var hasVideo = f.video && !!d.video;
+  // Дресс-код тек Премиум/VIP-те
+  var hasDress = f.dress && !!d.dress;
+  // Календар тек VIP-те
+  var hasCal = f.calendar && !!d.date;
+  // Қонақ саны тек VIP-те
+  var hasRsvp = f.rsvp;
+  // Фото саны пакетке сай
+  var allPhotos=(d.photos||[]).slice(0,f.maxPhoto);
   var ds=d.date?new Date(d.date+"T00:00:00").toLocaleDateString("kk-KZ",{day:"numeric",month:"long",year:"numeric"}):"";
   var maps="https://maps.google.com/?q="+encodeURIComponent(d.place||"");
   var wa="https://api.whatsapp.com/send?phone="+(d.wa||"").replace(/\D/g,"")+"&text="+encodeURIComponent("Сәлеметсіз бе! Тойға келемін ✅ ");
-  var allPhotos=d.photos||[];
+  var wa2="https://api.whatsapp.com/send?phone="+(d.wa||"").replace(/\D/g,"")+"&text="+encodeURIComponent("Сәлеметсіз бе! Тойға келе алмаймын 😔 ");
+  var calUrl="";
+  if(hasCal){
+    var start=(d.date||"").replace(/-/g,"")+"T"+(d.time||"18:00").replace(":","")+"00";
+    var end=(d.date||"").replace(/-/g,"")+"T220000";
+    calUrl="https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(d.name+" - "+d.kind)+"&dates="+start+"/"+end+"&location="+encodeURIComponent(d.place||"");
+  }
   var photoHtml=allPhotos.length?'<div style="padding:7px;background:linear-gradient(135deg,#f5d76e,#c9a227);border-radius:20px;margin:12px 0"><img src="'+esc(allPhotos[0])+'" style="width:100%;display:block;border-radius:14px;aspect-ratio:4/3;object-fit:cover"></div>':'<div style="background:#fee2e2;padding:14px;border-radius:12px;margin:12px 0;font-family:system-ui,sans-serif;font-size:14px">📷 Фото таңдалмаған</div>';
-  var other=allPhotos.slice(1).map(function(u){return '<img src="'+esc(u)+'" style="width:100%;border-radius:14px;margin:6px 0">'}).join("");
+  // Галерея тек Премиум/VIP-те, Стандартта тек 1 фото
+  var other = f.gallery ? allPhotos.slice(1).map(function(u){return '<img src="'+esc(u)+'" style="width:100%;border-radius:14px;margin:6px 0">'}).join("") : "";
   var musicHtml=hasMusic?'<audio id="mus" loop><source src="'+esc(musicUrl)+'"></audio><div style="font-size:12px;color:#888">🎵 '+esc(musicLabel)+'</div><button style="width:100%;padding:12px;border:1px solid #b4530f;background:#fff;color:#b4530f;border-radius:12px;font-weight:700;cursor:pointer;margin:8px 0" onclick="var a=document.getElementById(\'mus\');if(a.paused){a.play();this.textContent=\'🔊 Ойнап тұр — өшіру\'}else{a.pause();this.textContent=\'🎵 Қосу\'}">🎵 '+esc(musicLabel)+' — Қосу</button>':"";
-  var target=d.date?d.date+"T"+(d.time||"00:00")+":00":"";
-  return '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;background:#1a1405;font:17px/1.6 Georgia,serif;text-align:center}.w{max-width:480px;margin:0 auto;padding:20px 14px}.card{background:#fffdf7;border-radius:26px;padding:26px 18px;border:2px solid #e6c84a}.t{display:flex;gap:8px;justify-content:center;margin:14px 0}.t div{flex:1;padding:10px 4px;border-radius:14px;background:#fff;border:1px solid #e6c84a}.t b{display:block;font-size:24px;color:#b4530f}.t span{font-size:11px;color:#888}.b{display:block;padding:14px;border-radius:14px;background:linear-gradient(135deg,#f5d76e,#c9a227);color:#1a1405;text-decoration:none;margin:10px 0;font-family:system-ui,sans-serif;font-weight:700}.b.o{background:#fff;border:2px solid #b4530f;color:#b4530f}#e{position:fixed;inset:0;background:radial-gradient(circle at 50% 30%,#3d2c05,#171106 70%);z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff}#e.x{display:none}#e button{border:0;padding:16px 40px;border-radius:100px;background:linear-gradient(135deg,#f5d76e,#c9a227);font-weight:700;font-size:18px;cursor:pointer}</style></head><body>'
-  +(env?'<div id="e"><div style="font-size:100px">💌</div><h2>Сізге шақырту келді</h2><div style="color:#f5d76e;font-size:20px;font-weight:700;margin:8px 0 18px">'+esc(d.name)+' • '+esc(d.kind)+'</div><button onclick="document.getElementById(\'e\').className=\'x\';var a=document.getElementById(\'mus\');if(a)a.play().catch(function(){})">✉️ Ашу</button><p style="font-size:12px;opacity:.7;margin-top:12px">🎵 '+esc(musicLabel)+'</p></div>':'')
-  +'<div class="w"><div class="card"><div style="color:#b4530f;letter-spacing:3px;font-size:12px;font-weight:700">'+esc(d.kind)+'</div><h1 style="font-size:34px;margin:8px 0">'+esc(d.name)+'</h1><div style="color:#777;font-size:14px">Құрметті қонақтар, сіздерді тойымызға шақырамыз!</div>'+photoHtml+'<div style="font-style:italic;color:#555;white-space:pre-line">“'+esc(d.wish)+'”</div>'
-  +(target?'<div class="t" id="t"></div>':'')
-  +'<div style="background:#fdf6d8;border:1px dashed #b4530f;border-radius:14px;padding:12px;margin:14px 0;font-family:
+  var videoHtml=hasVideo?'<a style="display:block;padding:14px;border-radius:14px;background:#fff;border:2px solid #b4530f;color:#b4530f;text-decoration:none;margin:10px 0;font-family:system-ui,sans-serif;font-weight:700" target="_blank" href="'+esc(d.video)+'">▶️ Видеоны көру</a>':"";
+  var dressHtml=hasDress?'<div style="background:#fff0f3;border:1px solid #e6c84a;border-radius:12px;padding:10px;margin:12px 0;font-family:system-ui,sans-serif;font-size:14px">👔 <b>Дресс-код:</b> '+esc(d.dress)+'</div>':"";
+  var calHtml=hasCal?'<a style="display:block;padding:14px;border-radius:14px;background:#fff;border:2px solid #b4530f;color:#b4530f;text-decoration:none;margin:10px 0;font-family:system-ui,sans-serif;font-weight:700" target="_blank" href="'+calUrl+'">📅 Календарға қосу (VIP)</a>':"";
+  var rsvpHtml=hasRsvp?'<div style="background:#f0f7ff;border:1px solid #bcd3ff;border-radius:14px;padding:12px;margin:12px 0;font-family:system-ui,sans-serif"><b>👥 Сіз неше адаммен келесіз? (VIP)</b><div style="display:flex;gap:6px;margin-top:8px"><a style="flex:1;background:#fff;border:1px solid #bcd3ff;border-radius:10px;padding:10px 4px;text-decoration:none;color:#1a3a6a;font-size:13px;font-weight:600;text-align:center" target="_blank" href="'+wa+'">2 адам</a><a style="flex:1;background:#fff;border:1px solid #bcd3ff;border-radius:10px;padding:10px 4px;text-decoration:none;color:#1a3a6a;font-size:13px;font-weight:600;text-align:center" target="_blank" href="'+wa+'">1 адам</a><a style="flex:1;background:#fff;border:1px solid #bcd3ff;border-radius:10px;padding:10px 4px;text-decoration:none;color:#1a3a6a;font-size:13px;font-weight:600;text-align:center" target="_blank" href="'+wa2+'">Келе алмаймын</a></div></div>':"";
+  var target=d.date?d.date+"T"+(d.time

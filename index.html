@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Той шақыртуы – v22</title>
+<title>Той шақыртуы – v23</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#faf6ef;color:#2a2118;font:16px/1.5 system-ui,sans-serif}
@@ -47,21 +47,20 @@ button.g{background:#fff;color:#b4530f;border:2px solid #b4530f}
 <body>
 
 <div id="viewer">
-<div id="viewerTop">
-<button class="closeBtn" onclick="closeViewer()">⬅️ Артқа</button>
-<button onclick="goToPay()">💳 Төлемге өту</button>
-</div>
-<iframe id="viewerFrame"></iframe>
+  <div id="viewerTop">
+    <button class="closeBtn" onclick="closeViewer()">⬅️ Артқа</button>
+    <button onclick="goToPay()">💳 Төлемге өту</button>
+  </div>
+  <iframe id="viewerFrame"></iframe>
 </div>
 
 <div class="w" id="mainForm">
-<h1>👑 Той шақыртуы — v22</h1>
+<h1>👑 Той шақыртуы — v23</h1>
 <p class="n">Қонаққа төлем шықпайды. Сілтеме қысқа.</p>
 
 <div class="c">
 <h2>1. Пакет</h2>
 <div class="pk">
-
 <label>
 <input type="radio" name="pk" value="std" onchange="onPkg()">
 <b>Стандарт — 3000 тг</b>
@@ -89,7 +88,6 @@ button.g{background:#fff;color:#b4530f;border:2px solid #b4530f}
 <li>✅ 📅 Календар + 👥 Қонақ саны</li>
 </ul>
 </label>
-
 </div>
 <p class="n" id="pkgInfo"></p>
 </div>
@@ -97,16 +95,27 @@ button.g{background:#fff;color:#b4530f;border:2px solid #b4530f}
 <div class="c">
 <h2>✨ Дизайн</h2>
 <div class="designs">
-<label><input type="radio" name="design" value="gold" checked><div class="sw" style="background:linear-gradient(135deg,#1a1405,#3d2c05)"></div><b>Алтын Lux</b></label>
-<label><input type="radio" name="design" value="rose"><div class="sw" style="background:linear-gradient(135deg,#fff0f3,#ffd6e0)"></div><b>Қызғылт</b></label>
-<label><input type="radio" name="design" value="emerald"><div class="sw" style="background:linear-gradient(135deg,#0f2e22,#1a5a3d)"></div><b>Изумруд</b></label>
+<label>
+<input type="radio" name="design" value="gold" checked>
+<div class="sw" style="background:linear-gradient(135deg,#1a1405,#3d2c05)"></div>
+<b>Алтын Lux</b>
+</label>
+<label>
+<input type="radio" name="design" value="rose">
+<div class="sw" style="background:linear-gradient(135deg,#fff0f3,#ffd6e0)"></div>
+<b>Қызғылт</b>
+</label>
+<label>
+<input type="radio" name="design" value="emerald">
+<div class="sw" style="background:linear-gradient(135deg,#0f2e22,#1a5a3d)"></div>
+<b>Изумруд</b>
+</label>
 </div>
 <p class="n" id="designNote"></p>
 </div>
 
 <div class="c">
 <h2>2. Той мәліметі</h2>
-
 <label class="f">Аты</label>
 <input type="text" id="name" value="Алихан, 3 жас">
 
@@ -162,7 +171,6 @@ button.g{background:#fff;color:#b4530f;border:2px solid #b4530f}
 
 <label class="f">📁 Өз әніңді жүктеу (HTML жүктеуге ғана, ≤3 МБ)</label>
 <input type="file" id="musicFile" accept="audio/*" onchange="onMusic(this)">
-
 <p class="n" id="musicStatus">Ән таңдалмаған.</p>
 <audio id="musicPrev" controls style="width:100%;display:none"></audio>
 
@@ -176,16 +184,15 @@ button.g{background:#fff;color:#b4530f;border:2px solid #b4530f}
 <div class="th" id="th"></div>
 <p class="n" id="photoStatus">Фото таңдалмаған.</p>
 
-<label class="f">Немесе фото сілтемесі</label>
+<label class="f">Немесе фото сілтемесі (бірнешеу болса, бос орынмен бөліңіз)</label>
 <input type="text" id="photoUrl" placeholder="https://files.catbox.moe/....jpg">
 
-<p class="n">Кеңес: фотоны catbox.moe-ге салып, сілтемесін осында қойсаңыз — қонаққа баратын сілтеме қысқа болады.</p>
+<p class="n">Кеңес: фотоны catbox.moe-ге салып, сілтемесін осында қойсаңыз — қонаққа баратын сілтеме қысқа болады. Құрылғыдан жүктелген фото тек HTML файлға кіреді.</p>
 </div>
 
 <div class="c">
 <h2>5. Дайын</h2>
-
-<button onclick="makeInvite()" style="background:#1a7a3a;font-size:18px;padding:17px">
+<button type="button" onclick="try{makeInvite()}catch(e){var x=document.getElementById('debug');if(x)x.textContent='Қате: '+e.message;else alert('Қате: '+e.message)}" style="background:#1a7a3a;font-size:18px;padding:17px">
 👑 ШАҚЫРТУДЫ ЖАСАУ — КӨРУ
 </button>
 
@@ -193,7 +200,6 @@ button.g{background:#fff;color:#b4530f;border:2px solid #b4530f}
 
 <div id="act" style="display:none">
 <p class="n" id="note"></p>
-
 <button class="g" onclick="sendOrder()">📲 WhatsApp-қа жіберу</button>
 
 <div class="c" style="margin-top:12px">
@@ -224,9 +230,15 @@ Kaspi: +7 708 241 88 36
 </div>
 </div>
 </div>
-<script>
-var SELLER="77082418836";
 
+<script>
+window.onerror=function(message,source,line){
+var box=document.getElementById("debug");
+if(box)box.textContent="JavaScript қатесі: "+message+" (жол: "+line+")";
+return false;
+};
+
+var SELLER="77082418836";
 var PRICE={std:3000,prem:5000,vip:10000};
 
 var MUSICS={
@@ -243,31 +255,57 @@ kyzuzatu:"Қыз ұзату",
 atameken:"Атамекен"
 };
 
-var CODES=["001-GY5N","002-GCQV","003-KVFV","004-WTWG","005-47Y7","006-BVQD","007-7QNB","008-9TR9","009-4SLU","010-JJCU","011-GN58","012-6ZQU","013-GZE5","014-H3XA","015-2N53","016-V5GG","017-L78L","018-T482","019-7NBR","020-UVWE","021-89K9","022-RYD4","023-AVLX","024-SU8R","025-WPLX","026-2KZ7","027-SXZP","028-LME2","029-KAGL","030-J6QC","031-9ME9","032-Z5AJ","033-UT29","034-WPJU","035-5598","036-5ZQC","037-CYM7","038-UPGJ","039-BCR3","040-C4PM","041-VAF7","042-FMRD","043-S2L7","044-DYU8","045-ZKSQ","046-ZGLR","047-DXUZ","048-X6MU","049-8SYX","050-CRQD","051-QXSK","052-6ADK","053-7NJV","054-K26T","055-BQC2","056-WQZB","057-H38X","058-GUPU","059-UGLF","060-UPDH","061-MTVE","062-L7AC","063-MKZ5","064-BVC9","065-2TJ9","066-H3CR","067-JCFD","068-ZP7Z","069-TFCV","070-LWRG","071-6V4P","072-DA69","073-3WY9","074-B3BM","075-27W9","076-ZDZF","077-ZM58","078-VYU5","079-CY4T","080-N4Z7","081-F2JS","082-TW6A","083-6WBY","084-UGFW","085-36ZK","086-ER97","087-9X5R","088-YXUX","089-UNKR","090-DG8L","091-2PRX","092-D49H","093-AY5X","094-FHYD","095-UAJQ","096-SD9A","097-29Z5","098-W3XJ","099-S5MM","100-RACY"];
+var CODES=[
+"001-GY5N","002-GCQV","003-KVFV","004-WTWG","005-47Y7",
+"006-BVQD","007-7QNB","008-9TR9","009-4SLU","010-JJCU",
+"011-GN58","012-6ZQU","013-GZE5","014-H3XA","015-2N53",
+"016-V5GG","017-L78L","018-T482","019-7NBR","020-UVWE",
+"021-89K9","022-RYD4","023-AVLX","024-SU8R","025-WPLX",
+"026-2KZ7","027-SXZP","028-LME2","029-KAGL","030-J6QC",
+"031-9ME9","032-Z5AJ","033-UT29","034-WPJU","035-5598",
+"036-5ZQC","037-CYM7","038-UPGJ","039-BCR3","040-C4PM",
+"041-VAF7","042-FMRD","043-S2L7","044-DYU8","045-ZKSQ",
+"046-ZGLR","047-DXUZ","048-X6MU","049-8SYX","050-CRQD",
+"051-QXSK","052-6ADK","053-7NJV","054-K26T","055-BQC2",
+"056-WQZB","057-H38X","058-GUPU","059-UGLF","060-UPDH",
+"061-MTVE","062-L7AC","063-MKZ5","064-BVC9","065-2TJ9",
+"066-H3CR","067-JCFD","068-ZP7Z","069-TFCV","070-LWRG",
+"071-6V4P","072-DA69","073-3WY9","074-B3BM","075-27W9",
+"076-ZDZF","077-ZM58","078-VYU5","079-CY4T","080-N4Z7",
+"081-F2JS","082-TW6A","083-6WBY","084-UGFW","085-36ZK",
+"086-ER97","087-9X5R","088-YXUX","089-UNKR","090-DG8L",
+"091-2PRX","092-D49H","093-AY5X","094-FHYD","095-UAJQ",
+"096-SD9A","097-29Z5","098-W3XJ","099-S5MM","100-RACY"
+];
 
-var photos=[],uploadedMusic="",uploadedMusicName="",unlocked=false,lastLink="",lastData=null;
+var photos=[];
+var uploadedMusic="";
+var uploadedMusicName="";
+var unlocked=false;
+var lastLink="";
+var lastData=null;
 
 function $(i){return document.getElementById(i)}
 
 function esc(s){
 return String(s||"").replace(/[&<>"]/g,function(c){
 return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]
-})
+});
 }
 
 function getPkg(){
 var e=document.querySelector('input[name=pk]:checked');
-return e?e.value:"prem"
+return e?e.value:"prem";
 }
 
 function getDesign(){
 var e=document.querySelector('input[name=design]:checked');
-return e?e.value:"gold"
+return e?e.value:"gold";
 }
 
 function getMusic(){
 var e=document.querySelector('input[name=music]:checked');
-return e?e.value:""
+return e?e.value:"";
 }
 
 function pkgFeatures(p){
@@ -289,27 +327,22 @@ calendar:false,rsvp:true,maxPhoto:3,gallery:true,tag:"✨ ПРЕМИУМ"
 
 function onPkg(){
 var p=getPkg(),f=pkgFeatures(p);
-
 $("musicBlock").style.display=f.music?"block":"none";
 $("dressBlock").style.display=f.dress?"block":"none";
 $("videoBlock").style.display=f.video?"block":"none";
-
 $("photoLimit").textContent="(максимум "+f.maxPhoto+")";
 $("pkgInfo").innerHTML="Қазір: <b>"+f.tag+"</b>";
-
-$("designNote").textContent=p==="std"?
-"Стандартта тек Алтын дизайны.":
-"Премиум / VIP — 3 дизайнның бәрі.";
+$("designNote").textContent=p==="std"?"Стандартта тек Алтын дизайны.":"Премиум / VIP — 3 дизайнның бәрі.";
 
 if(photos.length>f.maxPhoto){
 photos=photos.slice(0,f.maxPhoto);
-renderThumbs()
+renderThumbs();
 }
 }
 
 function renderThumbs(){
 $("th").innerHTML=photos.map(function(u){
-return '<img src="'+u+'">'
+return '<img src="'+u+'">';
 }).join("");
 
 $("photoStatus").textContent=photos.length?
@@ -324,14 +357,14 @@ r.onload=function(){
 var im=new Image();
 
 im.onload=function(){
-var m=900,k=Math.min(1,m/Math.max(im.width,im.height));
+var m=900;
+var k=Math.min(1,m/Math.max(im.width,im.height));
 var c=document.createElement("canvas");
 
 c.width=Math.round(im.width*k);
 c.height=Math.round(im.height*k);
 
 c.getContext("2d").drawImage(im,0,0,c.width,c.height);
-
 cb(c.toDataURL("image/jpeg",0.75));
 };
 
@@ -350,13 +383,16 @@ var files=Array.prototype.slice.call(inp.files).slice(0,max);
 photos=[];
 var left=files.length;
 
-if(!left){renderThumbs();return}
+if(!left){
+renderThumbs();
+return;
+}
 
 files.forEach(function(f){
 resizeImg(f,function(u){
 if(u)photos.push(u);
-if(--left===0)renderThumbs()
-})
+if(--left===0)renderThumbs();
+});
 });
 }
 
@@ -367,7 +403,7 @@ if(!f)return;
 if(f.size>3*1024*1024){
 $("musicStatus").textContent="⚠️ Файл 3 МБ-тан үлкен. mp3 сілтемесін қолданыңыз.";
 inp.value="";
-return
+return;
 }
 
 var r=new FileReader();
@@ -375,7 +411,6 @@ var r=new FileReader();
 r.onload=function(){
 uploadedMusic=r.result;
 uploadedMusicName=f.name;
-
 $("musicStatus").textContent="✅ "+f.name;
 
 var a=$("musicPrev");
@@ -387,9 +422,9 @@ r.readAsDataURL(f);
 }
 
 function collect(){
-var urls=($("photoUrl").value||"")
-.split(/[\s,]+/)
-.filter(function(u){return /^https?:\/\//i.test(u)});
+var urls=($("photoUrl").value||"").split(/[\s,]+/).filter(function(u){
+return /^https?:\/\//i.test(u);
+});
 
 return {
 pkg:getPkg(),
@@ -413,14 +448,10 @@ photos:urls.concat(photos)
 
 function build(d,showWatermark){
 var f=pkgFeatures(d.pkg||"prem");
-
 var designUse=d.pkg==="std"?"gold":(d.design||"gold");
 
-var musicUrl=f.music?
-(d.musicFile||d.musicUrl||MUSICS[d.music]||""):"";
-
+var musicUrl=f.music?(d.musicFile||d.musicUrl||MUSICS[d.music]||""):"";
 var hasMusic=f.music&&!!musicUrl;
-
 var musicLabel=d.musicFileName||MUSIC_NAMES[d.music]||"Қазақша әуен";
 
 var hasVideo=f.video&&!!d.video;
@@ -431,29 +462,21 @@ var hasRsvp=f.rsvp;
 var allPhotos=(d.photos||[]).slice(0,f.maxPhoto);
 
 var ds=d.date?
-new Date(d.date+"T00:00:00").toLocaleDateString("kk-KZ",{
-day:"numeric",month:"long",year:"numeric"
-}):"";
+new Date(d.date+"T00:00:00").toLocaleDateString("kk-KZ",{day:"numeric",month:"long",year:"numeric"}):
+"";
 
 var maps="https://maps.google.com/?q="+encodeURIComponent(d.place||"");
 
 var cleanWa=(d.wa||"").replace(/\D/g,"");
-
-if(cleanWa.indexOf("8")==0&&cleanWa.length==11)
+if(cleanWa.indexOf("8")==0&&cleanWa.length==11){
 cleanWa="7"+cleanWa.slice(1);
+}
 
-var wa="https://api.whatsapp.com/send?phone="+cleanWa+
-"&text="+encodeURIComponent("Сәлеметсіз бе! Тойға келемін ✅ Аты: ");
-
-var wa2="https://api.whatsapp.com/send?phone="+cleanWa+
-"&text="+encodeURIComponent("Сәлеметсіз бе! Тойға келе алмаймын 😔 Аты: ");
+var wa="https://api.whatsapp.com/send?phone="+cleanWa+"&text="+encodeURIComponent("Сәлеметсіз бе! Тойға келемін ✅ Аты: ");
 
 var calUrl="";
-
 if(hasCal){
-var s=(d.date||"").replace(/-/g,"")+"T"+
-(d.time||"18:00").replace(":","")+"00";
-
+var s=(d.date||"").replace(/-/g,"")+"T"+(d.time||"18:00").replace(":","")+"00";
 var e=(d.date||"").replace(/-/g,"")+"T220000";
 
 calUrl="https://calendar.google.com/calendar/render?action=TEMPLATE&text="+
@@ -486,18 +509,21 @@ envBg:"radial-gradient(circle at 50% 30%, #1a5a3d, #0f2e22 70%)"
 var envTx=designUse==="rose"?"#4a2330":"#fff";
 
 var photoHtml=allPhotos.length?
-'<div style="padding:7px;background:'+th.grad+';border-radius:20px;margin:12px 0"><img src="'+esc(allPhotos[0])+'" style="width:100%;display:block;border-radius:14px;aspect-ratio:4/3;object-fit:cover" onerror="this.parentElement.style.display=\'none\'"></div>':
+'<div style="padding:7px;background:'+th.grad+';border-radius:20px;margin:12px 0">'+
+'<img src="'+esc(allPhotos[0])+'" style="width:100%;display:block;border-radius:14px;aspect-ratio:4/3;object-fit:cover" onerror="this.parentElement.style.display=\'none\'">'+
+'</div>':
 '';
 
 var other=f.gallery?
 allPhotos.slice(1).map(function(u){
-return '<img src="'+esc(u)+'" style="width:100%;border-radius:14px;margin:6px 0" onerror="this.style.display=\'none\'">'
+return '<img src="'+esc(u)+'" style="width:100%;border-radius:14px;margin:6px 0" onerror="this.style.display=\'none\'">';
 }).join(""):"";
 
 var btn='display:block;padding:14px;border-radius:14px;background:#fff;border:2px solid #b4530f;color:#b4530f;text-decoration:none;margin:10px 0;font-family:system-ui,sans-serif;font-weight:700';
 
 var musicHtml=hasMusic?
-'<audio id="mus" loop><source src="'+esc(musicUrl)+'"></audio><button style="width:100%;padding:12px;border:1px solid #b4530f;background:#fff;color:#b4530f;border-radius:12px;font-weight:700;cursor:pointer;margin:8px 0" onclick="var a=document.getElementById(\'mus\');if(a.paused){a.play();this.textContent=\'🔊 Ойнап тұр — өшіру\'}else{a.pause();this.textContent=\'🎵 Қосу\'}">🎵 '+esc(musicLabel)+' — Қосу</button>':
+'<audio id="mus" loop><source src="'+esc(musicUrl)+'"></audio>'+
+'<button style="width:100%;padding:12px;border:1px solid #b4530f;background:#fff;color:#b4530f;border-radius:12px;font-weight:700;cursor:pointer;margin:8px 0" onclick="var a=document.getElementById(\'mus\');if(a.paused){a.play();this.textContent=\'🔊 Ойнап тұр — өшіру\'}else{a.pause();this.textContent=\'🎵 Қосу\'}">🎵 '+esc(musicLabel)+' — Қосу</button>':
 "";
 
 var videoHtml=hasVideo?
@@ -512,4 +538,278 @@ var calHtml=hasCal?
 '<a style="'+btn+'" target="_blank" href="'+esc(calUrl)+'">📅 Календарға қосу</a>':
 "";
 
-var rb='flex:1;background:#fff;border:1px solid #bcd3ff;border-radius:10px;padding:10px 4px;text-decoration:none;color:#1a3a6a;font-size:13px;font-weight:600;text-align:center';
+var rsvpHtml=cleanWa?
+'<div style="background:#f0f7ff;border:1px solid #bcd3ff;border-radius:14px;padding:14px;margin:14px 0;font-family:system-ui,sans-serif;text-align:left">'+
+'<b style="display:block;text-align:center;font-size:18px">👥 Тойға келетініңізді растаңыз</b>'+
+
+'<label style="display:block;margin-top:10px;font-size:13px">Аты-жөніңіз</label>'+
+'<input id="guestName" type="text" placeholder="Аты-жөніңізді жазыңыз" style="width:100%;padding:11px;border:1px solid #bcd3ff;border-radius:9px;font:inherit">'+
+
+'<label style="display:block;margin-top:10px;font-size:13px">Жауабыңыз</label>'+
+'<select id="guestStatus" onchange="document.getElementById(\'guestCountBox\').style.display=this.value===\'Келемін\'?\'block\':\'none\'" style="width:100%;padding:11px;border:1px solid #bcd3ff;border-radius:9px;font:inherit">'+
+'<option value="Келемін">Келемін</option>'+
+'<option value="Өкінішке қарай, келе алмаймын">Келе алмаймын</option>'+
+'</select>'+
+
+'<div id="guestCountBox">'+
+'<label style="display:block;margin-top:10px;font-size:13px">Неше адам болып келесіз?</label>'+
+'<select id="guestCount" style="width:100%;padding:11px;border:1px solid #bcd3ff;border-radius:9px;font:inherit">'+
+'<option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>'+
+'<option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>'+
+'</select></div>'+
+
+'<button type="button" style="width:100%;border:0;border-radius:10px;padding:13px;margin-top:12px;background:'+th.grad+';color:'+th.btnTx+';font:700 15px system-ui,sans-serif" onclick="var n=document.getElementById(\'guestName\').value.trim();var s=document.getElementById(\'guestStatus\').value;var c=document.getElementById(\'guestCount\').value;if(!n){alert(\'Аты-жөніңізді жазыңыз.\');return;}var msg=\'Сәлеметсіз бе! \'+n+\' — \'+s+(s===\'Келемін\'?\'. Қонақ саны: \'+c+\' адам.\':\'.\')+\' Той: '+esc(d.name)+' ('+esc(d.date)+' '+esc(d.time)+').\';window.open(\'https://api.whatsapp.com/send?phone='+cleanWa+'&text=\'+encodeURIComponent(msg),\'_blank\')">✅ Жауапты WhatsApp арқылы жіберу</button>'+
+
+'<div style="font-size:11px;color:#678;margin-top:8px;text-align:center">Жауабыңыз той иесінің WhatsApp нөміріне жіберіледі.</div>'+
+'</div>':
+"";
+
+var target=d.date?d.date+"T"+(d.time||"00:00")+":00":"";
+
+var watermark=showWatermark?
+'<div style="position:fixed;top:10px;right:10px;z-index:99;background:#ff0000;color:#fff;font:800 13px system-ui,sans-serif;padding:6px 12px;border-radius:20px;transform:rotate(5deg)">ҮЛГІ</div>':
+"";
+
+var css='body{margin:0;background:'+th.bg+';font:17px/1.6 Georgia,serif;text-align:center}.w{max-width:480px;margin:0 auto;padding:20px 14px}.card{background:'+th.card+';border-radius:26px;padding:26px 18px;border:2px solid '+th.ac2+';color:#2b1d05}.t{display:flex;gap:8px;justify-content:center;margin:14px 0}.t div{flex:1;padding:10px 4px;border-radius:14px;background:#fff;border:1px solid '+th.ac2+'}.t b{display:block;font-size:24px;color:'+th.ac+'}.t span{font-size:11px;color:#888}.b{display:block;padding:14px;border-radius:14px;background:'+th.grad+';color:'+th.btnTx+';text-decoration:none;margin:10px 0;font-family:system-ui,sans-serif;font-weight:700}.b.o{background:#fff;border:2px solid '+th.ac+';color:'+th.ac+'}#e{position:fixed;inset:0;background:'+th.envBg+';z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;color:'+envTx+'}#e.x{display:none}#e button{border:0;padding:16px 40px;border-radius:100px;background:'+th.grad+';color:'+th.btnTx+';font-weight:700;font-size:18px;cursor:pointer}';
+
+var env=f.envelope?
+'<div id="e">'+
+'<div style="font-size:100px">💌</div>'+
+'<h2>Сізге шақырту келді</h2>'+
+'<div style="color:'+th.ac2+';font-size:20px;font-weight:700;margin:8px 0 18px">'+esc(d.name)+' • '+esc(d.kind)+'</div>'+
+'<button onclick="document.getElementById(\'e\').className=\'x\';var a=document.getElementById(\'mus\');if(a)a.play().catch(function(){})">✉️ Ашу</button>'+
+(hasMusic?'<p style="font-size:12px;opacity:.7;margin-top:12px">🎵 '+esc(musicLabel)+'</p>':'')+
+'</div>':
+"";
+
+var timer=target?
+'<script>var T=new Date("'+target+'").getTime();function u(){var s=Math.max(0,Math.floor((T-Date.now())/1000)),a=[["күн",86400],["сағат",3600],["мин",60],["сек",1]],h="";a.forEach(function(x){var v=Math.floor(s/x[1]);s-=v*x[1];h+="<div><b>"+v+"</b><span>"+x[0]+"</span></div>"});document.getElementById("t").innerHTML=h}u();setInterval(u,1000);<\/script>':
+"";
+
+return '<!DOCTYPE html><html lang="kk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(d.name)+' – '+esc(d.kind)+'</title><style>'+css+'</style></head><body>'+watermark+env+
+'<div class="w"><div class="card"><div style="background:#fff7ed;border:1px solid #e6c84a;color:#b4530f;font:700 11px system-ui,sans-serif;padding:5px 12px;border-radius:20px;display:inline-block;margin-bottom:8px">'+f.tag+'</div><div style="color:'+th.ac+';letter-spacing:3px;font-size:12px;font-weight:700">'+esc(d.kind)+'</div><h1 style="font-size:34px;margin:8px 0">'+esc(d.name)+'</h1><div style="color:#777;font-size:14px">Құрметті қонақтар, сіздерді тойымызға шақырамыз!</div>'+photoHtml+
+'<div style="font-style:italic;color:#555;white-space:pre-line">“'+esc(d.wish)+'”</div>'+dressHtml+(target?'<div class="t" id="t"></div>':'')+
+'<div style="background:#fdf6d8;border:1px dashed #b4530f;border-radius:14px;padding:12px;margin:14px 0;font-family:system-ui,sans-serif">📅 '+esc(ds)+' '+esc(d.time)+'<br>📍 '+esc(d.place)+'</div>'+musicHtml+
+'<a class="b" target="_blank" href="'+maps+'">🗺 Картадан көру</a>'+videoHtml+calHtml+
+(cleanWa?'<a class="b o" target="_blank" href="'+esc(wa)+'">✅ Келемін деп жауап беру</a>':'')+
+rsvpHtml+other+
+'<div style="font-size:12px;color:#999;margin-top:12px">✦ Сізді күтеміз! ✦</div></div></div>'+timer+'</body></html>';
+}
+
+/* Көрсету */
+function openViewer(html,guest){
+var v=$("viewer");
+v.className="show"+(guest?" guest":"");
+$("viewerFrame").srcdoc=html;
+}
+
+function closeViewer(){
+$("viewer").className="";
+$("viewerFrame").srcdoc="";
+}
+
+function goToPay(){
+closeViewer();
+$("act").scrollIntoView({behavior:"smooth"});
+}
+
+function makeInvite(){
+$("debug").textContent="";
+var d=collect();
+
+if(!d.name){
+$("debug").textContent="⚠️ Атын жазыңыз.";
+return;
+}
+
+if(!d.date){
+$("debug").textContent="⚠️ Күнін таңдаңыз.";
+return;
+}
+
+lastData=d;
+
+try{
+openViewer(build(d,!unlocked),false);
+}catch(e){
+$("debug").textContent="Қате: "+e.message;
+return;
+}
+
+var p=getPkg();
+$("act").style.display="block";
+$("amt").textContent=PRICE[p]+" тг";
+$("note").textContent=unlocked?
+"Код қабылданған — жүктеп алуға болады.":
+"Бұл — ҮЛГІ. Төлегеннен кейін код енгізіңіз.";
+}
+
+/* Төлем */
+function sendOrder(){
+var d=lastData||collect();
+var p=getPkg();
+
+var t="Сәлеметсіз бе! Той шақыртуына тапсырыс:\n"+
+"Пакет: "+pkgFeatures(p).tag+" ("+PRICE[p]+" тг)\n"+
+"Дизайн: "+getDesign()+"\n"+
+"Той: "+d.kind+"\n"+
+"Аты: "+d.name+"\n"+
+"Күні: "+d.date+" "+d.time+"\n"+
+"Орны: "+d.place;
+
+window.open("https://api.whatsapp.com/send?phone="+SELLER+"&text="+encodeURIComponent(t),"_blank");
+}
+
+function copyText(t,ok){
+function done(){alert(ok)}
+
+if(navigator.clipboard&&navigator.clipboard.writeText){
+navigator.clipboard.writeText(t).then(done,function(){fallback()});
+}else{
+fallback();
+}
+
+function fallback(){
+var a=document.createElement("textarea");
+a.value=t;
+document.body.appendChild(a);
+a.select();
+
+try{
+document.execCommand("copy");
+}catch(e){}
+
+document.body.removeChild(a);
+done();
+}
+}
+
+function copyKaspi(){
+copyText("+77082418836","Kaspi нөмірі көшірілді ✅");
+}
+
+function askCode(){
+var p=getPkg();
+var m="Төлем жасалды ("+PRICE[p]+" тг). Kaspi чегін жіберіңіз де, кодты алыңыз.";
+
+$("codeMsg").style.display="block";
+$("codeMsg").textContent=m;
+
+window.open(
+"https://api.whatsapp.com/send?phone="+SELLER+"&text="+
+encodeURIComponent("Сәлеметсіз бе! Төледім ("+PRICE[p]+" тг, "+pkgFeatures(p).tag+"). Код беріңізші. Чек қоса беремін."),
+"_blank"
+);
+}
+
+function checkCode(){
+var c=($("code").value||"").trim().toUpperCase();
+
+if(CODES.indexOf(c)<0){
+alert("❌ Код қате. Қайта тексеріңіз.");
+return;
+}
+
+unlocked=true;
+$("cd").style.display="none";
+$("dw").style.display="block";
+$("note").textContent="Код қабылданды ✅";
+
+if(lastData)openViewer(build(lastData,false),false);
+}
+
+/* Жүктеу және сілтеме */
+function downloadInvite(){
+var d=collect();
+lastData=d;
+var html=build(d,false);
+
+var a=document.createElement("a");
+a.href=URL.createObjectURL(new Blob([html],{type:"text/html"}));
+a.download="shakyrtu.html";
+
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+}
+
+function b64e(s){
+return btoa(unescape(encodeURIComponent(s)))
+.replace(/\+/g,"-")
+.replace(/\//g,"_")
+.replace(/=+$/,"");
+}
+
+function b64d(s){
+s=s.replace(/-/g,"+").replace(/_/g,"/");
+while(s.length%4)s+="=";
+return decodeURIComponent(escape(atob(s)));
+}
+
+function makeLink(){
+var d=collect();
+var slim={};
+var dropped=false;
+lastData=d;
+
+Object.keys(d).forEach(function(k){
+var v=d[k];
+
+if(k==="musicFile"||k==="musicFileName"){
+if(v)dropped=true;
+return;
+}
+
+if(k==="photos"){
+var u=v.filter(function(x){return x.indexOf("data:")!==0});
+if(u.length<v.length)dropped=true;
+if(u.length)slim.photos=u;
+return;
+}
+
+if(v!==""&&v!=null)slim[k]=v;
+});
+
+var base=location.href.split("#")[0];
+lastLink=base+"#i="+b64e(JSON.stringify(slim));
+
+$("linkText").textContent=lastLink;
+$("linkArea").style.display="block";
+
+var n="Ұзындығы: "+lastLink.length+" таңба.";
+
+if(dropped){
+n+=" ⚠️ Құрылғыдан жүктелген фото/ән сілтемеге кірмейді — оларды catbox.moe сілтемесімен беріңіз, не HTML жүктеп алыңыз.";
+}
+
+if(location.protocol==="file:"){
+n+=" ⚠️ Бұл бет файл ретінде ашылған: сілтеме басқа адамға ашылу үшін бетті (HTML) хостингке (GitHub Pages, Netlify) орналастырыңыз.";
+}
+
+$("linkNote").textContent=n;
+}
+
+function copyLink(){
+if(lastLink)copyText(lastLink,"Сілтеме көшірілді ✅");
+}
+
+/* Қонақ режимі: #i=... болса, тек шақырту көрінеді */
+(function(){
+onPkg();
+
+var h=location.hash;
+
+if(h.indexOf("#i=")===0){
+try{
+var d=JSON.parse(b64d(h.slice(3)));
+$("mainForm").style.display="none";
+openViewer(build(d,false),true);
+}catch(e){
+document.body.insertAdjacentHTML("afterbegin",'<p style="padding:20px">Сілтеме бұзылған.</p>');
+}
+}
+})();
+</script>
+
+</body>
+</html>

@@ -82,11 +82,9 @@ button.small{padding:10px;font-size:14px}
 <div class="offer">✅ Алдымен шақыртуыңды көріп ал, ұнаса ғана төлейсің!<small>Тәуекел жоқ. Ұнамаса - төлемейсің 💍</small></div>
 <div id="adminPanel" class="adminBox"><b>🔐 АДМИН - Тек саған көрінеді</b><br><span id="codeLeft"></span><br><span id="usedList" style="word-break:break-all"></span><br><button onclick="copyUsed()" style="background:#ffd700;color:#000;margin-top:8px">📋 Қолданылған кодтарды көшіру</button></div>
 
-<!-- ===== ЖАҢА: СІЛТЕМЕ ЖАСАУ ОРТАЛЫҒЫ ===== -->
 <div class="c" style="border:2px solid #4a90e2">
 <h2>🔗 Сілтеме жасау орталығы</h2>
 <div class="tip">Фото, ән, видеоны осында жүктеп, сілтемесін жасап ал. Сосын сол сілтемені төмендегі тиісті орынға қоясың. Басқа сайтқа барудың қажеті жоқ!</div>
-
 <div class="upBox">
 <b>📷 1. Фотоның сілтемесін жасау</b><br>
 <input type="file" id="upPhoto" accept="image/*">
@@ -95,8 +93,8 @@ button.small{padding:10px;font-size:14px}
 <div class="res" id="resPhoto"></div>
 <p class="n" id="stPhoto"></p>
 <button class="small g" onclick="applyLink('photo')" style="display:none" id="btnApplyPhoto">✅ Осы сілтемені ФОТО орнына қою</button>
+<button class="small" onclick="copyGen('photo')" style="display:none;background:#1a7a3a" id="btnCopyPhoto">📋 Сілтемені көшіру</button>
 </div>
-
 <div class="upBox">
 <b>🎵 2. Әннің сілтемесін жасау</b><br>
 <input type="file" id="upMusic" accept="audio/*">
@@ -105,8 +103,8 @@ button.small{padding:10px;font-size:14px}
 <div class="res" id="resMusic"></div>
 <p class="n" id="stMusic"></p>
 <button class="small g" onclick="applyLink('music')" style="display:none" id="btnApplyMusic">✅ Осы сілтемені ӘН орнына қою</button>
+<button class="small" onclick="copyGen('music')" style="display:none;background:#1a7a3a" id="btnCopyMusic">📋 Сілтемені көшіру</button>
 </div>
-
 <div class="upBox">
 <b>🎥 3. Видеоның сілтемесін жасау</b><br>
 <input type="file" id="upVideo" accept="video/*">
@@ -115,7 +113,9 @@ button.small{padding:10px;font-size:14px}
 <div class="res" id="resVideo"></div>
 <p class="n" id="stVideo"></p>
 <button class="small g" onclick="applyLink('video')" style="display:none" id="btnApplyVideo">✅ Осы сілтемені ВИДЕО орнына қою</button>
+<button class="small" onclick="copyGen('video')" style="display:none;background:#1a7a3a" id="btnCopyVideo">📋 Сілтемені көшіру</button>
 </div>
+<p class="n">Егер жүктелмесе: <a href="https://0x0.st" target="_blank">0x0.st</a> немесе <a href="https://files.catbox.moe" target="_blank">files.catbox.moe</a> ашып, сонда жүктеп, сілтемесін төменге қойыңыз.</p>
 </div>
 
 <div class="c"><h2>1. Пакет</h2>
@@ -179,7 +179,6 @@ button.small{padding:10px;font-size:14px}
 </div>
 <div id="cd"><label class="f">Төлемнен кейін алған код (1 рет қана қолданылады)</label><input type="text" id="code" placeholder="Мысалы: 001-GY5N"><button onclick="checkCode()">🔓 Кодты енгізу</button><p class="n">Кодты енгізгенде «ҮЛГІ» жоғалып, жүктеп алу ашылады. Сол код екінші рет жұмыс істемейді.</p></div>
 <div id="dw" style="display:none"><div class="ok">✅ Код қабылданды! «ҮЛГІ» алынды.</div>
-<div class="tip" style="margin-bottom:8px"><b>🎯 Қонаққа қалай жібересің?</b><br>📱 Фото/ән сілтемесін жоғарыдан жасадың ба? → <b>🔗 Сілтеме алу</b> бас.</div>
 <button onclick="makeLink()" style="background:#1a7a3a;font-size:18px">🔗 ҚЫСҚА сілтеме алу</button>
 <button class="g" onclick="downloadInvite()">⬇️ Шақыртуды жүктеп алу (HTML)</button>
 <div id="linkArea" class="linkCard">
@@ -208,44 +207,61 @@ function markUsed(c){var u=getUsed();if(u.indexOf(c)==-1){u.push(c);localStorage
 function updateCodeLeft(){if(!IS_ADMIN) return;var u=getUsed();var el=document.getElementById("codeLeft");if(el) el.textContent="Қалған код: "+(100-u.length)+" / 100 • Қолданылған: "+u.length;var ul=document.getElementById("usedList");if(ul) ul.textContent=u.length ? "Қолданылған кодтар: "+u.join(", ") : "Әлі қолданылған код жоқ";var p=document.getElementById("adminPanel");if(p) p.style.display="block";}
 function copyUsed(){var u=getUsed();navigator.clipboard.writeText(u.join("\n")||"Қолданылған код жоқ");alert("Қолданылған кодтар көшірілді!")}
 
-// ===== СІЛТЕМЕ ЖАСАУ ОРТАЛЫҒЫ =====
 var genLinks={photo:"",music:"",video:""};
+function copyGen(kind){var l=genLinks[kind];if(!l){alert("Алдымен сілтеме жасаңыз");return}navigator.clipboard.writeText(l).then(function(){alert("✅ Сілтеме көшірілді!")});}
+async function tryUpload(url,fd,field){
+  var r=await fetch(url,{method:"POST",body:fd});
+  if(!r.ok) throw new Error("HTTP "+r.status);
+  var t=(await r.text()).trim();
+  // tmpfiles жауабы JSON болуы мүмкін
+  if(t.charAt(0)==="{"){try{var j=JSON.parse(t); if(j.url) return j.url; if(j.data && j.data.url) return j.data.url;}catch(e){}}
+  if(t.indexOf("http")===0) return t.split(/\s+/)[0];
+  throw new Error(t.slice(0,100));
+}
 async function uploadFile(kind){
   var map={photo:"upPhoto",music:"upMusic",video:"upVideo"};
   var inp=document.getElementById(map[kind]);var f=inp.files[0];
   if(!f){alert("Алдымен файл таңдаңыз!");return}
+  if(f.size>50*1024*1024){alert("Файл 50 МБ-тан үлкен! Кішірек файл таңдаңыз.");return}
   var st=document.getElementById(kind==="photo"?"stPhoto":kind==="music"?"stMusic":"stVideo");
   var pr=document.getElementById(kind==="photo"?"prPhoto":kind==="music"?"prMusic":"prVideo");
   var bar=document.getElementById(kind==="photo"?"prPhotoBar":kind==="music"?"prMusicBar":"prVideoBar");
   var res=document.getElementById(kind==="photo"?"resPhoto":kind==="music"?"resMusic":"resVideo");
   var btn=document.getElementById(kind==="photo"?"btnApplyPhoto":kind==="music"?"btnApplyMusic":"btnApplyVideo");
-  st.textContent="⏳ Жүктеліп жатыр... күте тұр...";pr.style.display="block";bar.style.width="30%";
+  var btnC=document.getElementById(kind==="photo"?"btnCopyPhoto":kind==="music"?"btnCopyMusic":"btnCopyVideo");
+  st.textContent="⏳ Жүктеліп жатыр... 10-20 секунд күте тұр...";pr.style.display="block";bar.style.width="30%";
+  var err="";
+  // 1-әрекет: 0x0.st - телефоннан жақсы істейді
   try{
-    var fd=new FormData();fd.append("reqtype","fileupload");fd.append("fileToUpload",f);
-    var r=await fetch("https://catbox.moe/user/api.php",{method:"POST",body:fd});
-    bar.style.width="80%";
-    var txt=(await r.text()).trim();
-    if(txt.indexOf("http")!==0) throw new Error(txt||"Қате");
-    genLinks[kind]=txt;bar.style.width="100%";pr.style.display="none";
-    res.style.display="block";res.textContent=txt;st.textContent="✅ Дайын! Сілтеме жасалды. Енді төмендегі «Осы сілтемені ... орнына қою» батырмасын бас.";
-    btn.style.display="block";
-  }catch(e){
-    bar.style.width="0%";pr.style.display="none";
-    st.innerHTML="❌ Интернеттен жүктеу болмады. <b>Қосымша жол:</b> <a href='https://files.catbox.moe' target='_blank'>files.catbox.moe</a> ашып, файлды сонда жүктеп, сілтемесін көшіріп, төмендегі орынға қой.";
-    alert("Интернеттен жүктеу болмады. files.catbox.moe ашып қолмен жүктеңіз.");
-  }
+    var fd1=new FormData();fd1.append("file",f);
+    var u1=await tryUpload("https://0x0.st",fd1,"file");
+    throwIfBad(u1); done(u1); return;
+  }catch(e){ err="0x0: "+e.message; }
+  // 2-әрекет: catbox
+  try{
+    bar.style.width="60%"; st.textContent="⏳ 1-сервер болмады, 2-серверге өттім...";
+    var fd2=new FormData();fd2.append("reqtype","fileupload");fd2.append("fileToUpload",f);
+    var u2=await tryUpload("https://catbox.moe/user/api.php",fd2,"fileToUpload");
+    throwIfBad(u2); done(u2); return;
+  }catch(e){ err+=" | catbox: "+e.message; }
+  // 3-әрекет: tmpfiles
+  try{
+    bar.style.width="85%"; st.textContent="⏳ 2-сервер болмады, 3-серверге өттім...";
+    var fd3=new FormData();fd3.append("file",f);
+    var u3=await tryUpload("https://tmpfiles.org/api/v1/upload",fd3,"file");
+    throwIfBad(u3); done(u3); return;
+  }catch(e){ err+=" | tmpfiles: "+e.message; }
+  bar.style.width="0%";pr.style.display="none";
+  st.innerHTML="❌ Автомат жүктеу болмады ("+err+").<br><b>Қолмен:</b> <a href='https://0x0.st' target='_blank'>0x0.st</a> ашып → файлды таңдап → сілтемені көшіріп, төмендегі орынға қой.";
+  function throwIfBad(u){ if(!u||u.indexOf("http")!==0) throw new Error("Жауап дұрыс емес"); }
+  function done(u){ genLinks[kind]=u;bar.style.width="100%";setTimeout(function(){pr.style.display="none"},500);res.style.display="block";res.textContent=u;st.textContent="✅ Дайын! Сілтеме жасалды. Енді «Осы сілтемені ... орнына қою» бас.";btn.style.display="block";btnC.style.display="block"; }
 }
 function applyLink(kind){
   var link=genLinks[kind];if(!link){alert("Алдымен сілтеме жасаңыз!");return}
-  if(kind==="photo"){
-    var cur=document.getElementById("photoUrl").value.trim();
-    document.getElementById("photoUrl").value=cur?cur+" "+link:link;
-    document.getElementById("th").innerHTML='<img src="'+link+'" onerror="this.style.display=\'none\'">';
-    document.getElementById("photoStatus").textContent="✅ Фото сілтемесі қойылды!";
-  }
-  if(kind==="music"){ document.getElementById("musicUrl").value=link; document.getElementById("musicStatus").textContent="✅ Ән сілтемесі қойылды: "+link; }
-  if(kind==="video"){ document.getElementById("video").value=link; }
-  alert("✅ Сілтеме қойылды! Енді төменде шақыртуды жасап көре аласың.");
+  if(kind==="photo"){var cur=document.getElementById("photoUrl").value.trim();document.getElementById("photoUrl").value=cur?cur+" "+link:link;document.getElementById("th").innerHTML='<img src="'+link+'" onerror="this.style.display=\'none\'">';document.getElementById("photoStatus").textContent="✅ Фото сілтемесі қойылды!";}
+  if(kind==="music"){document.getElementById("musicUrl").value=link;document.getElementById("musicStatus").textContent="✅ Ән сілтемесі қойылды!";}
+  if(kind==="video"){document.getElementById("video").value=link;}
+  alert("✅ Сілтеме қойылды! Енді шақыртуды жасап көре аласың.");
 }
 
 var photos=[],unlocked=false,lastLink="",lastData=null;
@@ -275,18 +291,19 @@ function build(d,showWatermark){
   var photoHtml=allPhotos.length?'<div style="padding:7px;background:'+th.grad+';border-radius:20px;margin:12px 0;box-shadow:0 8px 20px rgba(0,0,0,.2)"><img src="'+esc(allPhotos[0])+'" style="width:100%;display:block;border-radius:14px;aspect-ratio:4/3;object-fit:cover" onerror="this.parentElement.style.display=\'none\'"></div>':'<div style="background:#fff0f3;border:2px dashed #ff8fab;border-radius:16px;padding:18px;margin:12px 0;font-size:14px;color:#888">🖼️ Фото жоқ<br><span style="font-size:12px">Жоғарыда «Фото сілтемесін жасау» басып қойыңыз</span></div>';
   var other=f.gallery?allPhotos.slice(1).map(function(u){return '<img src="'+esc(u)+'" style="width:100%;border-radius:14px;margin:6px 0;box-shadow:0 4px 12px rgba(0,0,0,.15)" onerror="this.style.display=\'none\'">'}).join(""):"";
   var btn='display:block;padding:14px;border-radius:14px;background:#fff;border:2px solid #b4530f;color:#b4530f;text-decoration:none;margin:10px 0;font-family:system-ui,sans-serif;font-weight:700';
-  var musicHtml=hasMusic?'<div style="background:linear-gradient(135deg,#fff0f3,#ffd6e0);border:2px solid #d6336c;border-radius:14px;padding:10px;margin:10px 0"><div style="font-weight:800;color:#a61e4d;font-family:system-ui,sans-serif">🎵 '+esc(musicLabel)+'</div><audio controls loop preload="auto" style="width:100%;margin-top:6px"><source src="'+esc(musicUrl)+'"></audio><div style="font-size:12px;color:#888;font-family:system-ui,sans-serif">▶️ Батырманы бас - ән ойнайды</div></div>':"";
+  // ЖАҢА: ӘН - ЖОҒАРЫДА КІШКЕНТАЙ ҚОҢЫРАУ 🔔
+  var musicHtml=hasMusic?'<audio id="mus" loop preload="auto"><source src="'+esc(musicUrl)+'"></audio><button id="bellBtn" onclick="var a=document.getElementById(\'mus\');var b=document.getElementById(\'bellBtn\');if(a.paused){a.play();b.textContent=\'🔕\';b.style.background=\'#ff0000\';b.title=\'Өшіру\'}else{a.pause();b.textContent=\'🔔\';b.style.background=\'#fff\';b.title=\'Қосу\'}" style="position:fixed;top:12px;right:12px;z-index:100;width:48px;height:48px;border-radius:50%;border:2px solid #ffd700;background:#fff;font-size:24px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.35);line-height:1;padding:0" title="Әнді қосу / өшіру">🔔</button><div style="font-size:11px;color:#888;font-family:system-ui,sans-serif;margin-top:-6px">🔔 - әнді қосу үшін жоғарыдағы қоңырауды бас</div>':"";
   var videoHtml=hasVideo?'<a style="'+btn+'" target="_blank" href="'+esc(d.video)+'">▶️ Видеоны көру</a>':"";
   var dressHtml=hasDress?'<div style="background:#fff0f3;border:1px solid #e6c84a;border-radius:12px;padding:10px;margin:12px 0;font-family:system-ui,sans-serif;font-size:14px">👔 <b>Дресс-код:</b> '+esc(d.dress)+'</div>':"";
   var calHtml=hasCal?'<a style="'+btn+'" target="_blank" href="'+esc(calUrl)+'">📅 Календарға қосу</a>':"";
   var rb='flex:1;background:#fff;border:1px solid #bcd3ff;border-radius:10px;padding:10px 4px;text-decoration:none;color:#1a3a6a;font-size:13px;font-weight:600;text-align:center';
   var rsvpHtml=hasRsvp?'<div style="background:#f0f7ff;border:1px solid #bcd3ff;border-radius:14px;padding:12px;margin:12px 0;font-family:system-ui,sans-serif"><b>👥 Сіз неше адаммен келесіз?</b><div style="display:flex;gap:6px;margin-top:8px"><a style="'+rb+'" target="_blank" href="'+esc(wa2)+'">2 адам</a><a style="'+rb+'" target="_blank" href="'+esc(waYes)+'">1 адам</a><a style="'+rb+'" target="_blank" href="'+esc(waNo)+'">Келе алмаймын</a></div></div>':"";
   var target=d.date?d.date+"T"+(d.time||"00:00")+":00":"";
-  var watermark=showWatermark?'<div style="position:fixed;top:10px;right:10px;z-index:99;background:#ff0000;color:#fff;font:800 13px system-ui,sans-serif;padding:6px 12px;border-radius:20px;transform:rotate(5deg)">ҮЛГІ</div>':'';
+  var watermark=showWatermark?'<div style="position:fixed;top:10px;left:10px;z-index:99;background:#ff0000;color:#fff;font:800 13px system-ui,sans-serif;padding:6px 12px;border-radius:20px;transform:rotate(-5deg)">ҮЛГІ</div>':'';
   var css='body{margin:0;background:'+th.bg+';font:17px/1.6 Georgia,serif;text-align:center}.w{max-width:480px;margin:0 auto;padding:20px 14px}.card{background:'+th.card+';border-radius:26px;padding:26px 18px;border:2px solid '+th.ac2+';color:#2b1d05;box-shadow:0 10px 30px rgba(0,0,0,.25)}.t{display:flex;gap:8px;justify-content:center;margin:14px 0}.t div{flex:1;padding:10px 4px;border-radius:14px;background:#fff;border:1px solid '+th.ac2+'}.t b{display:block;font-size:24px;color:'+th.ac+'}.t span{font-size:11px;color:#888}.b{display:block;padding:14px;border-radius:14px;background:'+th.grad+';color:'+th.btnTx+';text-decoration:none;margin:10px 0;font-family:system-ui,sans-serif;font-weight:700}.b.o{background:#fff;border:2px solid '+th.ac+';color:'+th.ac+'}.dove{font-size:70px;display:block;animation:doveFly 3s ease-in-out infinite}@keyframes doveFly{0%{transform:translate(-20px,-10px) rotate(-5deg)}50%{transform:translate(20px,5px) rotate(5deg)}100%{transform:translate(-20px,-10px) rotate(-5deg)}}.hearts{font-size:20px;animation:heartFall 2s ease-in-out infinite}@keyframes heartFall{0%,100%{opacity:.5;transform:translateY(0)}50%{opacity:1;transform:translateY(5px)}}#e{position:fixed;inset:0;background:'+th.envBg+';z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;color:'+th.envTx+';padding:20px}#e.x{display:none}#e button{border:0;padding:16px 40px;border-radius:100px;background:'+th.grad+';color:'+th.btnTx+';font-weight:700;font-size:18px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.25)}';
   var env=f.envelope?'<div id="e"><span class="dove">🕊️</span><div style="font-size:14px;letter-spacing:2px">АҚ КӨГЕРШІН СІЗГЕ ХАТ ӘКЕЛДІ</div><div style="font-size:90px;margin:6px 0">💌</div><div class="hearts">💖 💗 💓 💖 💗</div><h2 style="margin:8px 0;font-size:26px">Сізге шақырту келді</h2><div style="color:'+th.ac+';font-size:21px;font-weight:700;margin:4px 0 6px">'+esc(d.name)+' • '+esc(d.kind)+'</div><p style="font-size:13px;opacity:.8;margin:0 0 16px">Көгершін алып келген қуанышты хабар 💌</p><button onclick="document.getElementById(\'e\').className=\'x\'">✉️ Ашу — Конвертті ашу</button><p style="font-size:12px;margin-top:14px;opacity:.7">🕊️ Махаббат пен амандық тілейміз</p></div>':'';
   var timer=target?'<div class="t"><div><b id="dd">--</b><span>күн</span></div><div><b id="hh">--</b><span>сағат</span></div><div><b id="mm">--</b><span>мин</span></div><div><b id="ss">--</b><span>сек</span></div></div><script>var T=new Date("'+target+'").getTime();setInterval(function(){var s=Math.max(0,Math.floor((T-Date.now())/1000));document.getElementById("dd").textContent=Math.floor(s/86400);document.getElementById("hh").textContent=Math.floor(s%86400/3600);document.getElementById("mm").textContent=Math.floor(s%3600/60);document.getElementById("ss").textContent=s%60},1000);<\/script>':"";
-  var html='<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(d.name)+' - '+esc(d.kind)+'</title><style>'+css+'</style></head><body>'+watermark+env+'<div class="w"><div class="card"><div style="font-size:28px">🕊️ 💖</div><p style="color:#888;margin:4px 0">'+esc(d.kind)+'</p><h1 style="font-size:32px;margin:10px 0">'+esc(d.name)+'</h1>'+photoHtml+other+'<p style="font-size:20px;font-weight:700;color:'+th.ac+'">'+esc(ds)+' • '+(d.time||"")+'</p><p>'+esc(d.place)+'</p><p style="margin:14px 0">'+esc(d.wish)+'</p>'+timer+musicHtml+videoHtml+dressHtml+calHtml+rsvpHtml+'<a class="b" target="_blank" href="'+esc(maps)+'">📍 Картадан қарау</a><a class="b o" target="_blank" href="'+esc(waYes)+'">✅ Келемін - Той иесіне жазу</a><p style="font-size:12px;color:#aaa;margin-top:12px">🕊️ Қуанышымызды бөліскеніңізге рахмет!</p></div></div></body></html>';
+  var html='<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(d.name)+' - '+esc(d.kind)+'</title><style>'+css+'</style></head><body>'+watermark+musicHtml+env+'<div class="w"><div class="card"><div style="font-size:28px">🕊️ 💖</div><p style="color:#888;margin:4px 0">'+esc(d.kind)+'</p><h1 style="font-size:32px;margin:10px 0">'+esc(d.name)+'</h1>'+photoHtml+other+'<p style="font-size:20px;font-weight:700;color:'+th.ac+'">'+esc(ds)+' • '+(d.time||"")+'</p><p>'+esc(d.place)+'</p><p style="margin:14px 0">'+esc(d.wish)+'</p>'+timer+videoHtml+dressHtml+calHtml+rsvpHtml+'<a class="b" target="_blank" href="'+esc(maps)+'">📍 Картадан қарау</a><a class="b o" target="_blank" href="'+esc(waYes)+'">✅ Келемін - Той иесіне жазу</a><p style="font-size:12px;color:#aaa;margin-top:12px">🕊️ Қуанышымызды бөліскеніңізге рахмет!</p></div></div></body></html>';
   return html;
 }
 function openViewer(html,guest){var v=$("viewer");v.classList.toggle("guest",!!guest);v.classList.add("show");var f=$("viewerFrame");f.srcdoc=html;if(guest){$("viewerTop").style.display="none"}else{$("viewerTop").style.display="flex"}}
@@ -317,4 +334,4 @@ function checkGuestLink(){var h=location.hash||"";if(h.indexOf("#i=")==0){try{va
 onPkg();updateCodeLeft();checkGuestLink();
 </script>
 </body>
-                                                                           </html>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Той шақыртуы – v19 ТОЛЫҚ ЖАҢА</title>
+<title>Той шақыртуы – v20 ТОЛЫҚ</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#faf6ef;color:#2a2118;font:16px/1.5 system-ui,sans-serif}
 .w{max-width:560px;margin:0 auto;padding:16px}
@@ -35,13 +35,16 @@ button:disabled{opacity:.6}
 #viewerTop{background:#1a1405;color:#fff;padding:10px;display:flex;gap:8px}
 #viewerTop button{width:auto;padding:10px 14px;margin:0;font-size:14px;flex:1}
 #viewerTop button.closeBtn{background:#fff;color:#1a1405}
+/* ҚОНАҚ РЕЖИМІ — ТӨЛЕМ БАТЫРМАСЫ МҮЛДЕ ЖОҚ */
+#viewer.guest #viewerTop{display:none !important}
+#viewer.guest iframe{height:100vh;flex:1}
 </style>
 </head>
 <body>
 <div id="viewer"><div id="viewerTop"><button class="closeBtn" onclick="closeViewer()">⬅️ Артқа</button><button onclick="goToPay()">💳 Төлемге өту</button></div><iframe id="viewerFrame"></iframe></div>
 <div class="w" id="mainForm">
-<h1>👑 Той шақыртуы — v19</h1>
-<p class="n">Жаңа толық нұсқа. Сілтеме қысқа болады.</p>
+<h1>👑 Той шақыртуы — v20</h1>
+<p class="n">Қонаққа төлем шықпайды. Сілтеме қысқа.</p>
 
 <div class="c"><h2>1. Пакет</h2>
 <div class="pk">
@@ -167,13 +170,20 @@ function makeInvite(){
   try{
     $("debug").textContent="";
     var d=getData();lastHtml=build(d,!unlocked);
-    var v=$("viewer");v.classList.add("show");var fr=$("viewerFrame");fr.srcdoc="";setTimeout(function(){fr.srcdoc=lastHtml;},50);
+    var v=$("viewer");
+    v.classList.remove("guest");
+    var top=document.getElementById("viewerTop"); if(top) top.style.display="flex";
+    v.classList.add("show");
+    var fr=$("viewerFrame");fr.srcdoc="";setTimeout(function(){fr.srcdoc=lastHtml;},50);
     $("act").style.display="block";$("amt").textContent=PRICE[d.pkg]+" тг";
     $("note").textContent=unlocked?"Дайын ✅ «ҮЛГІ» алынды.":"Үлгі дайын ✅ «ҮЛГІ» жазылып тұр. Кодты енгізгенде жоғалады.";
     window.scrollTo(0,0);
   }catch(e){$("debug").textContent="Қате: "+e.message;alert("Қате: "+e.message);}
 }
-function closeViewer(){$("viewer").classList.remove("show");$("viewerFrame").srcdoc="";document.getElementById("act").scrollIntoView({behavior:"smooth"});}
+function closeViewer(){
+  if($("viewer").classList.contains("guest")) return;
+  $("viewer").classList.remove("show");$("viewerFrame").srcdoc="";document.getElementById("act").scrollIntoView({behavior:"smooth"});
+}
 function goToPay(){closeViewer();setTimeout(function(){document.getElementById("act").scrollIntoView({behavior:"smooth"});},100);}
 function onMusic(inp){
   var f=inp.files[0];if(!f)return;
@@ -284,9 +294,20 @@ function downloadInvite(){
   if(!unlocked){alert("Алдымен кодты енгізіңіз.");return;}
   try{var html=build(getData(),false);var blob=new Blob([html],{type:"text/html;charset=utf-8"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="shakyrtu-"+(getData().name||"toy")+".html";document.body.appendChild(a);a.click();a.remove();$("note").textContent="Шақырту жүктелді ✅";}catch(e){alert("Қате: "+e.message);}
 }
+// === ҚОНАҚ РЕЖИМІ — СІЛТЕМЕМЕН АШЫЛҒАНДА ТӨЛЕМ ЖОҚ ===
 try{
   var pr=new URLSearchParams(location.search);var code=pr.get("i");
-  if(code){var d=JSON.parse(decodeURIComponent(escape(atob(code))));if(d.unlocked)unlocked=true;$("mainForm").style.display="none";$("viewer").classList.add("show");$("viewerFrame").srcdoc=build(d,!unlocked);}
+  if(code){
+    var d=JSON.parse(decodeURIComponent(escape(atob(code))));
+    if(d.unlocked) unlocked=true;
+    $("mainForm").style.display="none";
+    var v=$("viewer");
+    v.classList.add("show");
+    v.classList.add("guest");
+    var top=document.getElementById("viewerTop"); if(top) top.style.display="none";
+    document.body.style.background="#1a1405";
+    $("viewerFrame").srcdoc=build(d,!unlocked);
+  }
 }catch(e){}
 onPkg();
 </script>

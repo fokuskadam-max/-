@@ -36,12 +36,11 @@ button.g{background:#fff;color:#b4530f;border:2px solid #b4530f}
 #viewerTop button{width:auto;padding:10px 14px;margin:0;font-size:14px;flex:1}
 #viewerTop button.closeBtn{background:#fff;color:#1a1405}
 #viewer.guest #viewerTop{display:none !important}
-/* ЖАҢА ДИЗАЙН */
 .hero{background:linear-gradient(135deg,#3a2400,#8a5a00);color:#fff;border-radius:18px;padding:26px 16px;text-align:center}
 .hero h1{font-size:28px;line-height:1.25}.hero h1 span{color:#ffd700}
 .hero p{color:#ffe9b0;font-size:14px;line-height:1.5;margin-top:10px}
-.offer{background:#ffd700;color:#111;border-radius:12px;padding:12px;font-weight:800;line-height:1.4;text-align:center;margin-bottom:14px}
-.offer small{display:block;font-weight:600}
+.offer{background:#e7f8ec;border:2px solid #1a7a3a;color:#111;border-radius:12px;padding:13px;font-weight:800;line-height:1.4;text-align:center;margin-bottom:14px}
+.offer small{display:block;font-weight:600;color:#1a7a3a}
 </style>
 </head>
 <body>
@@ -53,8 +52,7 @@ button.g{background:#fff;color:#b4530f;border:2px solid #b4530f}
 <p>Қош келдің! 💍<br>Қонағың бір сілтемені басады —<br>тойыңның күні, орны, картасы, фотоң бәрі бір жерде.</p>
 </div>
 <div style="height:14px"></div>
-<div class="offer">🔥 БҮГІНГЕ ҒАНА: 2-ші дизайн ТЕГІН + Музыка ТЕГІН<small>Ұнамаса - ақшаңды 100% қайтарамын. Тәуекел жоқ!</small></div>
-<p class="n" style="text-align:center">Қонаққа төлем шықпайды. Сілтеме қысқа.</p>
+<div class="offer">✅ Алдымен шақыртуыңды көріп ал, ұнаса ғана төлейсің!<small>Тәуекел жоқ. Ұнамаса - төлемейсің 💍</small></div>
 
 <div class="c"><h2>1. Пакет</h2>
 <div class="pk">
@@ -220,7 +218,7 @@ function makeInvite(){
     openViewer(html,false);
     $("act").style.display="block";
     $("amt").textContent=PRICE[d.pkg]+" тг";
-    $("note").textContent="Шақырту дайын! Төлеген соң «ҮЛГІ» кетеді.";
+    $("note").textContent="Шақырту дайын! Ұнаса - төлеп, «ҮЛГІ»-ні алып тастайсың.";
     $("debug").textContent="";
   }catch(e){ $("debug").textContent="Қате: "+e.message; }
 }
@@ -247,7 +245,7 @@ function makeLink(){
   var url=URL.createObjectURL(blob);
   lastLink=url;$("linkArea").style.display="block";
   $("linkText").textContent=url;
-  $("linkNote").textContent="Бұл сілтемені қонаққа жіберсеңіз болады. Қонаққа төлем шықпайды.";
+  $("linkNote").textContent="Бұл сілтемені қонаққа жіберсеңіз болады.";
   openViewer(html,true);
 }
 function copyLink(){ if(lastLink){navigator.clipboard.writeText(lastLink);alert("Сілтеме көшірілді!");} }

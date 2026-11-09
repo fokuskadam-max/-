@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Той шақыртуы – v11 ROYAL</title>
+<title>Той шақыртуы – v12 Қазақша әуен</title>
 <style>
 :root{box-sizing:border-box;--bg:#faf6ef;--card:#fff;--tx:#2a2118;--mut:#7a6a58;--ac:#b4530f;--bd:#e6dccb;--on:#fff}
 *{box-sizing:border-box}
@@ -39,14 +39,17 @@ iframe{width:100%;height:620px;border:1px solid var(--bd);border-radius:14px;bac
 .badge{display:inline-block;background:#e7f8ec;color:#1a7a3a;border-radius:20px;padding:2px 8px;font-size:11px;font-weight:700;margin-left:6px}
 .photoOk{background:#e7f8ec;color:#166534;border-radius:10px;padding:8px 10px;font-size:13px;font-weight:600;display:none;margin-top:8px}
 .photoErr{background:#fee2e2;color:#991b1b;border-radius:10px;padding:8px 10px;font-size:13px;font-weight:600;display:none;margin-top:8px}
+.musicBox{border:2px dashed #c9a227;border-radius:14px;padding:12px;background:#fffdf0;text-align:center}
+.musicBox input{width:100%}
+.audioPrev{width:100%;margin-top:8px}
 </style>
 </head>
 <body>
 <div id="viewer"></div>
 <div class="w" id="mainForm">
-<h1>👑 Той шақыртуы — ROYAL GOLD</h1>
-<p class="s">Ең әдемі, ең салтанатты нұсқа. Музыкасымен бірге.</p>
-<div class="ver">v11 — ЕҢ ӘДЕМІ ДИЗАЙН + МУЗЫКА</div>
+<h1>👑 Той шақыртуы — Қазақша әуенмен</h1>
+<p class="s">Әнді өзіңіз жүктейсіз. Сілтеме іздеудің қажеті жоқ.</p>
+<div class="ver">v12 — ҚАЗАҚША ӘУЕН + ӨЗ ӘНІҢДІ ЖҮКТЕУ</div>
 
 <div class="c"><h2>1. Пакет</h2>
 <div class="pk">
@@ -55,7 +58,7 @@ iframe{width:100%;height:620px;border:1px solid var(--bd);border-radius:14px;bac
 <label><input type="radio" name="pk" value="vip"><b>VIP Luxury — 10000 тг 👑</b><ul><li>Барлығы + GOLD + Галерея 4 фото</li><li>📅 Календар + 👥 Қонақ саны</li></ul></label>
 </div></div>
 
-<div class="c"><h2>✨ Дизайн — Ең әдемісі таңдалды</h2>
+<div class="c"><h2>✨ Дизайн</h2>
 <div class="designs">
 <label><input type="radio" name="design" value="royal" checked><div class="sw" style="background:linear-gradient(135deg,#fff8e1,#c9a227,#1a1405)"></div><b>👑 Royal Gold</b></label>
 <label><input type="radio" name="design" value="rose"><div class="sw" style="background:linear-gradient(135deg,#fff0f3,#ffd6e0)"></div><b>Қызғылт</b></label>
@@ -78,15 +81,27 @@ iframe{width:100%;height:620px;border:1px solid var(--bd);border-radius:14px;bac
 <label class="f">WhatsApp нөміріңіз</label><input type="tel" id="wa" placeholder="77012345678">
 </div>
 
-<div class="c"><h2>🎵 Музыка — Қазақша, ең әдемісі</h2>
+<div class="c"><h2>🎵 Музыка — Қазақша әуендер</h2>
+<p class="n" style="margin-top:0">1. Алдымен қазақша әуенді таңдаңыз, 2. Немесе өз әніңізді төменнен жүктеңіз. Өз әніңіз басым болады.</p>
 <div class="musics">
-<label><input type="radio" name="music" value="toy" checked> 🎉 Той әуені — көңілді, тойға арналған <span class="badge">ТАҢДАУЛЫ</span></label>
-<label><input type="radio" name="music" value="soft"> 💖 Нәзік әуен — қыз ұзатуға</label>
-<label><input type="radio" name="music" value="classic"> 🎻 Салтанатты — мерейтойға</label>
+<label><input type="radio" name="music" value="toy" checked> 🎉 <b>Той жыры</b> — көңілді, тойға арналған <span class="badge">ТАҢДАУЛЫ</span></label>
+<label><input type="radio" name="music" value="dombra"> 🪕 <b>Домбыра күйі</b> — Балбырауын, салтанатты</label>
+<label><input type="radio" name="music" value="kyzuzatu"> 💖 <b>Қыз ұзату</b> — нәзік, жүрекке тиетін</label>
+<label><input type="radio" name="music" value="atameken"> 🇰🇿 <b>Атамекен</b> — мерейтойға, салтанатты</label>
 <label><input type="radio" name="music" value=""> 🔇 Музыкасыз</label>
 </div>
-<label class="f">Немесе өз қазақша mp3 сілтемеңіз (catbox.moe-ден)</label><input type="text" id="musicUrl" placeholder="https://files.catbox.moe/....mp3">
-<p class="n">Қазақша әнді catbox-қа салып, сілтемесін осы жерге қойсаңыз — сол ән ойнайды. Бос тұрса — дайын той әуені ойнайды.</p>
+
+<div class="musicBox">
+<b>📁 Өз қазақша әніңді жүктеу</b>
+<p class="n" style="margin:4px 0 8px">Телефондағы қазақша әнді таңдаңыз — сілтеме керек емес!</p>
+<input type="file" id="musicFile" accept="audio/*,.mp3,.m4a,.wav">
+<div class="photoOk" id="musicOk">✅ Ән қабылданды! Төменде тыңдап көре аласыз.</div>
+<div class="photoErr" id="musicErr">❌ Ән таңдалмады.</div>
+<audio id="musicPrev" class="audioPrev" controls style="display:none"></audio>
+<p class="n">Қайдан алуға болады: mp3.kz / music.nur.kz — «той жыры» деп іздеп, жүктеп алып, осында таңдаңыз.</p>
+</div>
+
+<label class="f">Немесе дайын mp3 сілтемесі (catbox.moe-ден болса)</label><input type="text" id="musicUrl" placeholder="https://files.catbox.moe/....mp3">
 </div>
 
 <div class="c"><h2>4. Фото</h2>
@@ -101,7 +116,7 @@ iframe{width:100%;height:620px;border:1px solid var(--bd);border-radius:14px;bac
 </div>
 
 <div class="c"><h2>5. Дайын сілтеме</h2>
-<button id="go">👑 Шақыртуды жасау — әдемі үлгіні көру</button>
+<button id="go">👑 Шақыртуды жасау — үлгіні көру</button>
 <iframe id="pv" title="Шақырту" style="display:none;margin-top:12px"></iframe>
 <div id="act" style="display:none">
 <button class="g" id="ord">📲 Тапсырысты WhatsApp-қа жіберу</button>
@@ -124,9 +139,16 @@ iframe{width:100%;height:620px;border:1px solid var(--bd);border-radius:14px;bac
 var SELLER="77082418836";
 var CODES=["001-GY5N","002-GCQV","003-KVFV","004-WTWG","005-47Y7","006-BVQD","007-7QNB","008-9TR9","009-4SLU","010-JJCU","011-GN58","012-6ZQU","013-GZE5","014-H3XA","015-2N53","016-V5GG","017-L78L","018-T482","019-7NBR","020-UVWE","021-89K9","022-RYD4","023-AVLX","024-SU8R","025-WPLX","026-2KZ7","027-SXZP","028-LME2","029-KAGL","030-J6QC","031-9ME9","032-Z5AJ","033-UT29","034-WPJU","035-5598","036-5ZQC","037-CYM7","038-UPGJ","039-BCR3","040-C4PM","041-VAF7","042-FMRD","043-S2L7","044-DYU8","045-ZKSQ","046-ZGLR","047-DXUZ","048-X6MU","049-8SYX","050-CRQD","051-QXSK","052-6ADK","053-7NJV","054-K26T","055-BQC2","056-WQZB","057-H38X","058-GUPU","059-UGLF","060-UPDH","061-MTVE","062-L7AC","063-MKZ5","064-BVC9","065-2TJ9","066-H3CR","067-JCFD","068-ZP7Z","069-TFCV","070-LWRG","071-6V4P","072-DA69","073-3WY9","074-B3BM","075-27W9","076-ZDZF","077-ZM58","078-VYU5","079-CY4T","080-N4Z7","081-F2JS","082-TW6A","083-6WBY","084-UGFW","085-36ZK","086-ER97","087-9X5R","088-YXUX","089-UNKR","090-DG8L","091-2PRX","092-D49H","093-AY5X","094-FHYD","095-UAJQ","096-SD9A","097-29Z5","098-W3XJ","099-S5MM","100-RACY"],unlocked=false;
 var PRICE={std:3000,prem:5000,vip:10000};
-var MUSICS={toy:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3",soft:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",classic:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"};
+// ҚАЗАҚША ӘУЕНДЕР — дайын әуендер (өз әніңізді жүктесеңіз, сол басым болады)
+var MUSICS={
+  toy:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3",
+  dombra:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+  kyzuzatu:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+  atameken:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"
+};
+var MUSIC_NAMES={toy:"Той жыры",dombra:"Домбыра күйі",kyzuzatu:"Қыз ұзату",atameken:"Атамекен"};
 var $=function(i){return document.getElementById(i)};
-var photos=[],lastHtml="",lastLink="";
+var photos=[],lastHtml="",lastLink="",uploadedMusic="",uploadedMusicName="";
 function esc(s){return String(s||"").replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function pkg(){var e=document.querySelector('input[name=pk]:checked');return e?e.value:"prem"}
 function design(){var e=document.querySelector('input[name=design]:checked');return e?e.value:"royal"}
@@ -136,11 +158,12 @@ function build(d){
   var p=d.pkg||"prem",isStd=p==="std",isVip=p==="vip",env=!isStd;
   var designUse=isStd?"royal":(d.design||"royal");
   var hasVideo=!isStd&&!!d.video;
-  var hasMusic=!isStd&&!!(d.musicUrl||MUSICS[d.music]);
-  var musicUrl=d.musicUrl||MUSICS[d.music]||"";
+  // Музыка басымдығы: 1) Өз жүктеген әнің 2) Сілтеме 3) Таңдалған қазақша әуен
+  var musicUrl=d.musicFile||d.musicUrl||MUSICS[d.music]||"";
+  var hasMusic=!isStd&&!!musicUrl;
+  var musicLabel=d.musicFileName||MUSIC_NAMES[d.music]||"Қазақша әуен";
   var hasDress=!isStd&&!!d.dress;
   var hasCal=isVip&&!!d.date;
-  var maxPhotos=isStd?1:(isVip?4:3);
   var ds=d.date?new Date(d.date+"T00:00:00").toLocaleDateString("kk-KZ",{day:"numeric",month:"long",year:"numeric"}):"";
   var maps="https://maps.google.com/?q="+encodeURIComponent(d.place||"");
   var cleanWa=(d.wa||"").replace(/\D/g,"");
@@ -158,14 +181,13 @@ function build(d){
     emerald:{bg:"#0f2e22",card:"#fffdf7",tx:"#122a1e",ac:"#1a7a4d",ac2:"#d4af37",btnTx:"#ffffff",grad:"linear-gradient(135deg,#2ea36b,#0f5a35)",envBg:"radial-gradient(circle at 50% 30%, #1a5a3d, #0f2e22 70%)",orn:"🍃"}
   }[designUse];
   var allPhotos=(d.photos||[]).filter(function(x){return x && (x.indexOf("http")===0 || x.indexOf("data:image")===0)}).slice(0,[STRIPPED]
-  var gal=allPhotos.length;
   var vid=hasVideo?'<a class="b o" target="_blank" rel="noopener" href="'+esc(d.video)+'">▶️ Видеоны көру</a>':"";
   var dressHtml=hasDress?'<div class="dress">👔 <b>Дресс-код:</b> '+esc(d.dress)+'</div>':"";
   var calHtml=hasCal?'<a class="b o" target="_blank" rel="noopener" href="'+calUrl+'">📅 Календарға қосу (VIP)</a>':"";
   var target=d.date?d.date+"T"+(d.time||"00:00")+":00":"";
   var photoHtml=gal?'<div class="phw"><img src="'+esc(allPhotos[0])+'" alt="Фото" style="width:100%;display:block;border-radius:20px;aspect-ratio:4/3;object-fit:cover"></div>':'<div style="background:#fee2e2;border:1px dashed #fca5a5;border-radius:16px;padding:16px;margin:12px 0;font-family:system-ui,sans-serif;font-size:14px;color:#991b1b">📷 Фото таңдалмаған.</div>';
   var otherPhotos=allPhotos.slice(1).map(function(u){return '<img class="gal" src="'+esc(u)+'" alt="Фото" style="width:100%;border-radius:16px;margin:8px 0;object-fit:cover">'}).join("");
-  var musicHtml=hasMusic?'<audio id="mus" loop preload="auto"><source src="'+esc(musicUrl)+'"></audio><button class="musicBtn" id="musicBtn" onclick="var a=document.getElementById(\'mus\');if(a.paused){a.play();this.innerHTML=\'🔊 Музыка ойнап тұр — өшіру\'}else{a.pause();this.innerHTML=\'🎵 Музыканы қосу\'}">🎵 Музыканы қосу</button>':"";
+  var musicHtml=hasMusic?'<audio id="mus" loop preload="auto"><source src="'+esc(musicUrl)+'"></audio><div style="font-size:12px;color:#888;margin:4px 0;font-family:system-ui,sans-serif">🎵 Қазір ойнап тұр: '+esc(musicLabel)+'</div><button class="musicBtn" id="musicBtn" onclick="var a=document.getElementById(\'mus\');if(a.paused){a.play();this.innerHTML=\'🔊 '+esc(musicLabel)+' — ойнап тұр, өшіру\'}else{a.pause();this.innerHTML=\'🎵 '+esc(musicLabel)+' — қосу\'}">🎵 '+esc(musicLabel)+' — қосу</button>':"";
   var rsvpHtml=isVip?'<div class="rsvp"><b>👥 Сіз неше адаммен келесіз?</b><div class="rsvpRow"><a target="_blank" rel="noopener" href="'+wa+'">2 адам</a><a target="_blank" rel="noopener" href="'+wa+'">1 адам</a><a target="_blank" rel="noopener" href="'+wa2+'">Келе алмаймын</a></div></div>':'';
   return '<!DOCTYPE html><html lang="kk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(d.name)+' – '+esc(d.kind)+'</title><style>'
   +'*{box-sizing:border-box}body{margin:0;background:'+th.bg+';color:'+th.tx+';font:17px/1.6 Georgia,serif;text-align:center;overflow-x:hidden}'
@@ -174,7 +196,7 @@ function build(d){
   +'.card:before{content:"";position:absolute;top:0;left:0;right:0;height:7px;background:'+th.grad+'}'
   +'.orn{font-size:22px;letter-spacing:8px;color:'+th.ac+'}'
   +'.k{letter-spacing:3px;text-transform:uppercase;font-size:12px;color:'+th.ac+';font-family:system-ui,sans-serif;font-weight:700}'
-  +'h1{font-size:36px;line-height:1.15;margin:10px 0 6px;color:'+th.tx+';font-family:Georgia,serif}'
+  +'h1{font-size:36px;line-height:1.15;margin:10px 0 6px;color:'+th.tx+'}'
   +'.sub{font-size:14px;color:#777;margin-bottom:14px}'
   +'.phw{padding:7px;background:'+th.grad+';border-radius:24px;margin:14px 0;box-shadow:0 12px 25px rgba(201,162,39,.35)}'
   +'.q{margin:16px 0;font-style:italic;white-space:pre-line;color:#555;font-size:16px;line-height:1.7}'
@@ -203,7 +225,7 @@ function build(d){
   +'.warn{display:none;background:#fff3cd;color:#664d03;border:1px solid #ffecb5;border-radius:12px;padding:10px;font:600 13px system-ui,sans-serif;margin:10px 0}'
   +'</style></head><body>'
   +'<div class="petal" style="left:5%;animation-duration:7s">🌸</div><div class="petal" style="left:25%;animation-duration:9s;animation-delay:1s">✦</div><div class="petal" style="left:45%;animation-duration:8s;animation-delay:.5s">🌸</div><div class="petal" style="left:65%;animation-duration:10s;animation-delay:1.5s">✦</div><div class="petal" style="left:85%;animation-duration:7s;animation-delay:.2s">🌸</div>'
-  +(env?'<div id="e"><div class="env">💌</div><div style="font-size:42px;margin-top:-62px;margin-bottom:18px">❤️</div><p>Құрметті қонақ!</p><h2>Сізге шақырту келді</h2><div class="nm">'+esc(d.name)+' • '+esc(d.kind)+'</div><button onclick="document.getElementById(\'e\').className=\'x\';var a=document.getElementById(\'mus\');if(a){a.play().catch(function(){});var b=document.getElementById(\'musicBtn\');if(b)b.innerHTML=\'🔊 Музыка ойнап тұр — өшіру\'}">✉️ Ашу</button><p style="margin-top:14px;font-size:12px;opacity:.7">Музыкамен бірге ашылады 🎵</p></div>':'')
+  +(env?'<div id="e"><div class="env">💌</div><div style="font-size:42px;margin-top:-62px;margin-bottom:18px">❤️</div><p>Құрметті қонақ!</p><h2>Сізге шақырту келді</h2><div class="nm">'+esc(d.name)+' • '+esc(d.kind)+'</div><button onclick="document.getElementById(\'e\').className=\'x\';var a=document.getElementById(\'mus\');if(a){a.play().catch(function(){});var b=document.getElementById(\'musicBtn\');if(b)b.innerHTML=\'🔊 '+esc(musicLabel)+' — ойнап тұр, өшіру\'}">✉️ Ашу</button><p style="margin-top:14px;font-size:12px;opacity:.7">🎵 '+esc(musicLabel)+' — музыкамен ашылады</p></div>':'')
   +'<div class="w"><div class="card"><div id="warn" class="warn">⚠️ Батырмалар істемесе: жоғарыдағы ⋮ → «Браузерде ашу» басыңыз</div><div class="pkgTag">'+(isVip?"👑 VIP LUXURY":isStd?"СТАНДАРТ":"✨ ПРЕМИУМ")+'</div><div class="orn">'+th.orn+' '+th.orn+' '+th.orn+'</div><div class="k">'+esc(d.kind)+'</div><h1>'+esc(d.name)+'</h1><div class="sub">Құрметті қонақтар, сіздерді тойымызға шақырамыз!</div>'+photoHtml
   +(d.wish?'<div class="q">“'+esc(d.wish)+'”</div>':'')
   +dressHtml
@@ -231,6 +253,22 @@ try{
     var f=document.createElement("iframe"); f.srcdoc=build(d); viewer.appendChild(f); return;
   }
 }catch(e){}
+
+// === ӨЗ ӘНІҢДІ ЖҮКТЕУ — ОСЫ ЖЕР ===
+$("musicFile").addEventListener("change",function(e){
+  $("musicErr").style.display="none"; $("musicOk").style.display="none";
+  var f=e.target.files && e.target.files[0];
+  if(!f){ $("musicErr").style.display="block"; return; }
+  if(f.size>12*1024*1024){ $("musicErr").style.display="block"; $("musicErr").textContent="❌ Ән тым үлкен (12 МБ-дан аспауы керек). Қысқа әнді таңдаңыз."; return; }
+  var r=new FileReader();
+  r.onload=function(){
+    uploadedMusic=r.result; uploadedMusicName=f.name;
+    $("musicOk").style.display="block"; $("musicOk").textContent="✅ Ән қабылданды: "+f.name;
+    var ap=$("musicPrev"); ap.style.display="block"; ap.src=r.result;
+    $("note").textContent="✅ Сіздің әніңіз дайын: "+f.name+" — Енді «Шақыртуды жасау» басыңыз.";
+  };
+  r.readAsDataURL(f);
+});
 
 $("ph").addEventListener("change",function(e){
   $("photoErr").style.display="none"; $("photoOk").style.display="none";
@@ -272,7 +310,9 @@ function data(){
   if(manual && manual.indexOf("http")===0){ ph=[manual].concat(ph); }
   var max=pkg()==="std"?1:(pkg()==="vip"?4:3);
   ph=ph.slice(0,max);
-  return{pkg:pkg(),design:design(),music:musicSel(),musicUrl:$("musicUrl").value.trim(),dress:$("dress").value.trim(),name:$("name").value.trim()||"Той иесі",kind:$("kind").value,date:$("date").value,time:$("time").value,place:$("place").value.trim()||"Мекенжай көрсетілмеген",wish:$("wish").value.trim(),video:$("video").value.trim(),wa:$("wa").value.trim(),photos:ph}
+  // Музыка: өз жүктегені басым
+  var mUrl=$("musicUrl").value.trim();
+  return{pkg:pkg(),design:design(),music:musicSel(),musicUrl:mUrl,musicFile:uploadedMusic,musicFileName:uploadedMusicName,dress:$("dress").value.trim(),name:$("name").value.trim()||"Той иесі",kind:$("kind").value,date:$("date").value,time:$("time").value,place:$("place").value.trim()||"Мекенжай көрсетілмеген",wish:$("wish").value.trim(),video:$("video").value.trim(),wa:$("wa").value.trim(),photos:ph}
 }
 
 $("go").addEventListener("click",function(){
@@ -298,49 +338,60 @@ $("ck").addEventListener("click",function(){
 });
 $("ord").addEventListener("click",function(){
   var d=data(),n={std:"Стандарт 3000тг",prem:"Премиум 5000тг",vip:"VIP 10000тг"}[d.pkg];
-  var t="Сәлеметсіз бе! Шақырту тапсырысы:\nПакет: "+n+"\nТой: "+d.kind+"\nАты: "+d.name+"\nКүні: "+d.date+" "+d.time+"\nЖері: "+d.place+"\n(Фотоларды жеке жіберемін)";
+  var t="Сәлеметсіз бе! Шақырту тапсырысы:\nПакет: "+n+"\nТой: "+d.kind+"\nАты: "+d.name+"\nКүні: "+d.date+" "+d.time+"\nЖері: "+d.place+"\nӘуен: "+(d.musicFileName||MUSIC_NAMES[d.music]||"")+"\n(Фотоларды жеке жіберемін)";
   window.open("https://wa.me/"+SELLER+"?text="+encodeURIComponent(t),"_blank");
 });
 async function blobFromDataUrl(u){var r=await fetch(u);return await r.blob();}
-async function tryCatboxViaProxy(blob){
-  var fd=new FormData();fd.append("reqtype","fileupload");fd.append("fileToUpload",blob,"photo.jpg");
+async function tryCatboxViaProxy(blob,name){
+  var fd=new FormData();fd.append("reqtype","fileupload");fd.append("fileToUpload",blob,name);
   var urls=["https://corsproxy.io/?url="+encodeURIComponent("https://catbox.moe/user/api.php"),"https://api.codetabs.com/v1/proxy?quest="+encodeURIComponent("https://catbox.moe/user/api.php")];
-  for(var i=0;i<urls.length;i++){ try{ var r=await fetch(urls[i],{method:"POST",body:fd}); var t=(await r.text()).trim(); if(t.indexOf("https://files.catbox.moe/")===0) return t; }catch(e){} fd=new FormData();fd.append("reqtype","fileupload");fd.append("fileToUpload",blob,"photo.jpg"); }
+  for(var i=0;i<urls.length;i++){ try{ var r=await fetch(urls[i],{method:"POST",body:fd}); var t=(await r.text()).trim(); if(t.indexOf("https://files.catbox.moe/")===0) return t; }catch(e){} fd=new FormData();fd.append("reqtype","fileupload");fd.append("fileToUpload",blob,name); }
   throw new Error("catbox fail");
 }
-async function tryZeroViaProxy(blob){
-  var fd=new FormData();fd.append("file",blob,"photo.jpg");
+async function tryZeroViaProxy(blob,name){
+  var fd=new FormData();fd.append("file",blob,name);
   var r=await fetch("https://corsproxy.io/?url="+encodeURIComponent("https://0x0.st"),{method:"POST",body:fd});
   var t=(await r.text()).trim(); if(t.indexOf("https://0x0.st/")===0) return t; throw new Error("0x0 fail");
 }
-async function uploadPhotoSmart(dataUrl){
+async function uploadSmart(dataUrl,name){
+  if(!dataUrl) return "";
   if(dataUrl.indexOf("http")===0) return dataUrl;
   var blob=await blobFromDataUrl(dataUrl);
-  try{return await tryCatboxViaProxy(blob);}catch(e){}
-  try{return await tryZeroViaProxy(blob);}catch(e){}
+  try{return await tryCatboxViaProxy(blob,name);}catch(e){}
+  try{return await tryZeroViaProxy(blob,name);}catch(e){}
   throw new Error("upload failed");
 }
 $("mkLink").addEventListener("click",async function(){
   if(!unlocked)return;
-  var btn=$("mkLink");btn.disabled=true;btn.textContent="⏳ Фото жүктелуде...";
-  var d=data(); var photoFailed=false;
+  var btn=$("mkLink");btn.disabled=true;btn.textContent="⏳ Фото + ән жүктелуде...";
+  var d=data(); var photoFailed=false, musicFailed=false;
   try{
+    // 1. Фото жүктеу
     if(d.photos && d.photos.length){
       var newPhotos=[];
       for(var i=0;i<d.photos.length;i++){
         $("note").textContent="Фото жүктелуде... "+(i+1)+"/"+d.photos.length;
-        try{ var u=await uploadPhotoSmart(d.photos[i]); newPhotos.push(u); }catch(e){photoFailed=true;}
+        try{ var u=await uploadSmart(d.photos[i],"photo.jpg"); newPhotos.push(u); }catch(e){photoFailed=true;}
       }
       d.photos=newPhotos.filter(function(x){return x&&x.indexOf("http")===0;});
     }
     if(!d.photos.length && photos.length){ d.photos=photos; }
+    // 2. Өз әніңді жүктеу — ең маңыздысы!
+    if(d.musicFile){
+      $("note").textContent="🎵 Ән жүктелуде... Күтіңіз, бетті жаппаңыз";
+      try{
+        var mu=await uploadSmart(d.musicFile,d.musicFileName||"music.mp3");
+        d.musicUrl=mu; d.musicFile=""; // Сілтемеге айналды, енді жеңіл болады
+      }catch(e){ musicFailed=true; d.musicUrl=MUSICS[d.music]||""; }
+    }
     var json=JSON.stringify(d);
     var encoded=btoa(unescape(encodeURIComponent(json)));
     var base=location.origin+location.pathname;
     lastLink=base+"?i="+encoded;
     $("linkText").textContent=lastLink; $("linkArea").style.display="block";
-    if(photoFailed || !d.photos.length){ $("note").textContent="Сілтеме жасалды, бірақ фото жүктелмеді. Фотоны catbox.moe-ге салып қайта көріңіз."; }
-    else{ $("note").textContent="Дайын ✅ Фотосымен, музыкасымен сілтеме жасалды."; }
+    if(musicFailed){ $("note").textContent="Сілтеме жасалды, бірақ сіздің әніңіз жүктелмеді. Дайын қазақша әуен ойнайды. Әнді catbox.moe-ге салып, сілтемесін қойып қайта көріңіз."; }
+    else if(photoFailed){ $("note").textContent="Сілтеме жасалды, ән бар ✅, бірақ фото жүктелмеді."; }
+    else{ $("note").textContent="Дайын ✅ Фотосымен + қазақша әнімен сілтеме жасалды."; }
     $("linkArea").scrollIntoView({behavior:"smooth"});
   }catch(e){ $("note").textContent="Қате шықты, қайта басып көріңіз."; }
   btn.disabled=false;btn.textContent="🔗 Сілтеме алу";

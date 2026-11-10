@@ -293,6 +293,68 @@ document.addEventListener('click', function(e){
     setTimeout(function(el){ el.remove(); }, 1000, h);
   }
 });
+<script>
+// ДОМБЫРА ДЫБЫСЫ
+let audioCtx = null;
+
+function dombyraNote(freq, startTime, vol){
+  var o = audioCtx.createOscillator();
+  var o2 = audioCtx.createOscillator();
+  var filter = audioCtx.createBiquadFilter();
+  var g = audioCtx.createGain();
+
+  // Домбыраның тембрі - сәл қаттылау, шертілгендей
+  o.type = 'triangle';
+  o.frequency.value = freq;
+  o2.type = 'sawtooth';
+  o2.frequency.value = freq * 2;
+  
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(3000, startTime);
+  filter.frequency.exponentialRampToValueAtTime(400, startTime + 0.4);
+
+  g.gain.setValueAtTime(0.0001, startTime);
+  g.gain.exponentialRampToValueAtTime(vol, startTime + 0.01);
+  g.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.55);
+
+  o.connect(filter); o2.connect(filter);
+  filter.connect(g); g.connect(audioCtx.destination);
+  o.start(startTime); o2.start(startTime);
+  o.stop(startTime + 0.6); o2.stop(startTime + 0.6);
+}
+
+function playDombyra(){
+  try{
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    var t = audioCtx.currentTime;
+    // Домбыраның күйі - Ре - Ля - Ре, жылдам шерту
+    dombyraNote(293.66, t, 0.35);       // Ре
+    dombyraNote(440.00, t + 0.09, 0.30); // Ля
+    dombyraNote(587.33, t + 0.18, 0.35); // Ре жоғары
+  }catch(e){}
+}
+
+document.addEventListener('click', function(e){
+  playDombyra();
+
+  var card = e.target.closest('div');
+  if(card && card.textContent.includes('дизайн')){
+    document.querySelectorAll('.is-active').forEach(function(el){ el.classList.remove('is-active'); });
+    card.classList.add('is-active');
+  }
+
+  var hearts = ['❤️','💛','✨','💍','🌸'];
+  for(var i=0; i<5; i++){
+    var h = document.createElement('div');
+    h.className = 'fly-heart';
+    h.textContent = hearts[i];
+    h.style.left = (e.clientX - 15 + (Math.random()*60 - 30)) + 'px';
+    h.style.top = (e.clientY - 10) + 'px';
+    document.body.appendChild(h);
+    setTimeout(function(el){ el.remove(); }, 1000, h);
+  }
+});
 </script>
 </body>
 </html>

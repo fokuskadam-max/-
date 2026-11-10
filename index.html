@@ -274,29 +274,9 @@ function fixPills(){
   });
 }
 fixPills();
-
-// 2. Басқанда жану + жүректер
-document.addEventListener('click', function(e){
-  var card = e.target.closest('div');
-  if(card && card.textContent.includes('дизайн')){
-    document.querySelectorAll('.is-active').forEach(function(el){ el.classList.remove('is-active'); });
-    card.classList.add('is-active');
-  }
-  var hearts = ['❤️','💛','✨','💍','🌸'];
-  for(var i=0; i<5; i++){
-    var h = document.createElement('div');
-    h.className = 'fly-heart';
-    h.textContent = hearts[i];
-    h.style.left = (e.clientX - 15 + (Math.random()*60 - 30)) + 'px';
-    h.style.top = (e.clientY - 10) + 'px';
-    document.body.appendChild(h);
-    setTimeout(function(el){ el.remove(); }, 1000, h);
-  }
-});
-<script>
 // ДОМБЫРА ДЫБЫСЫ
 let audioCtx = null;
-
+  playDombyra();
 function dombyraNote(freq, startTime, vol){
   var o = audioCtx.createOscillator();
   var o2 = audioCtx.createOscillator();
@@ -355,6 +335,24 @@ document.addEventListener('click', function(e){
     setTimeout(function(el){ el.remove(); }, 1000, h);
   }
 });
-</script>
+// 2. Басқанда жану + жүректер
+document.addEventListener('click', function(e){
+  var card = e.target.closest('div');
+  if(card && card.textContent.includes('дизайн')){
+    document.querySelectorAll('.is-active').forEach(function(el){ el.classList.remove('is-active'); });
+    card.classList.add('is-active');
+  }
+  var hearts = ['❤️','💛','✨','💍','🌸'];
+  for(var i=0; i<5; i++){
+    var h = document.createElement('div');
+    h.className = 'fly-heart';
+    h.textContent = hearts[i];
+    h.style.left = (e.clientX - 15 + (Math.random()*60 - 30)) + 'px';
+    h.style.top = (e.clientY - 10) + 'px';
+    document.body.appendChild(h);
+    setTimeout(function(el){ el.remove(); }, 1000, h);
+  }
+});
+<script>
 </body>
 </html>

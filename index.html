@@ -228,10 +228,17 @@ function checkInviteParam(){var p=new URLSearchParams(location.search);var id=p.
 try{renderCats();onPkg();checkInviteParam()}catch(e){}
 </script>
 <style>
-button, a, div, span, p {
+/* Тек ашық фонді батырмалар ғана қара жазулы болады */
+*[style*="background:#fff"],
+*[style*="background: #fff"],
+*[style*="background:#fff8"] {
   color: #3a2a00 !important;
   -webkit-text-fill-color: #3a2a00 !important;
-  text-shadow: none !important;
+}
+*[style*="background:#fff"] *,
+*[style*="background: #fff"] * {
+  color: #3a2a00 !important;
+  -webkit-text-fill-color: #3a2a00 !important;
 }
 </style>
 </body>

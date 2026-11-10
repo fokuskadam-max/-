@@ -262,14 +262,8 @@ try{renderCats();onPkg();checkInviteParam()}catch(e){}
 <script>
 // 1. Батырмалардың жазуын қара қыламыз - сөзіне қарап табамыз
 function fixPills(){
-  function fixPills(){
   document.querySelectorAll('*').forEach(function(el){
     if(el.children.length > 0) return;
-    var bg = window.getComputedStyle(el).backgroundColor;
-    if(bg && bg.indexOf('255') !== -1){
-      el.style.setProperty('color', '#3a2a00', 'important');
-      el.style.setProperty('-webkit-text-fill-color', '#3a2a00', 'important');
-    }
     var t = el.textContent || '';
     if(t.includes('Конверт') || t.includes('Музыка') || t.includes('Ортақ') || t.includes('Ойын')){
       el.style.setProperty('color', '#3a2a00', 'important');
@@ -277,7 +271,6 @@ function fixPills(){
     }
   });
 }
-fixPills();
 fixPills();
 // ДОМБЫРА ДЫБЫСЫ
 let audioCtx = null;

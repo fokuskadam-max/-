@@ -413,5 +413,13 @@ document.addEventListener('click', function(e){
     document.getElementById('myModal').style.display = 'none';
   });
 </script>
+<script>
+document.querySelectorAll('*').forEach(function(b){
+  if(b.textContent.includes('Шақыртуды ашу')){
+    b.onclick = function(){ makeInvite(); };
+  }
+  }
+});
+</script>
 </body>
 </html>

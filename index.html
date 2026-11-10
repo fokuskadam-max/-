@@ -381,32 +381,24 @@ function playWind(){
     src.connect(f); f.connect(g); g.connect(c.destination);
     src.start();
   }catch(e){}
-}
-document.querySelectorAll('button').forEach(function(b){
-  b.addEventListener('click', playWind);
-});
 <script>
 function playWind(){
+  alert('БАСЫЛДЫ!');
   try{
     var c = new (window.AudioContext||window.webkitAudioContext)();
-    var len = c.sampleRate * 2;
-    var buf = c.createBuffer(1, len, c.sampleRate);
-    var d = buf.getChannelData(0);
-    for(var i=0;i<len;i++){ d[i]=Math.random()*2-1; }
-    var src = c.createBufferSource();
-    src.buffer = buf;
-    var f = c.createBiquadFilter();
-    f.type='lowpass';
-    f.frequency.value=500;
+    if(c.state==='suspended'){ c.resume(); }
+    var o = c.createOscillator();
+    o.type='sine';
+    o.frequency.value=800;
     var g = c.createGain();
-    g.gain.setValueAtTime(0, c.currentTime);
-    g.gain.linearRampToValueAtTime(0.5, c.currentTime+0.3);
-    g.gain.linearRampToValueAtTime(0, c.currentTime+1.2);
-    src.connect(f); f.connect(g); g.connect(c.destination);
-    src.start();
-  }catch(e){}
+    g.gain.value=0.5;
+    o.connect(g); g.connect(c.destination);
+    o.start();
+    o.stop(c.currentTime+0.5);
+  }catch(e){ alert('Кате: '+e); }
 }
 document.addEventListener('click', playWind);
 </script>
+</body>
 </body>
 </html>

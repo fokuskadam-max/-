@@ -407,8 +407,7 @@ document.addEventListener('click', function(e){
 
 <!-- МИЫ: script -->
 <script>
-  document.getElementById('myBtn').addEventListener('click', function(){
-    document.getElementById('myModal').style.display = 'flex';
+  document.getElementById('myBtn').addEventListener('click', function(){ previewInvite(); });
   });
   document.getElementById('closeBtn').addEventListener('click', function(){
     document.getElementById('myModal').style.display = 'none';

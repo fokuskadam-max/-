@@ -416,7 +416,7 @@ document.addEventListener('click', function(e){
 <script>
 document.querySelectorAll('*').forEach(function(b){
   if(b.textContent.includes('Шақыртуды ашу')){
-    b.onclick = function(){ makeInvite(); };
+    b.onclick = function(){ window.scrollTo({top:0, behavior:'smooth'})
   }
   }
 });

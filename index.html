@@ -239,28 +239,6 @@ try{renderCats();onPkg();checkInviteParam()}catch(e){}
   0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 1; }
   100% { transform: translateY(-120px) scale(1.4) rotate(20deg); opacity: 0; }
 }
-<!-- 1-ші бөлік: Батырмалардың жазуы -->
-<style>
-*[style*="background:#fff"],
-*[style*="background: #fff"],
-*[style*="background:#fff8"] {
-  color: #3a2a00 !important;
-  -webkit-text-fill-color: #3a2a00 !important;
-}
-*[style*="background:#fff"] *,
-*[style*="background: #fff"] * {
-  color: #3a2a00 !important;
-  -webkit-text-fill-color: #3a2a00 !important;
-}
-.is-active {
-  border: 2px solid #d4af37 !important;
-  background: #fff8e0 !important;
-  box-shadow: 0 0 0 4px rgba(212,175,55,.25), 0 10px 25px rgba(212,175,55,.35) !important;
-  transform: scale(1.03) !important;
-}
-</style>
-
-<!-- 2-ші бөлік: Жүректер -->
 <style>
 .fly-heart {
   position: fixed;
@@ -270,12 +248,34 @@ try{renderCats();onPkg();checkInviteParam()}catch(e){}
   animation: flyUp 1s ease-out forwards;
 }
 @keyframes flyUp {
-  0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(-120px) scale(1.4) rotate(20deg); opacity: 0; }
+  0% { transform: translateY(0) scale(0.5); opacity: 1; }
+  100% { transform: translateY(-120px) scale(1.4); opacity: 0; }
+}
+.is-active {
+  border: 2px solid #d4af37 !important;
+  background: #fff8e0 !important;
+  box-shadow: 0 0 0 4px rgba(212,175,55,.25), 0 10px 25px rgba(212,175,55,.35) !important;
+  transform: scale(1.03) !important;
 }
 </style>
 
 <script>
+// 1. Батырмалардың жазуын қара қыламыз - сөзіне қарап табамыз
+function fixPills(){
+  var words = ['Конверт','Музыка','Ортақ','Ойын'];
+  document.querySelectorAll('div, span, button, a').forEach(function(el){
+    if(words.some(function(w){ return el.textContent.trim() === w || el.textContent.includes(w); })){
+      // тек ең кішкентай элементті аламыз, үлкен блокты бояп жібермеу үшін
+      if(el.children.length === 0 || el.textContent.length < 20){
+        el.style.setProperty('color', '#3a2a00', 'important');
+        el.style.setProperty('-webkit-text-fill-color', '#3a2a00', 'important');
+      }
+    }
+  });
+}
+fixPills();
+
+// 2. Басқанда жану + жүректер
 document.addEventListener('click', function(e){
   var card = e.target.closest('div');
   if(card && card.textContent.includes('дизайн')){

@@ -240,6 +240,21 @@ try{renderCats();onPkg();checkInviteParam()}catch(e){}
   100% { transform: translateY(-120px) scale(1.4) rotate(20deg); opacity: 0; }
 }
 </style>
+  <style>
+/* Тек ашық фонді батырмалар ғана қара жазулы болады */
+*[style*="background:#fff"],
+*[style*="background: #fff"],
+*[style*="background:#fff8"] {
+  color: #3a2a00 !important;
+  -webkit-text-fill-color: #3a2a00 !important;
+}
+*[style*="background:#fff"] *,
+*[style*="background: #fff"] * {
+  color: #3a2a00 !important;
+  -webkit-text-fill-color: #3a2a00 !important;
+}
+</style>
+</body>
 
 <script>
 document.addEventListener('click', function(e){

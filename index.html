@@ -228,18 +228,32 @@ function checkInviteParam(){var p=new URLSearchParams(location.search);var id=p.
 try{renderCats();onPkg();checkInviteParam()}catch(e){}
 </script>
 <style>
-/* Тек ашық фонді батырмалар ғана қара жазулы болады */
-*[style*="background:#fff"],
-*[style*="background: #fff"],
-*[style*="background:#fff8"] {
-  color: #3a2a00 !important;
-  -webkit-text-fill-color: #3a2a00 !important;
+.fly-heart {
+  position: fixed;
+  pointer-events: none;
+  font-size: 28px;
+  z-index: 9999;
+  animation: flyUp 1s ease-out forwards;
 }
-*[style*="background:#fff"] *,
-*[style*="background: #fff"] * {
-  color: #3a2a00 !important;
-  -webkit-text-fill-color: #3a2a00 !important;
+@keyframes flyUp {
+  0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(-120px) scale(1.4) rotate(20deg); opacity: 0; }
 }
 </style>
+
+<script>
+document.addEventListener('click', function(e){
+  var hearts = ['❤️','💛','✨','💍','🌸'];
+  for(var i=0; i<5; i++){
+    var h = document.createElement('div');
+    h.className = 'fly-heart';
+    h.textContent = hearts[i];
+    h.style.left = (e.clientX - 15 + (Math.random()*60 - 30)) + 'px';
+    h.style.top = (e.clientY - 10) + 'px';
+    document.body.appendChild(h);
+    setTimeout(function(el){ el.remove(); }, 1000, h);
+  }
+});
+</script>
 </body>
 </html>

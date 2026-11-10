@@ -239,8 +239,8 @@ try{renderCats();onPkg();checkInviteParam()}catch(e){}
   0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 1; }
   100% { transform: translateY(-120px) scale(1.4) rotate(20deg); opacity: 0; }
 }
+<!-- 1-ші бөлік: Батырмалардың жазуы -->
 <style>
-/* 1. Ашық батырмалар - қара жазулы */
 *[style*="background:#fff"],
 *[style*="background: #fff"],
 *[style*="background:#fff8"] {
@@ -252,16 +252,16 @@ try{renderCats();onPkg();checkInviteParam()}catch(e){}
   color: #3a2a00 !important;
   -webkit-text-fill-color: #3a2a00 !important;
 }
-
-/* 2. Басқанда жанатын әсер */
 .is-active {
   border: 2px solid #d4af37 !important;
   background: #fff8e0 !important;
   box-shadow: 0 0 0 4px rgba(212,175,55,.25), 0 10px 25px rgba(212,175,55,.35) !important;
   transform: scale(1.03) !important;
 }
+</style>
 
-/* 3. Ұшатын жүректер */
+<!-- 2-ші бөлік: Жүректер -->
+<style>
 .fly-heart {
   position: fixed;
   pointer-events: none;
@@ -277,14 +277,11 @@ try{renderCats();onPkg();checkInviteParam()}catch(e){}
 
 <script>
 document.addEventListener('click', function(e){
-  // 1. Карточканы жандырамыз
   var card = e.target.closest('div');
   if(card && card.textContent.includes('дизайн')){
     document.querySelectorAll('.is-active').forEach(function(el){ el.classList.remove('is-active'); });
     card.classList.add('is-active');
   }
-
-  // 2. Жүректерді ұшырамыз
   var hearts = ['❤️','💛','✨','💍','🌸'];
   for(var i=0; i<5; i++){
     var h = document.createElement('div');

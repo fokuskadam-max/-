@@ -227,5 +227,12 @@ function shareWA(){window.open("https://wa.me/?text="+encodeURIComponent("💌 �
 function checkInviteParam(){var p=new URLSearchParams(location.search);var id=p.get("invite");if(!id)return;try{firebase.database().ref("toi_invites/"+id).once("value").then(function(snap){var d=snap.val();if(!d){document.body.innerHTML="<div style='padding:30px;text-align:center'>❌ Шақырту табылмады. Сілтемені тексеріңіз.</div>";return}var html=buildGuest(d,false);document.open();document.write(html);document.close()}).catch(function(e){document.body.innerHTML="Қате: "+e.message})}catch(e){}}
 try{renderCats();onPkg();checkInviteParam()}catch(e){}
 </script>
+  <style>
+button, a, .b, .pill {
+  color: #3a2a00 !important;
+  font-weight: 800 !important;
+  text-shadow: none !important;
+}
+</style>
 </body>
 </html>

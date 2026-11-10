@@ -389,7 +389,7 @@ document.querySelectorAll('button').forEach(function(b){
 function playWind(){
   try{
     var c = new (window.AudioContext||window.webkitAudioContext)();
-    var len = c.sampleRate * 1.2;
+    var len = c.sampleRate * 2;
     var buf = c.createBuffer(1, len, c.sampleRate);
     var d = buf.getChannelData(0);
     for(var i=0;i<len;i++){ d[i]=Math.random()*2-1; }
@@ -400,7 +400,7 @@ function playWind(){
     f.frequency.value=500;
     var g = c.createGain();
     g.gain.setValueAtTime(0, c.currentTime);
-    g.gain.linearRampToValueAtTime(0.15, c.currentTime+0.3);
+    g.gain.linearRampToValueAtTime(0.5, c.currentTime+0.3);
     g.gain.linearRampToValueAtTime(0, c.currentTime+1.2);
     src.connect(f); f.connect(g); g.connect(c.destination);
     src.start();

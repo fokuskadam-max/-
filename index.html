@@ -379,7 +379,7 @@ function playWind(){
     f.frequency.linearRampToValueAtTime(500, c.currentTime+1.5);
     var g = c.createGain();
     g.gain.setValueAtTime(0, c.currentTime);
-    g.gain.linearRampToValueAtTime(0.35, c.currentTime+0.3);
+    g.gain.linearRampToValueAtTime(0.12, c.currentTime+0.3);
     g.gain.linearRampToValueAtTime(0, c.currentTime+1.5);
     src.connect(f); f.connect(g); g.connect(c.destination);
     src.start();

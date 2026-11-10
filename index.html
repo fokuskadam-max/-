@@ -262,17 +262,22 @@ try{renderCats();onPkg();checkInviteParam()}catch(e){}
 <script>
 // 1. Батырмалардың жазуын қара қыламыз - сөзіне қарап табамыз
 function fixPills(){
-  var words = ['Конверт','Музыка','Ортақ','Ойын'];
-  document.querySelectorAll('div, span, button, a').forEach(function(el){
-    if(words.some(function(w){ return el.textContent.trim() === w || el.textContent.includes(w); })){
-      // тек ең кішкентай элементті аламыз, үлкен блокты бояп жібермеу үшін
-      if(el.children.length === 0 || el.textContent.length < 20){
-        el.style.setProperty('color', '#3a2a00', 'important');
-        el.style.setProperty('-webkit-text-fill-color', '#3a2a00', 'important');
-      }
+  function fixPills(){
+  document.querySelectorAll('*').forEach(function(el){
+    if(el.children.length > 0) return;
+    var bg = window.getComputedStyle(el).backgroundColor;
+    if(bg && bg.indexOf('255') !== -1){
+      el.style.setProperty('color', '#3a2a00', 'important');
+      el.style.setProperty('-webkit-text-fill-color', '#3a2a00', 'important');
+    }
+    var t = el.textContent || '';
+    if(t.includes('Конверт') || t.includes('Музыка') || t.includes('Ортақ') || t.includes('Ойын')){
+      el.style.setProperty('color', '#3a2a00', 'important');
+      el.style.setProperty('-webkit-text-fill-color', '#3a2a00', 'important');
     }
   });
 }
+fixPills();
 fixPills();
 // ДОМБЫРА ДЫБЫСЫ
 let audioCtx = null;

@@ -56,7 +56,25 @@ button.g{background:#fff;color:#b4530f;border:2px solid #b4530f}button.wa{backgr
 <div class="c"><h2>📁 Фото, Ән, Видео</h2>
 <label class="fileBtn">📷 Фото таңдау (Сторисқа шығады)<input type="file" id="photoFile" accept="image/*" multiple onchange="onPhotoFiles(this)"></label><img id="photoPreview" class="previewImg"><p class="n" id="photoStatus">Фото таңдалмаған. 1-ші фото - 1-ші сторис, 2-ші - 2-ші сторис.</p>
 <label class="fileBtn" style="background:#db2777">🎵 Өз әнімді жүктеу<input type="file" id="musicFile" accept="audio/*" onchange="onMusicFile(this)"></label><audio id="musicPreview" controls style="width:100%;margin-top:8px;display:none"></audio><p class="n" id="musicStatus">Ән таңдалмаған.</p>
-<label class="fileBtn" style="background:#1a1405">🎥 Видео таңдау<input type="file" id="videoFile" accept="video/*" onchange="onVideoFile(this)"></label><video id="videoPreview" controls style="width:100%;border-radius:12px;margin-top:8px;display:none"></video><p class="n" id="videoStatus">Видео таңдалмаған.</p>
+<p style="text-align:center; font-weight:bold;">🎬 Видео сілтемесі</p>
+<input id="ytLink" type="text" placeholder="YouTube сілтемесі" style="width:95%; padding:12px; border-radius:12px;">
+<div id="ytBox"></div>
+<button onclick="showYT()" style="padding:12px 20px; background:red; color:white; border:none; border-radius:12px; margin:5px;">YouTube қосу</button>
+
+<input id="ttLink" type="text" placeholder="TikTok сілтемесі" style="width:95%; padding:12px; border-radius:12px; margin-top:10px;">
+<div id="ttBox"></div>
+<button onclick="showTT()" style="padding:12px 20px; background:black; color:white; border:none; border-radius:12px; margin:5px;">TikTok қосу</button>
+
+<input id="igLink" type="text" placeholder="Instagram сілтемесі" style="width:95%; padding:12px; border-radius:12px; margin-top:10px;">
+<div id="igBox"></div>
+<button onclick="showIG()" style="padding:12px 20px; background:#E1306C; color:white; border:none; border-radius:12px; margin:5px;">Instagram қосу</button>
+
+<script>
+function showYT(){var l=document.getElementById('ytLink').value;var id='';if(l.includes('v='))id=l.split('v=')[1].split('&')[0];else if(l.includes('shorts/'))id=l.split('shorts/')[1].split('?')[0];else id=l.split('/').pop().split('?')[0];document.getElementById('ytBox').innerHTML='<iframe width="100%" height="300" src="https://www.youtube.com/embed/'+id+'" frameborder="0" allowfullscreen></iframe>';localStorage.setItem('ytVideo',l);}
+function showTT(){var l=document.getElementById('ttLink').value;var tid=l.split('/video/')[1].split('?')[0].split('/')[0];document.getElementById('ttBox').innerHTML='<iframe width="100%" height="550" src="https://www.tiktok.com/embed/v2/'+tid+'" frameborder="0" allowfullscreen></iframe>';localStorage.setItem('ttVideo',l);}
+function showIG(){var l=document.getElementById('igLink').value;var code=l.split('/')[4];document.getElementById('igBox').innerHTML='<iframe width="100%" height="550" src="https://www.instagram.com/p/'+code+'/embed/" frameborder="0" allowfullscreen></iframe>';localStorage.setItem('igVideo',l);}
+window.addEventListener('load',function(){var y=localStorage.getItem('ytVideo');if(y){document.getElementById('ytLink').value=y;showYT();}var t=localStorage.getItem('ttVideo');if(t){document.getElementById('ttLink').value=t;showTT();}var g=localStorage.getItem('igVideo');if(g){document.getElementById('igLink').value=g;showIG();}});
+</script>
 </div>
 
 <div class="c"><h2>1. Пакет</h2><div class="pk">

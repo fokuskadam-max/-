@@ -382,6 +382,24 @@ function playWind(){
   try{ navigator.vibrate(100); }catch(e){}
 }
 document.addEventListener('click', playWind);
+// ШЕКТЕУ - Ән 5 МБ, Видео 15 МБ
+document.addEventListener('change', function(e){
+  var f = e.target.files ? e.target.files[0] : null;
+  if(!f) return;
+  var id = e.target.id || "";
+  var limit = 0;
+  var name = "";
+  if(id.toLowerCase().includes('music') || id.toLowerCase().includes('audio') || e.target.accept.includes('audio')){
+    limit = 5; name = "Ән";
+  }
+  if(id.toLowerCase().includes('video') || e.target.accept.includes('video')){
+    limit = 15; name = "Видео";
+  }
+  if(limit > 0 && f.size > limit * 1024 * 1024){
+    alert("❌ " + name + " тым ауыр! " + (f.size/1024/1024).toFixed(1) + " МБ\nТек " + limit + " МБ-қа дейін! Жеңіл файл таңдаңыз!");
+    e.target.value = "";
+  }
+});
 </script>
 </body>
 </html>

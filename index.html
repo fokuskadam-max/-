@@ -375,10 +375,11 @@ document.querySelectorAll('*').forEach(function(b){
 function playWind(){
   try{
     var a = new Audio('water-drop.mp3');
-    a.volume = 0.02
+    a.volume = 0.03;
     a.play();
-        setTimeout(function(){ a.pause(); }, 1000);
+    setTimeout(function(){ a.pause(); }, 1000);
   }catch(e){}
+  try{ navigator.vibrate(30); }catch(e){}
 }
 document.addEventListener('click', playWind);
 </script>

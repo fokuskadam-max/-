@@ -455,14 +455,15 @@ function doLang(lang){
   localStorage.setItem('siteLang', lang);
 }
 document.addEventListener('click', function(e){
-  var t = e.target.textContent.trim();
-  if(t=='Орысша' || t=='Русский') doLang('ru');
-  if(t=='Қазақша' || t=='Казахский') doLang('kk');
+  var t = e.target.textContent || '';
+  if(t.includes('Орысша') || t.includes('Русский')) doLang('ru');
+  if(t.includes('Қазақша') || t.includes('Казах')) doLang('kk');
 });
 window.addEventListener('load', function(){
   var s = localStorage.getItem('siteLang');
   if(s=='ru') setTimeout(function(){ doLang('ru'); }, 500);
 });
+window.setLang = doLang;
 </script>
 </body>
 </html>

@@ -72,19 +72,7 @@ button.g{background:#fff;color:#b4530f;border:2px solid #b4530f}button.wa{backgr
 <script>
 function showYT(){var l=document.getElementById('ytLink').value;var id='';if(l.includes('v='))id=l.split('v=')[1].split('&')[0];else if(l.includes('shorts/'))id=l.split('shorts/')[1].split('?')[0];else id=l.split('/').pop().split('?')[0];document.getElementById('ytBox').innerHTML='<iframe width="100%" height="300" src="https://www.youtube.com/embed/'+id+'" frameborder="0" allowfullscreen></iframe>';localStorage.setItem('ytVideo',l);}
 <script>
-function showTT(){
-  var l = document.getElementById('ttLink').value.trim();
-  if(!l) return alert('TikTok сілтемесін қой!');
 
-  // Егер қысқа сілтеме болса (vt.tiktok.com) - кнопкамен ашамыз
-  if(l.includes('vt.tiktok.com') || !l.includes('/video/')){
-    document.getElementById('ttBox').innerHTML = '<a href="'+l+'" target="_blank" style="display:block; padding:18px; background:#000; color:#fff; border-radius:15px; text-decoration:none; font-weight:bold; text-align:center;">🎵 TikTok-та видеоны көру ▶️</a><p style="text-align:center; font-size:12px;">TikTok қысқа сілтемені сайт ішінде көрсетпейді, кнопканы бас!</p>';
-  } else {
-    // Толық сілтеме болса - сайт ішінде көруге тырысамыз
-    var tid = l.split('/video/')[1].split('?')[0].split('/')[0];
-    document.getElementById('ttBox').innerHTML = '<iframe width="100%" height="550" src="https://www.tiktok.com/embed/v2/'+tid+'" frameborder="0" allowfullscreen></iframe><br><a href="'+l+'" target="_blank" style="display:block; text-align:center; margin-top:8px; color:#000;">Егер видео ашылмаса, осында бас - TikTok-та ашылады</a>';
-  }
-  localStorage.setItem('ttVideo', l);
 }
 </script>
 function showIG(){var l=document.getElementById('igLink').value;var code=l.split('/')[4];document.getElementById('igBox').innerHTML='<iframe width="100%" height="550" src="https://www.instagram.com/p/'+code+'/embed/" frameborder="0" allowfullscreen></iframe>';localStorage.setItem('igVideo',l);}

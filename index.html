@@ -414,5 +414,46 @@ document.addEventListener('change', function(e){
   }
 });
 </script>
+<script>
+// ТІЛДІ ТҮЗЕТУ
+var dict = {
+"Фото, Ән, Видео": "Фото, Музыка, Видео",
+"Фото таңдау": "Выбрать фото",
+"Өз әніңді жүктеу": "Загрузить свою песню",
+"Видео таңдау": "Выбрать видео",
+"YouTube қосу": "Добавить YouTube",
+"YouTube сілтемесін қой": "Вставьте ссылку YouTube",
+"Шақыруды жасау": "Создать приглашение",
+"Аты-жөні": "Имя",
+"Құттықтау мәтіні": "Текст поздравления",
+"Күні": "Дата",
+"Уақыты": "Время",
+"Мекен-жайы": "Адрес",
+"Фото": "Фото",
+"Ән": "Музыка",
+"Видео": "Видео"
+};
+var dictBack = {};
+for(var k in dict) dictBack[dict[k]] = k;
+function doLang(lang){
+  var map = (lang=='ru') ? dict : dictBack;
+  document.querySelectorAll('body *').forEach(function(el){
+    if(el.children.length==0 && el.textContent.trim() && map[el.textContent.trim()]){
+      el.textContent = map[el.textContent.trim()];
+    }
+    if(el.placeholder && map[el.placeholder]) el.placeholder = map[el.placeholder];
+  });
+  localStorage.setItem('siteLang', lang);
+}
+document.addEventListener('click', function(e){
+  var t = e.target.textContent.trim();
+  if(t=='Орысша' || t=='Русский') doLang('ru');
+  if(t=='Қазақша' || t=='Казахский') doLang('kk');
+});
+window.addEventListener('load', function(){
+  var s = localStorage.getItem('siteLang');
+  if(s=='ru') setTimeout(function(){ doLang('ru'); }, 500);
+});
+</script>
 </body>
 </html>

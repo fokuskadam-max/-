@@ -75,7 +75,7 @@ function showYT(){var l=document.getElementById('ytLink').value;var id='';if(l.i
 
 }
 </script>
-function showIG(){var l=document.getElementById('igLink').value;var code=l.split('/')[4];document.getElementById('igBox').innerHTML='<iframe width="100%" height="550" src="https://www.instagram.com/p/'+code+'/embed/" frameborder="0" allowfullscreen></iframe>';localStorage.setItem('igVideo',l);}
+<iframe width="100%" height="550" src="https://www.instagram.com/p/'+code+'/embed/" frameborder="0" allowfullscreen></iframe>';localStorage.setItem('igVideo',l);}
 window.addEventListener('load',function(){var y=localStorage.getItem('ytVideo');if(y){document.getElementById('ytLink').value=y;showYT();}var t=localStorage.getItem('ttVideo');if(t){document.getElementById('ttLink').value=t;showTT();}var g=localStorage.getItem('igVideo');if(g){document.getElementById('igLink').value=g;showIG();}});
 </script>
 </div>

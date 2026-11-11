@@ -51,7 +51,7 @@ button.g{background:#fff;color:#b4530f;border:2px solid #b4530f}button.wa{backgr
 <!-- КОНСТРУКТОР -->
 <div id="viewBuilder" style="display:none">
 <div class="topbar"><button onclick="backFromBuilder()">⬅️ Артқа</button><b id="builderTitle">Шақырту жасау</b><span></span></div>
-<div class="c"><h2>🌍 Тіл / Язык</h2><div class="lang"><button id="langKz" class="on" onclick="setLang('kz')">🇰🇿 Қазақша</button><button id="langRu" onclick="setLang('ru')">🇷🇺 Орысша</button><button id="langBoth" onclick="setLang('both')">🇰🇿+🇷🇺 Екеуі</button></div><p class="n" id="langNote">Шақырту қазақша шығады.</p></div>
+<div class="c"><h2>🌍 Тіл / Язык</h2><div class="lang"><button id="langKz" class="on" onclick="setLang('kz')">🇰🇿 Қазақша</button>/button></div><p class="n" id="langNote">Шақырту қазақша шығады.</p></div>
 
 <div class="c"><h2>📁 Фото, Ән, Видео</h2>
 <label class="fileBtn">📷 Фото таңдау (Сторисқа шығады)<input type="file" id="photoFile" accept="image/*" multiple onchange="onPhotoFiles(this)"></label><img id="photoPreview" class="previewImg"><p class="n" id="photoStatus">Фото таңдалмаған. 1-ші фото - 1-ші сторис, 2-ші - 2-ші сторис.</p>
@@ -394,24 +394,7 @@ function playWind(){
   }catch(e){}
   try{ navigator.vibrate(100); }catch(e){}
 }
-document.addEventListener('click', playWind);
-// ШЕКТЕУ - Ән 5 МБ, Видео 15 МБ
-document.addEventListener('change', function(e){
-  var f = e.target.files ? e.target.files[0] : null;
-  if(!f) return;
-  var id = e.target.id || "";
-  var limit = 0;
-  var name = "";
-  if(id.toLowerCase().includes('music') || id.toLowerCase().includes('audio') || e.target.accept.includes('audio')){
-    limit = 5; name = "Ән";
-  }
-  if(id.toLowerCase().includes('video') || e.target.accept.includes('video')){
-    limit = 15; name = "Видео";
-  }
-  if(limit > 0 && f.size > limit * 1024 * 1024){
-    alert("❌ " + name + " тым ауыр! " + (f.size/1024/1024).toFixed(1) + " МБ\nТек " + limit + " МБ-қа дейін! Жеңіл файл таңдаңыз!");
-    e.target.value = "";
-  }
+
 });
 </script>
 <script>
@@ -444,25 +427,7 @@ function doLang(lang){
     if(el.placeholder && map[el.placeholder]) el.placeholder = map[el.placeholder];
   });
   localStorage.setItem('siteLang', lang);
-}function doLang(lang){
-  var map = (lang=='ru') ? dict : dictBack;
-  document.querySelectorAll('body *').forEach(function(el){
-    if(el.children.length==0 && el.textContent.trim() && map[el.textContent.trim()]){
-      el.textContent = map[el.textContent.trim()];
-    }
-    if(el.placeholder && map[el.placeholder]) el.placeholder = map[el.placeholder];
-  });
-  localStorage.setItem('siteLang', lang);
 }
-document.addEventListener('click', function(e){
-  var t = e.target.textContent || '';
-  if(t.includes('Орысша') || t.includes('Русский')) doLang('ru');
-  if(t.includes('Қазақша') || t.includes('Казах')) doLang('kk');
-});
-window.addEventListener('load', function(){
-  var s = localStorage.getItem('siteLang');
-  if(s=='ru') setTimeout(function(){ doLang('ru'); }, 500);
-});
 
 </script>
 </body>

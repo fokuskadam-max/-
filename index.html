@@ -444,6 +444,15 @@ function doLang(lang){
     if(el.placeholder && map[el.placeholder]) el.placeholder = map[el.placeholder];
   });
   localStorage.setItem('siteLang', lang);
+}function doLang(lang){
+  var map = (lang=='ru') ? dict : dictBack;
+  document.querySelectorAll('body *').forEach(function(el){
+    if(el.children.length==0 && el.textContent.trim() && map[el.textContent.trim()]){
+      el.textContent = map[el.textContent.trim()];
+    }
+    if(el.placeholder && map[el.placeholder]) el.placeholder = map[el.placeholder];
+  });
+  localStorage.setItem('siteLang', lang);
 }
 document.addEventListener('click', function(e){
   var t = e.target.textContent.trim();

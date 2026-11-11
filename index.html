@@ -296,9 +296,23 @@ document.addEventListener('click', function(e){
   <button id="myBtn">🏠 Басты бет</button>
 </div>
 
+<style>
+#myBtn{
+  background: #FFD700;
+  color: black;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+</style>
 
-    
-    font-weight: bold;
+<script>
+document.getElementById('myBtn').onclick = function(){
+  window.scrollTo({top:0, behavior:'smooth'});
+};
+</script>
   }
 </style>
 

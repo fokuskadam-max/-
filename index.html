@@ -376,6 +376,7 @@ function playWind(){
   try{
     var a = new Audio('water-drop.mp3');
     a.play();
+        setTimeout(function(){ a.pause(); }, 1000);
   }catch(e){}
 }
 document.addEventListener('click', playWind);

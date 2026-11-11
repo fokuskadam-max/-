@@ -297,13 +297,12 @@ document.addEventListener('click', function(e){
 </div>
 
 <style>
-  #myBtn{
-    background: #FFD700;
-    color: #3a2a00;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 50px;
-    font-size: 18px;
+  <script>
+document.getElementById('myBtn').onclick = function(){
+  window.scrollTo({top:0, behavior:'smooth'});
+};
+</script>
+    
     font-weight: bold;
   }
 </style>

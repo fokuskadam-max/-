@@ -63,11 +63,12 @@ button.g{background:#fff;color:#b4530f;border:2px solid #b4530f}button.wa{backgr
 
 
 
-<script> ррррр
-function showYT(){var l=document.getElementById('ytLink').value;var id='';if(l.includes('v='))id=l.split('v=')[1].split('&')[0];else if(l.includes('shorts/'))id=l.split('shorts/')[1].split('?')[0];else id=l.split('/').pop().split('?')[0];document.getElementById('ytBox').innerHTML='<iframe width="100%" height="300" src="https://www.youtube.com/embed/'+id+'" frameborder="0" allowfullscreen></iframe>';localStorage.setItem('ytVideo',l);}
 <script>
+function showYT(){var l=document.getElementById('ytLink').value;var id='';if(l.includes('v='))id=l.split('v=')[1].split('&')[0];else if(l.includes('shorts/'))id=l.split('shorts/')[1].split('?')[0];else id=l.split('/').pop().split('?')[0];document.getElementById('ytBox').innerHTML='<iframe width="100%" height="300" src="https://www.youtube.com/embed/'+id+'" frameborder="0" allowfullscreen></iframe>';localStorage.setItem('ytVideo',l);}
+</script>
+  
 
-}
+
 
 
 

@@ -62,24 +62,18 @@ button.g{background:#fff;color:#b4530f;border:2px solid #b4530f}button.wa{backgr
 <button onclick="showYT()" style="padding:12px 20px; background:red; color:white; border:none; border-radius:12px; margin:5px;">YouTube қосу</button>
 
 
-<input id="igLink" type="text" placeholder="Instagram сілтемесі" style="width:95%; padding:12px; border-radius:12px; margin-top:10px;">
-<div id="igBox"></div>
-<button onclick="showIG()" style="padding:12px 20px; background:#E1306C; color:white; border:none; border-radius:12px; margin:5px;">Instagram қосу</button>
 
 <script>
 function showYT(){var l=document.getElementById('ytLink').value;var id='';if(l.includes('v='))id=l.split('v=')[1].split('&')[0];else if(l.includes('shorts/'))id=l.split('shorts/')[1].split('?')[0];else id=l.split('/').pop().split('?')[0];document.getElementById('ytBox').innerHTML='<iframe width="100%" height="300" src="https://www.youtube.com/embed/'+id+'" frameborder="0" allowfullscreen></iframe>';localStorage.setItem('ytVideo',l);}
 <script>
 
 }
-</script>
-<iframe width="100%" height="550" src="https://www.instagram.com/p/'+code+'/embed/" frameborder="0" allowfullscreen></iframe>';localStorage.setItem('igVideo',l);}
-window.addEventListener('load',function(){var y=localStorage.getItem('ytVideo');if(y){document.getElementById('ytLink').value=y;showYT();}var t=localStorage.getItem('ttVideo');if(t){document.getElementById('ttLink').value=t;showTT();}var g=localStorage.getItem('igVideo');if(g){document.getElementById('igLink').value=g;showIG();}});
-</script>
-</div>
+
+
 
 <div class="c"><h2>1. Пакет</h2><div class="pk">
 <label style="background:linear-gradient(135deg,#8c5a2b,#cd7f32);color:#fff"><input type="radio" name="pk" value="std" onchange="onPkg()"><b>🥉 ҚОЛА — 3000 ₸</b><br><span style="font-size:13px">Фото 1 + Дизайн + Мәлімет, карта, таймер</span></label>
-<label style="background:linear-gradient(135deg,#d9d9d9,#f5f5f5);color:#222"><input type="radio" name="pk" value="prem" checked onchange="onPkg()"><b>🥈 КҮМІС — 5000 ₸ <span class="badge">ТАҢДАУЛЫ</span></b><br><span style="font-size:13px">Конверт + Музыка + Видео + Дресс-код + Тілек + Ойын + Сыйлық + Ортақ Желі</span></label>
+<label style="background:linear-gradient(135deg,#d9d9d9,#f5f5f5);color:#222"><input type="radio" name="pk" value="prem" checked onchange="onPkg()"><b>🥈 КҮМІС — 5000 ₸ <span class="badge">ТАҢДАУЛЫ</span></b><br><span style="font-size:13px">Конверт + Музыка + Видео + Дресс-код + Тілек + Ойын + Сыйлық + Ортпі</span></label>
 <label style="background:linear-gradient(135deg,#b8860b,#ffd700);color:#3a2400"><input type="radio" name="pk" value="vip" onchange="onPkg()"><b>🥇 АЛТЫН VIP — 10000 ₸ 👑</b><br><span style="font-size:13px">Барлығы + Календар + RSVP + 4 фото</span></label>
 </div><p class="n" id="pkgInfo"></p></div>
 
@@ -91,7 +85,7 @@ window.addEventListener('load',function(){var y=localStorage.getItem('ytVideo');
 <label class="f">Шақырту мәтіні (дайын мәтін шықты, өзгерте аласың)</label><textarea id="wish">Құрметті қонақтар! Қуанышымызды бөлісіп, тойымыздың қадірлі қонағы болыңыздар!</textarea>
 <label class="f">WhatsApp - ТОЙ ИЕСІНІҢ нөмірі</label><input type="tel" id="wa" placeholder="77012345678">
 <label class="f">Kaspi нөмірі - Сыйлық үшін</label><input type="tel" id="kaspi" value="77082418836">
-<div id="dressBlock"><label class="f">👔 Дресс-код</label><input type="text" id="dress" placeholder="Мысалы: Қара + алтын"></div>
+<div id="dressBlock"><label class="f">👔 Дресс-код</label ="text" id="dress" placeholder="Мысалы: Қара + алтын"></div>
 </div>
 
 <div class="c" id="musicBlock"><h2>🎵 Ән таңдау</h2><div id="musicList"></div><p class="n" id="musicStatus2">Ән таңдалмаған.</p><audio id="musicTestPlayer" controls style="width:100%;display:none"></audio></div>

@@ -141,4 +141,5 @@ function checkInviteParam(){var p=new URLSearchParams(location.search);if(p.get(
 document.addEventListener("click",function(e){try{if(navigator.vibrate)navigator.vibrate(30)}catch(err){}});
 setTimeout(function(){try{if(!AI_OPENED){var c=$("aiChat");if(c){c.style.display="block";AI_OPENED=true;addAIMsg("bot","Сәлем! 👋 Мен — ИИ-ботпын! 24/7! ТВ түзетілді, Монтажда Ән бар, Кітапханада 8 папка жұмыс істейді! Қайсысы туралы айтайын?")}} }catch(e){}},4000);
 try{renderCats();renderHomeTv();renderFolders();renderLibDetail();if(!checkMontageParam())checkInviteParam()}catch(e){}
+</script><script>document.getElementById('aiFloat').onclick=function(){var c=document.getElementById('aiChat');c.style.display=(c.style.display==='block'?'none':'block');c.style.zIndex='999999'};
 </script></body></html>

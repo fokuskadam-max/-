@@ -165,5 +165,22 @@ function openToiTypes(){
 }
 function selectCat(id){
   CUR_CAT=id;
-  if(typeof renderCats==="function") renderCats();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  }</script></body></html>
+  if(typeof renderCats==="function") renderCats();}function openToiTypes(){
+var box=document.getElementById('toiTypesBox');
+if(!box) return;
+if(box.style.display==='block'){box.style.display='none';return;}
+var types=["Үйлену тойы","Қыз ұзату","Сүндет той","Бесік той","Тұсаукесер","Мерейтой","Туған күн","Беташар","Құдалық","Неке","Мектеп бітіру","Жаңа жыл","Наурыз","Қоныс той","Баланың тұсауы","Шілдехана"];
+var h='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">';
+for(var i=0;i<types.length;i++){
+h+='<button onclick="event.stopPropagation();selectToiType(\''+types[i]+'\')" style="padding:12px 6px;border-radius:12px;border:1px solid #ffd700;background:#fff;font-weight:700;font-size:14px">'+types[i]+'</button>';
+}
+h+='</div>';
+box.innerHTML=h;
+box.style.display='block';
+box.scrollIntoView({behavior:'smooth'});
+}
+function selectToiType(name){
+alert('✅ Таңдалды: '+name);
+var b=document.getElementById('builder');
+if(b) b.scrollIntoView({behavior:'smooth'});
+}</script></body></html>
